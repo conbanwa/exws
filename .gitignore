@@ -1,0 +1,7 @@
+.idea
+main.exe
+main.exe~
+main.go~
+.DS_Store
+*.trash
+go.sum
