@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	Proxy                        = "127.0.0.1:7890"
-	UseProxy                bool = false // = isWindows()
-	DefaultHttpClientConfig      = &HttpClientConfig{
+	Proxy                   = "127.0.0.1:7890"
+	UseProxy                = false
+	DefaultHttpClientConfig = &HttpClientConfig{
 		Proxy:        nil,
 		HttpTimeout:  2 * time.Second,
 		MaxIdleConns: 10}
@@ -26,6 +26,6 @@ func SetProxy() {
 	}
 }
 
-func isWindows() bool {
+func IsWindows() bool {
 	return os.PathSeparator == '\\' && os.PathListSeparator == ';'
 }
