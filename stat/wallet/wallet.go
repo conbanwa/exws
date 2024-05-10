@@ -2,7 +2,6 @@ package wallet
 
 import (
 	"github.com/conbanwa/wstrader/q"
-	"market/conf"
 )
 
 type Msg struct {
@@ -21,7 +20,7 @@ func ReportLowBalance() {
 	for {
 		select {
 		case tri := <-Ch:
-			if !conf.RealOrder && tri.Has("BTC") {
+			if tri.Has("BTC") {
 				break
 			}
 			LowBalances[tri]++
