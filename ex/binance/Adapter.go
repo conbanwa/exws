@@ -2,7 +2,7 @@ package binance
 
 import (
 	"fmt"
-	"qa3/wstrader/cons"
+	"github.com/conbanwa/wstrader/cons"
 	"strings"
 )
 

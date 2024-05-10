@@ -1,8 +1,8 @@
 package huobi
 
 import (
-	"qa3/wstrader"
-	"qa3/wstrader/cons"
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
 	"testing"
 	"time"
 )

@@ -2,9 +2,9 @@ package okx
 
 import (
 	"fmt"
+	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	"net/http"
-	"qa3/wstrader/q"
-	"qa3/wstrader/stat/zelo"
 	"sync"
 )
 

@@ -1,9 +1,9 @@
 package gdax
 
 import (
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
 	"net/http"
-	"qa3/wstrader"
-	"qa3/wstrader/cons"
 	"testing"
 
 	"github.com/conbanwa/logs"

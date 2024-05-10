@@ -2,8 +2,7 @@ package bigone
 
 import (
 	"errors"
-	"qa3/wstrader/q"
-	. "qa3/wstrader/web"
+	"github.com/conbanwa/wstrader/q"
 	"strings"
 	"sync"
 

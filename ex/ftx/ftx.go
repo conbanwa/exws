@@ -1,8 +1,6 @@
 package ftx
 
 import (
-	. "qa3/wstrader"
-	. "qa3/wstrader/cons"
 	"strings"
 )
 

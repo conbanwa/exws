@@ -1,7 +1,6 @@
 package okex
 
 import (
-	. "qa3/wstrader/cons"
 	"time"
 	//
 )

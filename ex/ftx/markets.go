@@ -1,7 +1,7 @@
 package ftx
 
 import (
-	"qa3/wstrader/ex/ftx/structs"
+	"github.com/conbanwa/wstrader/ex/ftx/structs"
 	"strconv"
 
 	"github.com/conbanwa/logs"

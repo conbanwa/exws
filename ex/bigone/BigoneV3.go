@@ -3,13 +3,13 @@ package bigone
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/wstrader/web"
 	"log"
 	"net/http"
 	"net/url"
-	"qa3/wstrader"
-	"qa3/wstrader/cons"
-	"qa3/wstrader/q"
-	"qa3/wstrader/web"
 	"time"
 
 	"github.com/conbanwa/num"
