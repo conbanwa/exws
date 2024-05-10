@@ -1,8 +1,8 @@
 package gateio
 
 import (
+	"github.com/conbanwa/wstrader/cons"
 	"net/http"
-	"qa3/wstrader/cons"
 	"testing"
 
 	"github.com/conbanwa/logs"

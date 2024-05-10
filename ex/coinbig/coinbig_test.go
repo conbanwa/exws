@@ -1,9 +1,9 @@
 package coinbig
 
 import (
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
 	"net/http"
-	"qa3/wstrader"
-	"qa3/wstrader/cons"
 	"testing"
 )
 

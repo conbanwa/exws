@@ -1,9 +1,9 @@
 package bitstamp
 
 import (
+	"github.com/conbanwa/wstrader/cons"
 	"log"
 	"net/http"
-	"qa3/wstrader/cons"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

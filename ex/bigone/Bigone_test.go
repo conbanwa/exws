@@ -2,7 +2,6 @@ package bigone
 
 import (
 	"net/http"
-	. "qa3/wstrader/cons"
 	"testing"
 )
 

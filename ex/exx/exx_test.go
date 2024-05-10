@@ -1,9 +1,9 @@
 package exx
 
 import (
+	"github.com/conbanwa/wstrader/cons"
 	"net/http"
 	"net/url"
-	"qa3/wstrader/cons"
 	"testing"
 )
 

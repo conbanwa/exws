@@ -4,12 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
+	"github.com/conbanwa/wstrader"
 	"net/http"
-	"qa3/wstrader"
-	. "qa3/wstrader"
-	. "qa3/wstrader/cons"
-	. "qa3/wstrader/q"
-	. "qa3/wstrader/web"
 	"sort"
 
 	"github.com/conbanwa/logs"

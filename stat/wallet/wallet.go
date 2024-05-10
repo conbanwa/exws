@@ -1,8 +1,8 @@
 package wallet
 
 import (
-	"qa3/market/conf"
-	"qa3/wstrader/q"
+	"github.com/conbanwa/wstrader/q"
+	"market/conf"
 )
 
 type Msg struct {

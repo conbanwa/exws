@@ -1,11 +1,11 @@
 package okex
 
 import (
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/config"
+	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/wstrader/q"
 	"net/http"
-	"qa3/wstrader"
-	"qa3/wstrader/config"
-	"qa3/wstrader/cons"
-	"qa3/wstrader/q"
 	"testing"
 	"time"
 

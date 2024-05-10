@@ -4,9 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
-	. "qa3/wstrader"
-	. "qa3/wstrader/cons"
-	. "qa3/wstrader/q"
 	"strings"
 )
 

@@ -2,7 +2,7 @@ package q
 
 import (
 	"github.com/conbanwa/logs"
-	"qa3/wstrader/stat/zelo"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	"strings"
 	"sync"
 )
