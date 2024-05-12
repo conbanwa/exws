@@ -3,7 +3,7 @@ package bitstamp
 import (
 	"log"
 	"net/http"
-	"qa3/wstrader/cons"
+	"github.com/conbanwa/wstrader/cons"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

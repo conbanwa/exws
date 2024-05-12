@@ -2,7 +2,7 @@ package ftx
 
 import (
 	"encoding/json"
-	"qa3/wstrader/ex/ftx/structs"
+	"github.com/conbanwa/wstrader/ex/ftx/structs"
 	"strconv"
 
 	"github.com/conbanwa/logs"

@@ -1,7 +1,7 @@
 package wstrader
 
 import (
-	"qa3/wstrader/cons"
+	"github.com/conbanwa/wstrader/cons"
 )
 
 type WalletApi interface {

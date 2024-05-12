@@ -2,10 +2,10 @@ package build
 
 import (
 	"github.com/conbanwa/logs"
-	"qa3/wstrader"
-	"qa3/wstrader/cons"
-	"qa3/wstrader/ex/binance"
-	"qa3/wstrader/q"
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/wstrader/ex/binance"
+	"github.com/conbanwa/wstrader/q"
 	"testing"
 )
 

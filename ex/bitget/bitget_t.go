@@ -2,8 +2,8 @@ package bitget
 
 import (
 	"errors"
-	"qa3/wstrader/q"
-	. "qa3/wstrader/web"
+	"github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"sync"
 

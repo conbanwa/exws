@@ -1,9 +1,9 @@
 package binance
 
 import (
-	"qa3/wstrader"
-	"qa3/wstrader/config"
-	"qa3/wstrader/cons"
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/config"
+	"github.com/conbanwa/wstrader/cons"
 	"testing"
 	"time"
 )

@@ -3,8 +3,8 @@ package bitfinex
 import (
 	"errors"
 	"github.com/conbanwa/num"
-	"qa3/wstrader/q"
-	. "qa3/wstrader/web"
+	"github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"sync"
 

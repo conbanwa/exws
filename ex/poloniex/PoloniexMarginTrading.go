@@ -5,9 +5,9 @@ import (
 	"errors"
 	"log"
 	"net/url"
-	. "qa3/wstrader/cons"
-	. "qa3/wstrader/q"
-	. "qa3/wstrader/web"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/wstrader/web"
 )
 
 type GenericResponse struct {

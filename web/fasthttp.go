@@ -7,7 +7,7 @@ import (
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"io/ioutil"
 	"net/http"
-	"qa3/wstrader/config"
+	"github.com/conbanwa/wstrader/config"
 	"strings"
 	"time"
 )

@@ -3,8 +3,8 @@ package okx
 import (
 	"fmt"
 	"net/http"
-	"qa3/wstrader/q"
-	"qa3/wstrader/stat/zelo"
+	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	"sync"
 )
 

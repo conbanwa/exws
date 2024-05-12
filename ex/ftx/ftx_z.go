@@ -1,7 +1,7 @@
 package ftx
 
 import (
-	"qa3/wstrader/q"
+	"github.com/conbanwa/wstrader/q"
 	"strings"
 	"sync"
 	"time"
