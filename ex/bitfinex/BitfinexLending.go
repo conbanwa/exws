@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/conbanwa/num"
 	"io/ioutil"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
 	"strconv"
 	"strings"
+
+	"github.com/conbanwa/num"
 )
 
 type LendBookItem struct {

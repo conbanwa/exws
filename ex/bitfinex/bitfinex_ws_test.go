@@ -1,10 +1,10 @@
 package bitfinex
 
 import (
+	"log"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
-	"log"
 	"testing"
 	"time"
 )

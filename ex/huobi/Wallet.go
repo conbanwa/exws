@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"github.com/conbanwa/num"
 	"net/url"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/web"
 	"strings"
 
 	"github.com/conbanwa/logs"

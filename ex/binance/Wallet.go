@@ -7,6 +7,9 @@ import (
 	"github.com/conbanwa/num"
 	"github.com/conbanwa/slice"
 	"net/url"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/web"
 )
 
 type Wallet struct {

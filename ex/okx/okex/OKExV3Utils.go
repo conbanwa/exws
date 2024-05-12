@@ -1,6 +1,7 @@
 package okex
 
 import (
+	. "github.com/conbanwa/wstrader/cons"
 	"time"
 	//
 )

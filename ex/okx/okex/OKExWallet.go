@@ -3,6 +3,8 @@ package okex
 import (
 	"errors"
 	"fmt"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
 )
 
 const (

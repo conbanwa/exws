@@ -1,8 +1,8 @@
 package hitbtc
 
 import (
-	"github.com/conbanwa/wstrader/cons"
 	"net/http"
+	"github.com/conbanwa/wstrader/cons"
 	"testing"
 
 	"github.com/stretchr/testify/require"

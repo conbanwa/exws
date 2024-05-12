@@ -4,6 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/q"
 	"strings"
 )
 

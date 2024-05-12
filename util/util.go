@@ -5,11 +5,11 @@ import (
 	"compress/flate"
 	"compress/gzip"
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
 	"github.com/google/uuid"
 	"io/ioutil"
 	"net/url"
+	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
 	"strings"
 	"unicode"
 )

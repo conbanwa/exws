@@ -1,9 +1,11 @@
 package bigone
 
 import (
-	"github.com/conbanwa/wstrader/config"
 	"net/http"
 	"net/url"
+	. "github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/config"
+	. "github.com/conbanwa/wstrader/cons"
 	"testing"
 	"time"
 )

@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"github.com/conbanwa/num"
 	"os"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/wstrader/web"
 	"sync"
 	"time"
 

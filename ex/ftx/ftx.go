@@ -1,6 +1,8 @@
 package ftx
 
 import (
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
 	"strings"
 )
 
