@@ -1,8 +1,8 @@
 package okx
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"qa3/wstrader"
+	"qa3/wstrader/cons"
 	"testing"
 
 	"github.com/conbanwa/logs"

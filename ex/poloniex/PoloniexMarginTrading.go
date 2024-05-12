@@ -5,6 +5,9 @@ import (
 	"errors"
 	"log"
 	"net/url"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	. "qa3/wstrader/web"
 )
 
 type GenericResponse struct {

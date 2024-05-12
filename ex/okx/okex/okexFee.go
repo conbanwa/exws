@@ -2,6 +2,7 @@ package okex
 
 import (
 	"github.com/conbanwa/logs"
+	. "qa3/wstrader/q"
 	"strconv"
 	"sync"
 )

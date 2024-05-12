@@ -3,7 +3,7 @@ package web
 import (
 	"encoding/json"
 	"github.com/conbanwa/slice"
-	"github.com/conbanwa/wstrader/config"
+	"qa3/wstrader/config"
 	"testing"
 	"time"
 )

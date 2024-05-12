@@ -2,6 +2,7 @@ package bitmex
 
 import (
 	"fmt"
+	. "qa3/wstrader/cons"
 	"strings"
 )
 

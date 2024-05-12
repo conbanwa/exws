@@ -2,8 +2,8 @@ package wstrader
 
 import (
 	"errors"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
+	"qa3/wstrader/cons"
+	"qa3/wstrader/q"
 	"reflect"
 	"time"
 

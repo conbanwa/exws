@@ -5,8 +5,12 @@ import (
 	"fmt"
 	"github.com/conbanwa/logs"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/stat/zelo"
 	"net/url"
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	"qa3/wstrader/stat/zelo"
+	. "qa3/wstrader/web"
 	"strings"
 	"sync"
 )

@@ -1,5 +1,11 @@
 package bitfinex
 
+import (
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+)
+
 type MarginLimits struct {
 	Pair              string  `json:"on_pair"`
 	InitialMargin     float64 `json:"initial_margin,string"`

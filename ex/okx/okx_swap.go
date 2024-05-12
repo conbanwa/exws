@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/conbanwa/logs"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/util"
 	"net/url"
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	"qa3/wstrader/util"
 	"sort"
 	"time"
 )

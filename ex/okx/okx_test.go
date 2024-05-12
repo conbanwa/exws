@@ -2,9 +2,9 @@ package okx
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
 	"net/url"
+	"qa3/wstrader"
+	"qa3/wstrader/cons"
 	"testing"
 )
 

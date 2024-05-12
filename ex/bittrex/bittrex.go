@@ -4,6 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	. "qa3/wstrader/web"
 	"sort"
 
 	"github.com/conbanwa/num"

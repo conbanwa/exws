@@ -2,7 +2,10 @@ package kucoin
 
 import (
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/util"
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	"qa3/wstrader/util"
 	"time"
 
 	"github.com/Kucoin/kucoin-go-sdk"

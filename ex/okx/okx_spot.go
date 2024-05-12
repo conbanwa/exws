@@ -3,9 +3,12 @@ package okx
 import (
 	"fmt"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/util"
 	"math"
 	"net/url"
+	. "qa3/wstrader"
+	. "qa3/wstrader/cons"
+	. "qa3/wstrader/q"
+	"qa3/wstrader/util"
 	"time"
 )
 

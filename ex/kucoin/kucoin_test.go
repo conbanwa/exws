@@ -1,7 +1,7 @@
 package kucoin
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"qa3/wstrader/cons"
 	"testing"
 )
 

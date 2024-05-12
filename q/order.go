@@ -2,7 +2,7 @@ package q
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader/cons"
+	"qa3/wstrader/cons"
 	"strings"
 )
 

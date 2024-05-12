@@ -2,7 +2,8 @@ package coinex
 
 import (
 	"errors"
-	"github.com/conbanwa/wstrader/q"
+	"qa3/wstrader/q"
+	. "qa3/wstrader/web"
 	"strings"
 	"sync"
 
