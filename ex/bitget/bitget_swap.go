@@ -10,7 +10,7 @@ import (
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	"github.com/conbanwa/wstrader/util"
-	web2 "github.com/conbanwa/wstrader/web"
+	"github.com/conbanwa/wstrader/web"
 	"strconv"
 	"strings"
 	"time"
@@ -73,7 +73,7 @@ func (bs *BitgetSwap) GetFutureEstimatedPrice(currencyPair cons.CurrencyPair) (f
  */
 func (bs *BitgetSwap) GetFutureTicker(currency cons.CurrencyPair, contractType string) (*wstrader.Ticker, error) {
 	url := fmt.Sprintf("%s/api/swap/v1/instruments/%s/ticker", bs.baseUrl, bs.adaptSymbol(currency))
-	tickerMap, err := web2.HttpGet(bs.httpClient, url)
+	tickerMap, err := web.HttpGet(bs.httpClient, url)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (bs *BitgetSwap) doAuthRequest(method, uri string, param map[string]any) ([
 	payload := fmt.Sprintf("%d%s%s%s", timestamp, method, uri, postBody)
 	sign, _ := wstrader.GetParamHmacSHA256Base64Sign(bs.secretKey, payload)
 	headers["ACCESS-SIGN"] = sign
-	resp, err := web2.NewRequest(bs.httpClient, method, bs.baseUrl+uri, postBody, headers)
+	resp, err := web.NewRequest(bs.httpClient, method, bs.baseUrl+uri, postBody, headers)
 	return resp, err
 }
 
@@ -475,7 +475,7 @@ func (bs *BitgetSwap) GetKlineRecords(contractType string, currency cons.Currenc
 	panic("not supported.")
 }
 func (bs *BitgetSwap) GetServerTime() (int64, error) {
-	respMap, err := web2.HttpGet(bs.httpClient, fmt.Sprintf("%s/api/swap/v3/market/time", bs.baseUrl))
+	respMap, err := web.HttpGet(bs.httpClient, fmt.Sprintf("%s/api/swap/v3/market/time", bs.baseUrl))
 	if err != nil {
 		return 0, err
 	}
@@ -548,7 +548,7 @@ type Instrument struct {
 
 func (bs *BitgetSwap) GetContractInfo(pair cons.CurrencyPair) (*Instrument, error) {
 	url := fmt.Sprintf("%s/api/swap/v3/market/contracts", bs.baseUrl)
-	resp, err := web2.HttpGet3(bs.httpClient, url, nil)
+	resp, err := web.HttpGet3(bs.httpClient, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -573,7 +573,7 @@ func (bs *BitgetSwap) GetContractInfo(pair cons.CurrencyPair) (*Instrument, erro
 }
 func (bs *BitgetSwap) GetInstruments() ([]Instrument, error) {
 	url := fmt.Sprintf("%s/api/swap/v3/market/contracts", bs.baseUrl)
-	resp, err := web2.HttpGet3(bs.httpClient, url, nil)
+	resp, err := web.HttpGet3(bs.httpClient, url, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -12,7 +12,7 @@ import (
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
-	web2 "github.com/conbanwa/wstrader/web"
+	"github.com/conbanwa/wstrader/web"
 	"sort"
 	"strconv"
 	"strings"
@@ -220,7 +220,7 @@ func (bit *Bithumb) doAuthenticatedRequest(uri, params string, ret any) error {
 	apiSign := hashHmacStr
 	contentLengthStr := strconv.Itoa(len(params))
 	// Connects to Bithumb API server and returns JSON result value.
-	resp, err := web2.NewRequest(bit.client, "POST", baseUrl+uri,
+	resp, err := web.NewRequest(bit.client, "POST", baseUrl+uri,
 		bytes.NewBufferString(params).String(), map[string]string{
 			"Api-Key":        bit.accesskey,
 			"Api-Sign":       apiSign,
@@ -235,7 +235,7 @@ func (bit *Bithumb) doAuthenticatedRequest(uri, params string, ret any) error {
 	return err
 }
 func (bit *Bithumb) GetTicker(currency CurrencyPair) (*Ticker, error) {
-	respMap, err := web2.HttpGet(bit.client, fmt.Sprintf("%s/public/ticker/%s", baseUrl, currency.CurrencyA))
+	respMap, err := web.HttpGet(bit.client, fmt.Sprintf("%s/public/ticker/%s", baseUrl, currency.CurrencyA))
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (bit *Bithumb) GetTicker(currency CurrencyPair) (*Ticker, error) {
 	}, nil
 }
 func (bit *Bithumb) GetDepth(size int, currency CurrencyPair) (*Depth, error) {
-	resp, err := web2.HttpGet(bit.client, fmt.Sprintf("%s/public/orderbook/%s", baseUrl, currency.CurrencyA))
+	resp, err := web.HttpGet(bit.client, fmt.Sprintf("%s/public/orderbook/%s", baseUrl, currency.CurrencyA))
 	if err != nil {
 		return nil, err
 	}
