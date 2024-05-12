@@ -3,6 +3,7 @@ package okx
 import (
 	"fmt"
 	"github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"sync"
 

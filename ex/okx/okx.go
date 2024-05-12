@@ -9,6 +9,9 @@ import (
 	"github.com/conbanwa/slice"
 	"net/http"
 	"net/url"
+	. "github.com/conbanwa/wstrader"
+	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"time"
 )

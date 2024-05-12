@@ -1,8 +1,8 @@
 package bitfinex
 
 import (
-	"github.com/conbanwa/wstrader/cons"
 	"net/http"
+	"github.com/conbanwa/wstrader/cons"
 	"testing"
 )
 

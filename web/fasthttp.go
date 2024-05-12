@@ -3,11 +3,11 @@ package web
 import (
 	"fmt"
 	"github.com/conbanwa/logs"
-	"github.com/conbanwa/wstrader/config"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"io/ioutil"
 	"net/http"
+	"github.com/conbanwa/wstrader/config"
 	"strings"
 	"time"
 )

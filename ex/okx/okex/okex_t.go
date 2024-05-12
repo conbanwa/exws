@@ -1,8 +1,8 @@
 package okex
 
 import (
-	"github.com/conbanwa/wstrader/q"
 	"math"
+	"github.com/conbanwa/wstrader/q"
 	"strings"
 	"sync"
 

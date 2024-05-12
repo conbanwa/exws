@@ -1,9 +1,9 @@
 package build
 
 import (
+	"log"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
-	"log"
 	"testing"
 	"time"
 
