@@ -7,22 +7,35 @@ import (
 )
 
 var (
-	Proxy                   = "127.0.0.1:7890"
 	UseProxy                = false
+        Scheme                  = "socks5"
+	Proxy                   = "127.0.0.1:7890"
 	DefaultHttpClientConfig = &HttpClientConfig{
 		Proxy:        nil,
 		HttpTimeout:  2 * time.Second,
-		MaxIdleConns: 10}
+		MaxIdleConns: 20,
+	}
 )
 
+func GetProxy(withScheme ...bool) string {
+	if UseProxy {
+		if len(withScheme) > 0 {
+			return Scheme + "://" + Proxy
+		}
+		return Proxy
+	}
+	return ""
+}
+
 func SetProxy() {
+	os.Setenv("HTTPS_PROXY", GetProxy(true))
 	if !UseProxy {
+		DefaultHttpClientConfig.Proxy = nil
 		return
 	}
-	os.Setenv("HTTPS_PROXY", "socks5://"+Proxy)
 	DefaultHttpClientConfig.Proxy = &url.URL{
-		Scheme: "socks5",
-		Host:   Proxy,
+		Scheme: Scheme,
+		Host:   GetProxy(),
 	}
 }
 

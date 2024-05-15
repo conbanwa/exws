@@ -5,14 +5,8 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"testing"
-
-	"github.com/conbanwa/logs"
 )
 
-func init() {
-	logs.Log.Level = logs.L_DEBUG
-	//os.Setenv("HTTPS_PROXY", "socks5://" + conf.PROXY) //local socks5 proxy
-}
 func TestOKExV5Swap_GetFutureTicker(t *testing.T) {
 	swap := NewOKExV5Swap(&wstrader.APIConfig{
 		HttpClient:    http.DefaultClient,

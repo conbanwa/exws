@@ -214,7 +214,8 @@ func (bit *Bithumb) doAuthenticatedRequest(uri, params string, ret any) error {
 	eEndpoint := url.QueryEscape(uri)
 	params += "&endpoint=" + eEndpoint
 	// Api-Sign information generation.
-	hmacData := uri + string(0) + params + string(0) + apiNonce
+	u0 := "\u0000"
+	hmacData := uri + u0 + params + u0 + apiNonce
 	hashHmacStr := GetParamHmacSHA512Base64Sign(bit.secretkey, hmacData)
 	apiSign := hashHmacStr
 	contentLengthStr := strconv.Itoa(len(params))

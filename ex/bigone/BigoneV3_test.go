@@ -10,11 +10,10 @@ import (
 	"time"
 )
 
-var proxy = "socks5://" + config.Proxy
 var httpProxyClient = &http.Client{
 	Transport: &http.Transport{
 		Proxy: func(req *http.Request) (*url.URL, error) {
-			return url.Parse(proxy)
+			return url.Parse(config.GetProxy(true))
 		},
 	},
 	Timeout: 10 * time.Second,

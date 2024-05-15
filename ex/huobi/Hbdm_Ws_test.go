@@ -3,7 +3,6 @@ package huobi
 import (
 	"log"
 	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	"testing"
@@ -12,7 +11,6 @@ import (
 
 func TestNewHbdmWs(t *testing.T) {
 	ws := NewHbdmWs()
-	ws.ProxyUrl("socks5://" + config.Proxy)
 	ws.SetCallbacks(func(ticker *wstrader.FutureTicker) {
 		log.Println(ticker.Ticker)
 	}, func(depth *wstrader.Depth) {

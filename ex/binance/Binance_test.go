@@ -31,8 +31,8 @@ func TestBinance_LimitSell(t *testing.T) {
 	t.Log(order, err)
 }
 func TestBinance_CancelOrder(t *testing.T) {
-	if r, er := ba.CancelOrder("3848718241", cons.BTC_USDT); !r {
-		t.Log((er.(wstrader.ApiError)).ErrCode)
+	if r, err := ba.CancelOrder("3848718241", cons.BTC_USDT); !r {
+		t.Log(err)
 	}
 }
 func TestBinance_GetOneOrder(t *testing.T) {
