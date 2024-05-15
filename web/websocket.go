@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/conbanwa/slice"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -13,6 +12,8 @@ import (
 	"time"
 
 	"github.com/conbanwa/logs"
+	"github.com/conbanwa/slice"
+	"github.com/conbanwa/wstrader/config"
 	"github.com/gorilla/websocket"
 )
 
@@ -58,6 +59,7 @@ func NewWsBuilder() *WsBuilder {
 	return &WsBuilder{&WsConfig{
 		ReqHeaders:        make(map[string][]string, 1),
 		reconnectInterval: time.Second * 10,
+		ProxyUrl:          config.GetProxy(true),
 	}}
 }
 func (b *WsBuilder) WsUrl(wsUrl string) *WsBuilder {
