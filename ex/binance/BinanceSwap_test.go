@@ -15,7 +15,7 @@ var bs = NewBinanceSwap(&wstrader.APIConfig{
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
 			Proxy: func(req *http.Request) (*url.URL, error) {
-				return url.Parse("socks5://" + config.Proxy)
+				return url.Parse(config.GetProxy(true))
 			},
 		},
 		Timeout: 10 * time.Second,

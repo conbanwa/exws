@@ -644,9 +644,6 @@ func (hb *HuoBiPro) parseDepthData(tick map[string]any, size int) *Depth {
 	sort.Sort(sort.Reverse(depth.AskList))
 	return depth
 }
-func (hb *HuoBiPro) String() string {
-	return HUOBI
-}
 func (hb *HuoBiPro) GetCurrenciesList() ([]string, error) {
 	uri := hb.baseUrl + "/v1/common/currencys"
 	ret, err := HttpGet(hb.httpClient, uri)
@@ -689,4 +686,7 @@ func (hb *HuoBiPro) GetCurrenciesPrecision() ([]HuoBiProSymbol, error) {
 	}
 	//logs.D(Symbols)
 	return Symbols, nil
+}
+func (hb *HuoBiPro) String() string {
+	return HUOBI_PRO
 }

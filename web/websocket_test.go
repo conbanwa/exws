@@ -3,7 +3,6 @@ package web
 import (
 	"encoding/json"
 	"github.com/conbanwa/slice"
-	"github.com/conbanwa/wstrader/config"
 	"testing"
 	"time"
 )
@@ -31,7 +30,6 @@ func TestNewWsConn(t *testing.T) {
 	}
 	//logs.D(ping)
 	ws := NewWsBuilder().Dump().WsUrl("wss://api.fcoin.com/v2/ws").
-		ProxyUrl("socks5://"+config.Proxy).
 		AutoReconnect().
 		Heartbeat(heartbeatFunc, 5*time.Second).ProtoHandleFunc(ProtoHandle).Build()
 	t.Log(ws.Subscribe(map[string]string{
