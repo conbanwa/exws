@@ -7,11 +7,6 @@ import (
 	"testing"
 )
 
-const (
-	testnetApiKey       = "YOUR_KEY"
-	testnetApiKeySecret = "YOUR_KEY_SECRET"
-)
-
 func skipKey(t *testing.T) {
 	if testnetApiKey == "YOUR_KEY" {
 		t.Skip("Skipping testing without testnetApiKey")
