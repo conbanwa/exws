@@ -10,7 +10,7 @@ require (
 	github.com/gateio/gateapi-go/v6 v6.71.0
 	github.com/go-openapi/errors v0.22.0
 	github.com/google/uuid v1.6.0
-	github.com/gorilla/websocket v1.5.1
+	github.com/gorilla/websocket v1.5.0
 	github.com/nubo/jwt v0.0.0-20150918093313-da5b79c3bbaf
 	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.9.0
