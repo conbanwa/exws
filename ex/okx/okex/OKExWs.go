@@ -102,7 +102,7 @@ func (okV3Ws *Ws) handle(msg []byte) error {
 			logs.I("subscribed:", wsResp.Channel)
 			return nil
 		case "error":
-			logs.Errorf(string(msg))
+			log.Error().Msgf(string(msg))
 		default:
 			logs.I(string(msg))
 		}

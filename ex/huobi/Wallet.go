@@ -10,8 +10,6 @@ import (
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/web"
 	"strings"
-
-	"github.com/conbanwa/logs"
 	"github.com/conbanwa/slice"
 )
 
@@ -83,7 +81,7 @@ func (w *Wallet) Transfer(param TransferParameter) error {
 	if err != nil {
 		return err
 	}
-	logs.Debugf("[response body] %s", string(responseBody))
+	log.Debug().Msgf("[response body] %s", string(responseBody))
 	var responseRet map[string]any
 	err = json.Unmarshal(responseBody, &responseRet)
 	if err != nil {

@@ -6,8 +6,6 @@ import (
 	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"sync"
-
-	"github.com/conbanwa/logs"
 )
 
 func (g *Gdax) PairArray() (map[string]q.D, map[q.D]q.P, error) {
@@ -15,13 +13,13 @@ func (g *Gdax) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 }
 func Sym2duo(pair string) q.D {
 	parts := strings.Split(pair, "_")
-	var res q.D
-	if len(parts) == 2 {
-		res = q.D{Base: parts[0], Quote: parts[1]}
-	} else {
-		logs.F("FATAL: DIV ERR!", pair)
+	if len(parts) != 2 {
+		panic("FATAL: SPLIT ERR! " + pair)
 	}
-	return res
+	if parts[0] == parts[1] {
+		panic("FATAL: SAME CURRENCY ERR! "+ pair)
+	}
+	return q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
 }
 func (g *Gdax) Fee() float64 {
 	return 0.001

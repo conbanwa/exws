@@ -89,7 +89,7 @@ func (ok *OKX) Fee() (f float64) {
 	// }
 	// f, err = strconv.ParseFloat(taker.(string), 64)
 	// if err != nil {
-	// 	logs.F(err, response.(map[string]any))
+	// 	panic(err, response.(map[string]any))
 	// 	return
 	// }
 	return f

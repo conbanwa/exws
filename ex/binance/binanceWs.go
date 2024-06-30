@@ -145,7 +145,7 @@ func (s *SpotWs) handle(data []byte) error {
 	var r resp
 	err := json.Unmarshal(data, &r)
 	if err != nil {
-		log.Error().Msgf("json unmarshal ws response error [%s] , response data = %s", err, slice.Bytes2String(data))
+		log.Error().Err(err).Bytes("response data", data).Msg("json unmarshal ws response error")
 		return err
 	}
 	if strings.HasSuffix(r.Stream, "@bookTicker") {
@@ -171,7 +171,7 @@ func (s *SpotWs) depthHandle(data json.RawMessage, pair cons.CurrencyPair) error
 	)
 	err = json.Unmarshal(data, &depthR)
 	if err != nil {
-		log.Error().Msgf("unmarshal depth response error %s[] , response data = %s", err, slice.Bytes2String(data))
+		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal depth response error")
 		return err
 	}
 	dep.UTime = time.Now()
@@ -199,7 +199,7 @@ func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) erro
 	)
 	err := json.Unmarshal(data, &tickerData)
 	if err != nil {
-		log.Error().Msgf("unmarshal ticker response data error [%s] , data = %s", err, slice.Bytes2String(data))
+		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal ticker response data error")
 		return err
 	}
 	ticker.Pair = pair
@@ -223,7 +223,7 @@ func (s *SpotWs) bboHandle(data json.RawMessage, pair cons.CurrencyPair) error {
 	)
 	err := json.Unmarshal(data, &tickerData)
 	if err != nil {
-		log.Error().Msgf("unmarshal ticker response data error [%s] , data = %s", err, slice.Bytes2String(data))
+		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal ticker response data error")
 		return err
 	}
 	ticker.Pair = tickerData["s"].(string)          // symbol
@@ -242,7 +242,7 @@ func (s *SpotWs) tradeHandle(data json.RawMessage, pair cons.CurrencyPair) error
 	)
 	err := json.Unmarshal(data, &tradeData)
 	if err != nil {
-		log.Error().Msgf("unmarshal ticker response data error [%s] , data = %s", err, slice.Bytes2String(data))
+		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal ticker response data error")
 		return err
 	}
 	trade.Pair = pair                             //Symbol

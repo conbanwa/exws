@@ -324,7 +324,7 @@ func (bs *Futures) FutureCancelOrder(currencyPair CurrencyPair, contractType, or
 	reqUrl := fmt.Sprintf("%s%s?%s", bs.base.apiV1, apiPath, param.Encode())
 	resp, err := HttpDeleteForm(bs.base.httpClient, reqUrl, url.Values{}, map[string]string{"X-MBX-APIKEY": bs.apikey})
 	if err != nil {
-		log.Error().Bytes("resp", resp).Msgf("request url: %s", reqUrl)
+		log.Error().Bytes("resp", resp).Str("request url", reqUrl).Send()
 		return false, err
 	}
 	// logs.D(slice.Bytes2String(resp))
@@ -349,7 +349,7 @@ func (bs *Futures) GetFuturePosition(currencyPair CurrencyPair, contractType str
 	)
 	err = json.Unmarshal(respBody, &positionRiskResponse)
 	if err != nil {
-		log.Error().Msgf("response body: %s", slice.Bytes2String(respBody))
+		log.Error().Err(err).Bytes("response data", respBody).Send()
 		return nil, err
 	}
 	for _, info := range positionRiskResponse {
@@ -500,7 +500,7 @@ func (bs *Futures) GetExchangeInfo() {
 	}
 	err = json.Unmarshal(ret, &bs.exchangeInfo)
 	if err != nil {
-		log.Error().Msgf("json unmarshal response content error , content = %s", slice.Bytes2String(ret))
+		log.Error().Err(err).Bytes("response data", ret).Msg("json unmarshal response content error")
 		return
 	}
 }

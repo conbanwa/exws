@@ -7,7 +7,9 @@ import (
 	"fmt"
 	"math"
 	. "github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	. "github.com/conbanwa/wstrader/web"
 	"strconv"
 	"strings"
@@ -15,6 +17,8 @@ import (
 
 	"github.com/conbanwa/logs"
 )
+
+var log = zelo.Writer.With().Str("ex", cons.GATEIO).Logger()
 
 const BaseUrl = "https://api.gateio.ws/api/v4"
 
@@ -58,15 +62,13 @@ func (g *Gate) PairArray() (sm map[string]q.D, ps map[q.D]q.P, err error) {
 }
 func Sym2duo(pair string) q.D {
 	parts := strings.Split(pair, "_")
-	var res q.D
-	if len(parts) == 2 {
-		res = q.D{Base: strings.ToUpper(parts[0]), Quote: strings.ToUpper(parts[1])}
-	} else if pair == "timezone" {
-		panic("FATAL: timezone" + pair)
-	} else {
-		panic("FATAL: DIV ERR!" + pair)
+	if len(parts) != 2 {
+		panic("FATAL: SPLIT ERR! " + pair)
 	}
-	return res
+	if parts[0] == parts[1] {
+		panic("FATAL: SAME CURRENCY ERR! "+ pair)
+	}
+	return q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
 }
 func (g *Gate) PlaceOrders(places [3]q.Order) (orders [3]q.Order, err error) {
 	orders = places

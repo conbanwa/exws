@@ -11,9 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/conbanwa/logs"
-	"github.com/conbanwa/slice"
 	"github.com/conbanwa/wstrader/config"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	"github.com/gorilla/websocket"
 )
 
@@ -135,7 +134,7 @@ func (ws *WsConn) NewWs() *WsConn {
 	if ws.ConnectSuccessAfterSendMessage != nil {
 		msg := ws.ConnectSuccessAfterSendMessage()
 		ws.SendMessage(msg)
-		logs.Infof("[ws] [%s] execute the connect success after send message=%s", ws.WsUrl, slice.Bytes2String(msg))
+		log.Error().Bytes("msg data", msg).Str("url", ws.WsUrl).Msg("[ws] execute the connect success after send")
 	}
 	return ws
 }
@@ -143,10 +142,10 @@ func (ws *WsConn) connect() error {
 	if ws.ProxyUrl != "" {
 		proxy, err := url.Parse(ws.ProxyUrl)
 		if err == nil {
-			logs.Infof("[ws][%s] proxy url:%s", ws.WsUrl, proxy)
+			log.Info().Msgf("[ws][%s] proxy url:%s", ws.WsUrl, proxy)
 			dialer.Proxy = http.ProxyURL(proxy)
 		} else {
-			logs.Errorf("[ws][%s]parse proxy url [%s] err %s  ", ws.WsUrl, ws.ProxyUrl, err.Error())
+			log.Error().Msgf("[ws][%s]parse proxy url [%s] err %s  ", ws.WsUrl, ws.ProxyUrl, err.Error())
 		}
 	}
 	if ws.DisableEnableCompression {
@@ -154,19 +153,19 @@ func (ws *WsConn) connect() error {
 	}
 	wsConn, resp, err := dialer.Dial(ws.WsUrl, ws.ReqHeaders)
 	if err != nil {
-		logs.Errorf("[ws][%s] %s", ws.WsUrl, err.Error())
+		log.Error().Msgf("[ws][%s] %s", ws.WsUrl, err.Error())
 		if ws.IsDump && resp != nil {
 			dumpData, _ := httputil.DumpResponse(resp, true)
-			logs.Debugf("[ws][%s] %s", ws.WsUrl, slice.Bytes2String(dumpData))
+			log.Debug().Bytes("dumpData", dumpData).Str("url", ws.WsUrl).Msg("DumpResponse")
 		}
 		return err
 	}
 	wsConn.SetReadDeadline(time.Now().Add(ws.readDeadLineTime))
 	if ws.IsDump {
 		dumpData, _ := httputil.DumpResponse(resp, true)
-		logs.Debugf("[ws][%s] %s", ws.WsUrl, slice.Bytes2String(dumpData))
+		log.Debug().Bytes("dumpData", dumpData).Str("url", ws.WsUrl).Msg("DumpResponse")
 	}
-	logs.Infof("[ws][%s] connected", ws.WsUrl)
+	log.Info().Msgf("[ws][%s] connected", ws.WsUrl)
 	ws.c = wsConn
 	return nil
 }
@@ -179,13 +178,13 @@ func (ws *WsConn) reconnect() {
 		time.Sleep(ws.WsConfig.reconnectInterval * time.Duration(retry))
 		err = ws.connect()
 		if err != nil {
-			logs.Errorf("[ws] [%s] websocket reconnect fail , %s", ws.WsUrl, err.Error())
+			log.Error().Msgf("[ws] [%s] websocket reconnect fail , %s", ws.WsUrl, err.Error())
 		} else {
 			break
 		}
 	}
 	if err != nil {
-		logs.Errorf("[ws] [%s] retry connect 100 count fail , begin exiting. ", ws.WsUrl)
+		log.Error().Msgf("[ws] [%s] retry connect 100 count fail , begin exiting. ", ws.WsUrl)
 		ws.CloseWs()
 		if ws.ErrorHandleFunc != nil {
 			ws.ErrorHandleFunc(errors.New("retry reconnect fail"))
@@ -195,13 +194,13 @@ func (ws *WsConn) reconnect() {
 		if ws.ConnectSuccessAfterSendMessage != nil {
 			msg := ws.ConnectSuccessAfterSendMessage()
 			ws.SendMessage(msg)
-			logs.Infof("[ws] [%s] execute the connect success after send message=%s", ws.WsUrl, slice.Bytes2String(msg))
+			log.Error().Bytes("msg data", msg).Str("url", ws.WsUrl).Msg("[ws] execute the connect success after send")
 			time.Sleep(time.Second) //wait response
 		}
 
 		if subbed := ws.subs.Load(); subbed != nil {
 			for _, sub := range subbed.([][]byte) {
-				logs.I("[ws] re subscribe: ", slice.Bytes2String(sub))
+				log.Debug().Bytes("sub", sub).Str("url", ws.WsUrl).Msg("[ws] re subscribe")
 				ws.SendMessage(sub)
 			}
 		}
@@ -220,7 +219,7 @@ func (ws *WsConn) writeRequest() {
 	for {
 		select {
 		case <-ws.close:
-			logs.Infof("[ws][%s] close websocket , exiting write message goroutine.", ws.WsUrl)
+			log.Info().Msgf("[ws][%s] close websocket , exiting write message goroutine.", ws.WsUrl)
 			return
 		case d := <-ws.writeBufferChan:
 			err = ws.c.WriteMessage(websocket.TextMessage, d)
@@ -237,7 +236,7 @@ func (ws *WsConn) writeRequest() {
 			}
 		}
 		if err != nil {
-			logs.Errorf("[ws][%s] write message %s", ws.WsUrl, err.Error())
+			log.Error().Msgf("[ws][%s] write message %s", ws.WsUrl, err.Error())
 			//time.Sleep(time.Second)
 		}
 	}
@@ -245,7 +244,7 @@ func (ws *WsConn) writeRequest() {
 func (ws *WsConn) Subscribe(subEvent any) error {
 	data, err := json.Marshal(subEvent)
 	if err != nil {
-		logs.Errorf("[ws][%s] json encode error , %s", ws.WsUrl, err)
+		log.Error().Msgf("[ws][%s] json encode error , %s", ws.WsUrl, err)
 		return err
 	}
 	//logs.D("subscribed url:", slice.Bytes2String(data))
@@ -278,17 +277,17 @@ func (ws *WsConn) SendJsonMessage(m any) error {
 func (ws *WsConn) receiveMessage() {
 	//exit
 	ws.c.SetCloseHandler(func(code int, text string) error {
-		logs.Warnf("[ws][%s] websocket exiting [code=%d , text=%s]", ws.WsUrl, code, text)
+		log.Warn().Msgf("[ws][%s] websocket exiting [code=%d , text=%s]", ws.WsUrl, code, text)
 		// ws.CloseWs()
 		return nil
 	})
 	ws.c.SetPongHandler(func(pong string) error {
-		logs.Debugf("[%s] received [pong] %s", ws.WsUrl, pong)
+		log.Debug().Msgf("[%s] received [pong] %s", ws.WsUrl, pong)
 		ws.c.SetReadDeadline(time.Now().Add(ws.readDeadLineTime))
 		return nil
 	})
 	ws.c.SetPingHandler(func(ping string) error {
-		logs.Debugf("[%s] received [ping] %s", ws.WsUrl, ping)
+		log.Debug().Msgf("[%s] received [ping] %s", ws.WsUrl, ping)
 		ws.SendPongMessage([]byte(ping))
 		ws.c.SetReadDeadline(time.Now().Add(ws.readDeadLineTime))
 		return nil
@@ -296,14 +295,14 @@ func (ws *WsConn) receiveMessage() {
 	for {
 		select {
 		case <-ws.close:
-			logs.Infof("[ws][%s] close websocket , exiting receive message goroutine.", ws.WsUrl)
+			log.Info().Msgf("[ws][%s] close websocket , exiting receive message goroutine.", ws.WsUrl)
 			return
 		default:
 			t, msg, err := ws.c.ReadMessage()
 			if err != nil {
-				logs.Errorf("[ws][%s] %s", ws.WsUrl, err.Error())
+				log.Error().Msgf("[ws][%s] %s", ws.WsUrl, err.Error())
 				if ws.IsAutoReconnect {
-					logs.Infof("[ws][%s] Unexpected Closed , Begin Retry Connect.", ws.WsUrl)
+					log.Info().Msgf("[ws][%s] Unexpected Closed , Begin Retry Connect.", ws.WsUrl)
 					ws.reconnect()
 					continue
 				}
@@ -322,7 +321,7 @@ func (ws *WsConn) receiveMessage() {
 					ws.ProtoHandleFunc(msg)
 				} else {
 					if msg2, err := ws.DecompressFunc(msg); err != nil {
-						logs.Errorf("[ws][%s] decompress error %s", ws.WsUrl, err.Error())
+						log.Error().Msgf("[ws][%s] decompress error %s", ws.WsUrl, err.Error())
 					} else {
 						ws.ProtoHandleFunc(msg2)
 					}
@@ -330,7 +329,7 @@ func (ws *WsConn) receiveMessage() {
 				//	case websocket.CloseMessage:
 				//	ws.CloseWs()
 			default:
-				logs.Errorf("[ws][%s] error websocket message type , content is :\n %s \n", ws.WsUrl, slice.Bytes2String(msg))
+				log.Error().Bytes("msg data", msg).Str("url", ws.WsUrl).Msg("[ws] websocket message type")
 			}
 		}
 	}
@@ -343,9 +342,7 @@ func (ws *WsConn) CloseWs() {
 	close(ws.pingMessageBufferChan)
 	close(ws.pongMessageBufferChan)
 	err := ws.c.Close()
-	if err != nil {
-		logs.E("[ws][", ws.WsUrl, "] close websocket error ,", err)
-	}
+	zelo.OnErr(err).Str("url", ws.WsUrl).Msg("[ws] close websocket error")
 }
 func (ws *WsConn) clearChannel(c chan struct{}) {
 	for {

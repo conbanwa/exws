@@ -141,7 +141,7 @@ func (ok *OKX) GetKlineRecordsV5(instId string, period KlinePeriod, params *url.
 	if params.Encode() != "" {
 		urlPath = fmt.Sprintf("%s&%s", urlPath, params.Encode())
 	}
-	logs.Debugf("[OKX] GetKlineRecordsV5 Url: %s", urlPath)
+	log.Debug().Msgf("[OKX] GetKlineRecordsV5 Url: %s", urlPath)
 	type CandleResponse struct {
 		Code int        `json:"code,string"`
 		Msg  string     `json:"msg"`

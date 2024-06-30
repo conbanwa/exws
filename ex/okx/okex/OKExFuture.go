@@ -86,7 +86,7 @@ func (ok *OKExFuture) GetContractInfo(contractId string) (*FutureContractInfo, e
 		defer ok.Unlock()
 		infos, err := ok.GetAllFutureContractInfo()
 		if err != nil {
-			logs.Errorf("Get All Futures Contract Infos Error=%s", err)
+			log.Error().Msgf("Get All Futures Contract Infos Error=%s", err)
 		} else {
 			ok.allContractInfo.contractInfos = infos
 			ok.allContractInfo.uTime = now
@@ -120,7 +120,7 @@ func (ok *OKExFuture) GetFutureContractId(pair CurrencyPair, contractAlias strin
 			time.Sleep(120 * time.Millisecond) //retry
 			contractInfo, err = ok.GetAllFutureContractInfo()
 			if err != nil {
-				logs.Errorf(fmt.Sprintf("Get Futures Contract Id Error [%s] ???", err.Error()))
+				log.Error().Msgf(fmt.Sprintf("Get Futures Contract Id Error [%s] ???", err.Error()))
 			}
 		}
 	}

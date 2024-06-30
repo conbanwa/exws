@@ -3,7 +3,6 @@ package binance
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/conbanwa/logs"
 	"github.com/conbanwa/num"
 	"net/url"
 	. "github.com/conbanwa/wstrader"
@@ -23,7 +22,7 @@ func (bn *Binance) Balances() (available, frozen *sync.Map, err error) {
 	path := bn.apiV3 + AccountUri + params.Encode()
 	resp, err := HttpGet2(bn.httpClient, path, bn.header())
 	if err != nil {
-		logs.E(err)
+		log.Error().Err(err).Send()
 		return
 	}
 	if _, ok := resp["code"]; ok {

@@ -12,6 +12,13 @@ import (
 	"time"
 )
 
+const (
+    codeEmptyNameErr        = 40001
+    codeInvalidAgeErr       = 40002
+    codeMethodNotAllowedErr = 40501
+    codeJSONMarshalErr      = 50001
+)
+
 var (
 	fastHttpClient = &fasthttp.Client{
 		Name:                "goex-http-utils",
@@ -23,14 +30,26 @@ var (
 	socksDialer fasthttp.DialFunc
 )
 
+func init(){
+	setProxy()
+}
+
+func setProxy() {
+	url := config.GetProxy(true)
+	if url == ""{
+		return
+	}
+	socksDialer = fasthttpproxy.FasthttpSocksDialer(url)
+	fastHttpClient.Dial = socksDialer
+}
+
 func FasthttpRequest(client *http.Client, reqMethod, reqUrl, postData string, headers map[string]string) (body []byte, err error) {
 	if transport := client.Transport; transport != nil && config.UseProxy {
 		if proxy, err := transport.(*http.Transport).Proxy(nil); err == nil && proxy != nil {
 			if proxyUrl := proxy.String(); proxy.Scheme != "socks5" {
-				logs.E("fasthttp only support the socks5 proxy", proxy.Scheme, proxyUrl)
+				panic("fasthttp only support the socks5 proxy " + proxy.Scheme + proxyUrl)
 			} else if socksDialer == nil {
-				socksDialer = fasthttpproxy.FasthttpSocksDialer(proxy.Scheme + "://" + config.Proxy)
-				fastHttpClient.Dial = socksDialer
+				setProxy()
 			}
 		}
 	}
@@ -51,7 +70,7 @@ func FasthttpRequest(client *http.Client, reqMethod, reqUrl, postData string, he
 		return nil, err
 	}
 	if resp.StatusCode() == http.StatusTeapot || resp.StatusCode() == http.StatusTooManyRequests {
-		logs.F("FATAL breaking a request rate limit")
+		panic("FATAL breaking a request rate limit")
 	}
 	if resp.StatusCode() != http.StatusOK {
 		err = fmt.Errorf("HttpStatusCode:%d", resp.StatusCode())

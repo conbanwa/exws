@@ -94,7 +94,7 @@ func hbdmInit() {
 				}
 				err = json.Unmarshal(respBody, &response)
 				if err != nil {
-					logs.Errorf("[hbdm] json unmarshal contract info error=%s", err)
+					log.Error().Msgf("[hbdm] json unmarshal contract info error=%s", err)
 					goto reset
 				}
 				FuturesContractInfos = FuturesContractInfos[:0]
@@ -695,7 +695,7 @@ func (dm *Hbdm) doRequest(path string, params *url.Values, data any) error {
 	if err != nil {
 		return err
 	}
-	logs.Debugf("response body: %s", string(resp))
+	log.Debug().Msgf("response body: %s", string(resp))
 	//log.Println(string(resp))
 	err = json.Unmarshal(resp, &ret)
 	if err != nil {

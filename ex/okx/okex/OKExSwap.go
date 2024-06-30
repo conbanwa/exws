@@ -13,8 +13,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/conbanwa/logs"
 )
 
 const (
@@ -281,11 +279,11 @@ func (ok *OKExSwap) PlaceFutureOrder2(currencyPair CurrencyPair, contractType, p
 	}
 	err := ok.DoRequest("POST", PLACE_ORDER, reqBody, &resp)
 	if err != nil {
-		logs.Errorf("[param] %s", param)
+		log.Error().Msgf("[param] %s", param)
 		return fOrder, err
 	}
 	if resp.ErrorMessage != "" {
-		logs.Errorf("[param] %s", param)
+		log.Error().Msgf("[param] %s", param)
 		return fOrder, fmt.Errorf("%s:%s", resp.ErrorCode, resp.ErrorMessage)
 	}
 	fOrder.OrderID2 = resp.OrderID

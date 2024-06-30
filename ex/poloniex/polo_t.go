@@ -32,15 +32,13 @@ func (poloniex *Poloniex) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 }
 func Sym2duo(pair string) q.D {
 	parts := strings.Split(pair, "_")
-	var res q.D
-	if len(parts) == 2 {
-		res = q.D{Base: parts[1], Quote: parts[0]}
-	} else if pair == "timezone" {
-		logs.F("FATAL: timezone", pair)
-	} else {
-		logs.F("FATAL: DIV ERR!", pair)
+	if len(parts) != 2 {
+		panic("FATAL: SPLIT ERR! " + pair)
 	}
-	return res
+	if parts[0] == parts[1] {
+		panic("FATAL: SAME CURRENCY ERR! "+ pair)
+	}
+	return q.D{Base: unify(parts[1]), Quote: unify(parts[0])}
 }
 func (poloniex *Poloniex) Fee() float64 {
 	// url := PUBLIC_URL + "TICKER_API"

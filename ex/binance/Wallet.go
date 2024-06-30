@@ -70,7 +70,7 @@ func (w *Wallet) GetWithDrawHistory(currency *Currency) ([]DepositWithdrawHistor
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("response body: %s", slice.Bytes2String(resp))
+	log.Debug().Bytes("response data", resp).Send()
 	respMap := make(map[string]any)
 	err = json.Unmarshal(resp, &respMap)
 	if err != nil {
@@ -88,7 +88,7 @@ func (w *Wallet) GetDepositHistory(currency *Currency) ([]DepositWithdrawHistory
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("response body: %s", slice.Bytes2String(resp))
+	log.Debug().Bytes("response data", resp).Send()
 	respMap := make(map[string]any)
 	err = json.Unmarshal(resp, &respMap)
 	if err != nil {
