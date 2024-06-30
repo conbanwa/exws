@@ -166,7 +166,7 @@ func (okV3Ws *OKExV3FuturesWs) handle(channel string, data json.RawMessage) erro
 	} else {
 		ch, err = okV3Ws.v3Ws.parseChannel(channel)
 		if err != nil {
-			logs.Errorf("[%s] parse channel err=%s ,  originChannel=%s", okV3Ws.base.String(), err, ch)
+			log.Error().Msgf("[%s] parse channel err=%s ,  originChannel=%s", okV3Ws.base.String(), err, ch)
 			return nil
 		}
 	}

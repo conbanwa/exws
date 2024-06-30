@@ -5,12 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
-	"net/url"
 	. "github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	"github.com/conbanwa/wstrader/util"
 	"github.com/conbanwa/wstrader/web"
+	"net/url"
 	"sort"
 	"time"
 
@@ -54,7 +54,7 @@ func (swap *HbdmSwap) GetFutureTicker(currencyPair cons.CurrencyPair, contractTy
 	if err != nil {
 		return nil, err
 	}
-	logs.Debugf("response body: %s", string(responseBody))
+	log.Debug().Msgf("response body: %s", string(responseBody))
 	var (
 		tickResponse struct {
 			BaseResponse
@@ -101,7 +101,7 @@ func (swap *HbdmSwap) GetFutureDepth(currencyPair cons.CurrencyPair, contractTyp
 	if err != nil {
 		return nil, err
 	}
-	logs.Debugf("response body: %s", string(responseBody))
+	log.Debug().Msgf("response body: %s", string(responseBody))
 	var (
 		dep          Depth
 		tickResponse struct {
@@ -425,7 +425,7 @@ func (swap *HbdmSwap) GetKlineRecords(contractType string, currency cons.Currenc
 	if err != nil {
 		return nil, err
 	}
-	logs.Debugf("response body: %s", string(responseBody))
+	log.Debug().Msgf("response body: %s", string(responseBody))
 	var ret struct {
 		BaseResponse
 		Data []struct {
@@ -440,7 +440,7 @@ func (swap *HbdmSwap) GetKlineRecords(contractType string, currency cons.Currenc
 	}
 	err = json.Unmarshal(responseBody, &ret)
 	if err != nil {
-		logs.Errorf("[hbdm-swap] err=%s", err.Error())
+		log.Error().Msgf("[hbdm-swap] err=%s", err.Error())
 		return nil, err
 	}
 	var lines []FutureKline

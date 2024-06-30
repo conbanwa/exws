@@ -3,10 +3,10 @@ package okex
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/util"
 	. "github.com/conbanwa/wstrader/web"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -102,7 +102,7 @@ func (okV3Ws *Ws) handle(msg []byte) error {
 			logs.I("subscribed:", wsResp.Channel)
 			return nil
 		case "error":
-			logs.Errorf(string(msg))
+			log.Error().Msgf(string(msg))
 		default:
 			logs.I(string(msg))
 		}

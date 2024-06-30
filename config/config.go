@@ -8,7 +8,7 @@ import (
 
 var (
 	UseProxy                = false
-        Scheme                  = "socks5"
+	Scheme                  = "socks5"
 	Proxy                   = "127.0.0.1:7890"
 	DefaultHttpClientConfig = &HttpClientConfig{
 		Proxy:        nil,

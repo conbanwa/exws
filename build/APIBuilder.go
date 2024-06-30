@@ -4,9 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net"
-	"net/http"
-	"net/url"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
@@ -31,10 +28,14 @@ import (
 	"github.com/conbanwa/wstrader/ex/okx/okex"
 	"github.com/conbanwa/wstrader/ex/poloniex"
 	"github.com/conbanwa/wstrader/ex/zb"
+	"github.com/conbanwa/wstrader/stat/zelo"
+	"net"
+	"net/http"
+	"net/url"
 	"time"
-
-	"github.com/conbanwa/logs"
 )
+
+var log = zelo.Writer
 
 type APIBuilder struct {
 	HttpClientConfig *config.HttpClientConfig
@@ -224,7 +225,7 @@ func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
 	case cons.ATOP:
 		_api = atop.New(builder.client, builder.apiKey, builder.secretKey)
 	default:
-		logs.W("exchange name error [" + exName + "].")
+		log.Warn().Str("ex", exName).Msg("exchange name error")
 	}
 	return _api
 }

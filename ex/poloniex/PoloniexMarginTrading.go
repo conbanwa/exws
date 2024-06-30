@@ -3,11 +3,11 @@ package poloniex
 import (
 	"encoding/json"
 	"errors"
-	"log"
-	"net/url"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
 	. "github.com/conbanwa/wstrader/web"
+	"log"
+	"net/url"
 )
 
 type GenericResponse struct {

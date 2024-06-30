@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/conbanwa/num"
-	"math"
-	"net/url"
 	. "github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	. "github.com/conbanwa/wstrader/web"
+	"math"
+	"net/url"
 	"strconv"
 	"strings"
 	"sync"
@@ -36,7 +36,7 @@ func (zb *Zb) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 		sm[PairNoLine(sym)] = Sym2duo(sym)
 		p[Sym2duo(sym)] = pre
 		SymPair[PairNoLine(sym)] = Sym2duo(sym)
-		// logs.F(sym, Sym2duo(sym),PairNoLine(sym))
+		// panic(sym, Sym2duo(sym),PairNoLine(sym))
 	}
 	if len(sm) == 0 {
 		panic("FATAL: no symap")
@@ -48,23 +48,20 @@ func duo2sym(d q.D) string {
 }
 func Sym2duo(pair string) q.D {
 	parts := strings.Split(pair, "_")
-	var res q.D
-	if len(parts) == 2 {
-		res = q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
-	} else {
-		logs.F("FATAL: DIV ERR!", pair)
+	if len(parts) != 2 {
+		panic("FATAL: SPLIT ERR! " + pair)
 	}
-	if res.Base == res.Quote {
-		logs.F("FATAL: SAME CURRENCY ERR!", pair)
+	if parts[0] == parts[1] {
+		panic("FATAL: SAME CURRENCY ERR! " + pair)
 	}
-	return res
+	return q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
 }
 func PairNoLine(pair string) (res string) {
 	parts := strings.Split(pair, "_")
 	if len(parts) == 2 {
 		res = parts[0] + parts[1]
 	} else {
-		logs.F("FATAL: DIV ERR!", pair)
+		panic("FATAL: DIV ERR! " + pair)
 	}
 	return
 }

@@ -3,11 +3,11 @@ package web
 import (
 	"fmt"
 	"github.com/conbanwa/logs"
+	"github.com/conbanwa/wstrader/config"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
-	"io/ioutil"
+	"io"
 	"net/http"
-	"github.com/conbanwa/wstrader/config"
 	"strings"
 	"time"
 )
@@ -23,14 +23,26 @@ var (
 	socksDialer fasthttp.DialFunc
 )
 
+func init() {
+	setProxy()
+}
+
+func setProxy() {
+	url := config.GetProxy(true)
+	if url == "" {
+		return
+	}
+	socksDialer = fasthttpproxy.FasthttpSocksDialer(url)
+	fastHttpClient.Dial = socksDialer
+}
+
 func FasthttpRequest(client *http.Client, reqMethod, reqUrl, postData string, headers map[string]string) (body []byte, err error) {
 	if transport := client.Transport; transport != nil && config.UseProxy {
 		if proxy, err := transport.(*http.Transport).Proxy(nil); err == nil && proxy != nil {
 			if proxyUrl := proxy.String(); proxy.Scheme != "socks5" {
-				logs.E("fasthttp only support the socks5 proxy", proxy.Scheme, proxyUrl)
+				panic("fasthttp only support the socks5 proxy " + proxy.Scheme + proxyUrl)
 			} else if socksDialer == nil {
-				socksDialer = fasthttpproxy.FasthttpSocksDialer(proxy.Scheme + "://" + config.Proxy)
-				fastHttpClient.Dial = socksDialer
+				setProxy()
 			}
 		}
 	}
@@ -51,7 +63,7 @@ func FasthttpRequest(client *http.Client, reqMethod, reqUrl, postData string, he
 		return nil, err
 	}
 	if resp.StatusCode() == http.StatusTeapot || resp.StatusCode() == http.StatusTooManyRequests {
-		logs.F("FATAL breaking a request rate limit")
+		panic("FATAL breaking a request rate limit")
 	}
 	if resp.StatusCode() != http.StatusOK {
 		err = fmt.Errorf("HttpStatusCode:%d", resp.StatusCode())
@@ -85,7 +97,7 @@ func HttpRequest(client *http.Client, reqType, reqUrl, postData string, requestH
 		return
 	}
 	defer resp.Body.Close()
-	body, err = ioutil.ReadAll(resp.Body)
+	body, err = io.ReadAll(resp.Body)
 	if err != nil {
 		logs.E(resp.Body)
 		return

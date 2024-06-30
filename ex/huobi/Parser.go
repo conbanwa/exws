@@ -6,8 +6,6 @@ import (
 	"github.com/conbanwa/wstrader/cons"
 	"sort"
 	"strings"
-
-	"github.com/conbanwa/logs"
 )
 
 func parseDepthFromResponse(r DepthResponse) wstrader.Depth {
@@ -28,7 +26,7 @@ func parseCurrencyPairFromSpotWsCh(ch string) cons.CurrencyPair {
 	}
 	meta := strings.Split(ch, ".")
 	if len(meta) < 2 {
-		logs.Errorf("parse error, ch=%s", ch)
+		log.Error().Msgf("parse error, ch=%s", ch)
 		return cons.UNKNOWN_PAIR
 	}
 	currencyPairStr := meta[1]

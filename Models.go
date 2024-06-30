@@ -3,8 +3,8 @@ package wstrader
 import (
 	"fmt"
 	"github.com/conbanwa/num"
-	"net/http"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
 	"time"
 )
 

@@ -2,7 +2,6 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/conbanwa/slice"
 	"testing"
 	"time"
 )
@@ -11,7 +10,7 @@ func Test_time(t *testing.T) {
 	t.Log(time.Now().Unix())
 }
 func ProtoHandle(data []byte) error {
-	println(slice.Bytes2String(data))
+	log.Debug().Bytes("response data", data).Send()
 	return nil
 }
 func TestNewWsConn(t *testing.T) {
