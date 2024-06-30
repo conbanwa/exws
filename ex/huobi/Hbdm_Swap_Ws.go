@@ -121,7 +121,7 @@ func (ws *HbdmSwapWs) handle(msg []byte) error {
 		return err
 	}
 	if resp.Ch == "" {
-		logs.Warnf("[%s] ch == \"\" , msg=%s", ws.wsConn.WsUrl, string(msg))
+		log.Warn().Msgf("[%s] ch == \"\" , msg=%s", ws.wsConn.WsUrl, string(msg))
 		return nil
 	}
 	ts := time.Now()
@@ -130,7 +130,7 @@ func (ws *HbdmSwapWs) handle(msg []byte) error {
 	}
 	pair, contract, err := ws.parseCurrencyAndContract(resp.Ch)
 	if err != nil {
-		logs.Errorf("[%s] parse currency and contract err=%s", ws.wsConn.WsUrl, err)
+		log.Error().Msgf("[%s] parse currency and contract err=%s", ws.wsConn.WsUrl, err)
 		return err
 	}
 	if strings.Contains(resp.Ch, ".depth.") {
@@ -172,7 +172,7 @@ func (ws *HbdmSwapWs) handle(msg []byte) error {
 		ws.tickerCallback(&ticker)
 		return nil
 	}
-	logs.Errorf("[%s] unknown message, msg=%s", ws.wsConn.WsUrl, string(msg))
+	log.Error().Msgf("[%s] unknown message, msg=%s", ws.wsConn.WsUrl, string(msg))
 	return nil
 }
 func (ws *HbdmSwapWs) parseTicker(r DetailResponse) FutureTicker {

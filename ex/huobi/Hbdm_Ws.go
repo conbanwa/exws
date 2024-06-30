@@ -13,8 +13,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/conbanwa/logs"
 )
 
 type WsResponse struct {
@@ -143,12 +141,12 @@ func (hbdmWs *HbdmWs) handle(msg []byte) error {
 		return err
 	}
 	if resp.Ch == "" {
-		logs.Warnf("[%s] ch == \"\" , msg=%s", hbdmWs.wsConn.WsUrl, string(msg))
+		log.Warn().Msgf("[%s] ch == \"\" , msg=%s", hbdmWs.wsConn.WsUrl, string(msg))
 		return nil
 	}
 	pair, contract, err := hbdmWs.parseCurrencyAndContract(resp.Ch)
 	if err != nil {
-		logs.Errorf("[%s] parse currency and contract err=%s", hbdmWs.wsConn.WsUrl, err)
+		log.Error().Msgf("[%s] parse currency and contract err=%s", hbdmWs.wsConn.WsUrl, err)
 		return err
 	}
 	if strings.Contains(resp.Ch, ".depth.") {
@@ -190,7 +188,7 @@ func (hbdmWs *HbdmWs) handle(msg []byte) error {
 		hbdmWs.tickerCallback(&ticker)
 		return nil
 	}
-	logs.Errorf("[%s] unknown message, msg=%s", hbdmWs.wsConn.WsUrl, string(msg))
+	log.Error().Msgf("[%s] unknown message, msg=%s", hbdmWs.wsConn.WsUrl, string(msg))
 	return nil
 }
 func (hbdmWs *HbdmWs) parseTicker(r DetailResponse) FutureTicker {

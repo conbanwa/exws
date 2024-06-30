@@ -5,14 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
-	"net/url"
+	"github.com/conbanwa/slice"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/web"
+	"net/url"
 	"strings"
-
-	"github.com/conbanwa/logs"
-	"github.com/conbanwa/slice"
 )
 
 type Wallet struct {
@@ -83,7 +81,7 @@ func (w *Wallet) Transfer(param TransferParameter) error {
 	if err != nil {
 		return err
 	}
-	logs.Debugf("[response body] %s", string(responseBody))
+	log.Debug().Msgf("[response body] %s", string(responseBody))
 	var responseRet map[string]any
 	err = json.Unmarshal(responseBody, &responseRet)
 	if err != nil {

@@ -3,11 +3,11 @@ package ftx
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
 	. "github.com/conbanwa/wstrader/web"
+	"os"
 	"sync"
 	"time"
 

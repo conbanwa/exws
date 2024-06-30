@@ -1,13 +1,15 @@
 package okex
 
 import (
-	"math"
+	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/wstrader/stat/zelo"
+	"math"
 	"strings"
 	"sync"
-
-	"github.com/conbanwa/logs"
 )
+
+var log = zelo.Writer.With().Str("ex", cons.OKEX).Logger()
 
 const PairUrl = baseUrl + "/api/spot/v3/instruments"
 const TickerUrl = PairUrl + "/ticker"
@@ -35,13 +37,13 @@ func (ok *OKEx) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 }
 func Sym2duo(pair string) q.D {
 	parts := strings.Split(pair, "-")
-	var res q.D
-	if len(parts) == 2 {
-		res = q.D{Base: parts[0], Quote: parts[1]}
-	} else {
-		logs.F("FATAL: DIV ERR!", pair)
+	if len(parts) != 2 {
+		panic("FATAL: SPLIT ERR! " + pair)
 	}
-	return res
+	if parts[0] == parts[1] {
+		panic("FATAL: SAME CURRENCY ERR! " + pair)
+	}
+	return q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
 }
 func (ok *OKEx) PlaceOrders(places [3]q.Order) (orders [3]q.Order, err error) {
 	orders = places

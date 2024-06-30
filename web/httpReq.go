@@ -2,12 +2,14 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/conbanwa/logs"
 	"github.com/conbanwa/slice"
+	"github.com/conbanwa/wstrader/stat/zelo"
 	"net/http"
 	"net/url"
 	"regexp"
 )
+
+var log = zelo.Writer
 
 func HttpGet(client *http.Client, reqUrl string) (map[string]any, error) {
 	respData, err := NewRequest(client, "GET", reqUrl, "", nil)
@@ -17,7 +19,7 @@ func HttpGet(client *http.Client, reqUrl string) (map[string]any, error) {
 	var bodyDataMap map[string]any
 	err = json.Unmarshal(respData, &bodyDataMap)
 	if err != nil {
-		logs.I(slice.Bytes2String(respData))
+		log.Error().Bytes("response data", respData).Send()
 		return nil, err
 	}
 	return bodyDataMap, nil
@@ -34,7 +36,7 @@ func HttpGet2(client *http.Client, reqUrl string, headers map[string]string) (ma
 	var bodyDataMap map[string]any
 	err = json.Unmarshal(respData, &bodyDataMap)
 	if err != nil {
-		logs.I("respData", slice.Bytes2String(respData))
+		log.Error().Bytes("response data", respData).Send()
 		return nil, err
 	}
 	return bodyDataMap, nil
@@ -51,7 +53,7 @@ func HttpGet3(client *http.Client, reqUrl string, headers map[string]string) ([]
 	var bodyDataMap []any
 	err = json.Unmarshal(respData, &bodyDataMap)
 	if err != nil {
-		logs.I("respData: ", slice.Bytes2String(respData), "\n", reqUrl, len(respData))
+		log.Error().Int("len", len(respData)).Bytes("response data", respData).Str("reqUrl", reqUrl).Send()
 		return nil, err
 	}
 	return bodyDataMap, nil
@@ -71,7 +73,7 @@ func HttpGet4(client *http.Client, reqUrl string, headers map[string]string, res
 	}
 	err = json.Unmarshal(respData, result)
 	if err != nil {
-		logs.Debugf("HttpGet4 %v - json.Unmarshal failed : %v, resp %s", reqUrl, err, slice.BodyCut(respData))
+		log.Error().Err(err).Int("len", len(respData)).Bytes("response data", respData).Str("reqUrl", reqUrl).Msg("HttpGet4 - json.Unmarshal failed")
 		return err
 	}
 	return nil
@@ -96,7 +98,7 @@ func HttpZB(client *http.Client, reqUrl string) (bodyDataMap map[string]map[stri
 	}
 	err = json.Unmarshal(respData, &bodyDataMap)
 	if err != nil {
-		logs.I("respData", slice.Bytes2String(respData))
+		log.Error().Bytes("response data", respData).Send()
 		return nil, err
 	}
 	return bodyDataMap, nil
@@ -110,7 +112,7 @@ func HttpZBP(client *http.Client, reqUrl string) (bodyDataMap map[string]map[str
 	}
 	err = json.Unmarshal(respData, &bodyDataMap)
 	if err != nil {
-		logs.I("respData", slice.Bytes2String(respData))
+		log.Error().Bytes("response data", respData).Send()
 		return nil, err
 	}
 	return bodyDataMap, nil

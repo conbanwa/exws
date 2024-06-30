@@ -55,9 +55,9 @@ func (g *Gate) Fee() float64 {
 	result, _, err := client.SpotApi.GetFee(ctx, nil)
 	if err != nil {
 		if e, ok := err.(gateapi.GateAPIError); ok {
-			logs.Debugf("gate api error: %s\n", e.Error())
+			log.Debug().Msgf("gate api error: %s\n", e.Error())
 		} else {
-			logs.Debugf("generic error: %s\n", err.Error())
+			log.Debug().Msgf("generic error: %s\n", err.Error())
 		}
 	} else {
 		logs.D(result)

@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"github.com/conbanwa/num"
 	"github.com/conbanwa/slice"
-	"math"
-	"net/http"
-	"net/url"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
 	. "github.com/conbanwa/wstrader/util"
 	. "github.com/conbanwa/wstrader/web"
+	"math"
+	"net/http"
+	"net/url"
 	"sort"
 	"strings"
 	"time"
@@ -94,7 +94,7 @@ func hbdmInit() {
 				}
 				err = json.Unmarshal(respBody, &response)
 				if err != nil {
-					logs.Errorf("[hbdm] json unmarshal contract info error=%s", err)
+					log.Error().Msgf("[hbdm] json unmarshal contract info error=%s", err)
 					goto reset
 				}
 				FuturesContractInfos = FuturesContractInfos[:0]
@@ -695,7 +695,7 @@ func (dm *Hbdm) doRequest(path string, params *url.Values, data any) error {
 	if err != nil {
 		return err
 	}
-	logs.Debugf("response body: %s", string(resp))
+	log.Debug().Msgf("response body: %s", string(resp))
 	//log.Println(string(resp))
 	err = json.Unmarshal(resp, &ret)
 	if err != nil {

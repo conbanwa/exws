@@ -3,13 +3,13 @@ package binance
 import (
 	"encoding/json"
 	"github.com/conbanwa/num"
-	"net/http"
-	"net/url"
-	"os"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	"github.com/conbanwa/wstrader/web"
+	"net/http"
+	"net/url"
+	"os"
 	"sort"
 	"strings"
 	"sync"
@@ -155,7 +155,7 @@ func (s *FuturesWs) handle(data []byte) error {
 		s.tradeCalFn(s.tradeHandle(tickers), contractType)
 		return nil
 	}
-	log.Warn().Bytes("handle", data).Msg("unknown ws response:")
+	log.Info().Bytes("handle", data).Msg("unknown ws response:")
 	return nil
 }
 func (s *FuturesWs) depthHandle(bids []any, asks []any) *wstrader.Depth {

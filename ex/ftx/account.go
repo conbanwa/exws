@@ -1,8 +1,8 @@
 package ftx
 
 import (
-	"log"
 	"github.com/conbanwa/wstrader/ex/ftx/structs"
+	"log"
 )
 
 type Positions structs.Positions

@@ -3,11 +3,11 @@ package bittrex
 import (
 	"errors"
 	"fmt"
-	"net/http"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
 	. "github.com/conbanwa/wstrader/web"
+	"net/http"
 	"sort"
 
 	"github.com/conbanwa/num"

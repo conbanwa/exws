@@ -3,7 +3,6 @@ package huobi
 import (
 	"errors"
 	"fmt"
-	"log"
 )
 
 type BBOResponse struct {
@@ -21,7 +20,7 @@ func (ws *SpotWs) SubscribeBBO(sm []string) (err error) {
 			"sub": fmt.Sprintf("market.%s.bbo", sym),
 		})
 		if err != nil {
-			log.Panic(err)
+			log.Panic().Err(err).Send()
 			return
 		}
 	}

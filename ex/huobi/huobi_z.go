@@ -5,18 +5,21 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
-	"math"
-	"net/url"
+	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
 	"github.com/conbanwa/wstrader/stat/zelo"
 	. "github.com/conbanwa/wstrader/util"
 	. "github.com/conbanwa/wstrader/web"
+	"math"
+	"net/url"
 	"strconv"
 	"strings"
 	"sync"
 
 	"github.com/conbanwa/logs"
 )
+
+var log = zelo.Writer.With().Str("ex", cons.HUOBI).Logger()
 
 func tickerUrl(hbpro *HuoBiPro) string {
 	return hbpro.baseUrl + "/market/tickers"

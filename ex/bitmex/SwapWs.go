@@ -105,7 +105,7 @@ func (s *SwapWs) handle(data []byte) error {
 	var msg wsMessage
 	err := json.Unmarshal(data, &msg)
 	if err != nil {
-		logs.Errorf("unmarshal error , message: %s", string(data))
+		log.Error().Msgf("unmarshal error , message: %s", string(data))
 		return err
 	}
 	switch msg.Table {
@@ -119,7 +119,7 @@ func (s *SwapWs) handle(data []byte) error {
 		)
 		err = json.Unmarshal(msg.Data, &depthData)
 		if err != nil {
-			logs.Errorf("unmarshal depth data error , data: %s", string(msg.Data))
+			log.Error().Msgf("unmarshal depth data error , data: %s", string(msg.Data))
 			return nil
 		}
 		if len(depthData) == 0 {
@@ -146,7 +146,7 @@ func (s *SwapWs) handle(data []byte) error {
 		var tickerData []tickerData
 		err = json.Unmarshal(msg.Data, &tickerData)
 		if err != nil {
-			logs.Errorf("ticker data unmarshal error , data: %s", string(msg.Data))
+			log.Error().Msgf("ticker data unmarshal error , data: %s", string(msg.Data))
 			return err
 		}
 		if msg.Action == "partial" {
@@ -190,7 +190,7 @@ func (s *SwapWs) handle(data []byte) error {
 			s.tickerCall(&ticker)
 		}
 	default:
-		logs.Warnf("unknown ws message: %s", string(data))
+		log.Warn().Msgf("unknown ws message: %s", string(data))
 	}
 	return nil
 }
