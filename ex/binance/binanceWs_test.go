@@ -4,8 +4,8 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"testing"
-	"time"
 )
 
 var spotWs *SpotWs
@@ -22,12 +22,10 @@ func createSpotWs() {
 }
 func TestSpotWs_DepthCallback(t *testing.T) {
 	createSpotWs()
-	spotWs.SubscribeDepth(cons.BTC_USDT)
-	spotWs.SubscribeTicker(cons.LTC_USDT)
-	time.Sleep(11 * time.Minute)
+	assert.Nil(t, spotWs.SubscribeDepth(cons.BTC_USDT))
+	assert.Nil(t, spotWs.SubscribeTicker(cons.LTC_USDT))
 }
 func TestSpotWs_SubscribeTicker(t *testing.T) {
 	createSpotWs()
-	spotWs.SubscribeTicker(cons.LTC_USDT)
-	time.Sleep(30 * time.Minute)
+	assert.Nil(t, spotWs.SubscribeTicker(cons.LTC_USDT))
 }

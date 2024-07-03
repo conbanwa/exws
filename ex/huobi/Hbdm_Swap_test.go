@@ -1,9 +1,9 @@
 package huobi
 
 import (
-	"net/http"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
 	"testing"
 	"time"
 )

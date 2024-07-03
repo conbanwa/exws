@@ -247,14 +247,14 @@ func (bit *Bithumb) GetTicker(currency CurrencyPair) (*Ticker, error) {
 		}
 		return nil, errors.New(msg)
 	}
-	datamap := respMap["data"].(map[string]any)
+	data := respMap["data"].(map[string]any)
+	datamap := data["BTC"].(map[string]any)
+	log.Println(datamap)
 	return &Ticker{
 		Low:  num.ToFloat64(datamap["min_price"]),
 		High: num.ToFloat64(datamap["max_price"]),
 		Last: num.ToFloat64(datamap["closing_price"]),
 		Vol:  num.ToFloat64(datamap["units_traded"]),
-		Buy:  num.ToFloat64(datamap["buy_price"]),
-		Sell: num.ToFloat64(datamap["sell_price"]),
 	}, nil
 }
 func (bit *Bithumb) GetDepth(size int, currency CurrencyPair) (*Depth, error) {

@@ -1,11 +1,11 @@
 package coinbene
 
 import (
-	"net/http"
-	"net/url"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
+	"net/url"
 	"testing"
 	"time"
 )

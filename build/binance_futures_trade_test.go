@@ -9,15 +9,15 @@ import (
 )
 
 const (
-	testnetApiKey       = "YOUR_KEY"
-	testnetApiKeySecret = "YOUR_KEY_SECRET"
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
 )
 
-var api = DefaultAPIBuilder.APIKey(testnetApiKey).APISecretkey(testnetApiKeySecret)
+var api = DefaultAPIBuilder.APIKey(TestnetApiKey).APISecretkey(TestnetApiKeySecret)
 
 func skipKey(t *testing.T) {
-	if testnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without testnetApiKey")
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
 	}
 }
 
@@ -26,7 +26,8 @@ func TestFetchFutureDepthAndIndex(t *testing.T) {
 	binanceApi := api.Endpoint(binance.TestnetSpotWsBaseUrl).BuildFuture(cons.BINANCE_SWAP)
 	depth, err := binanceApi.GetFutureDepth(cons.BTC_USD, cons.SWAP_USDT_CONTRACT, 100)
 	if err != nil {
-		t.Error(err);return
+		t.Error(err)
+		return
 	}
 	askTotalAmount, bidTotalAmount := 0.0, 0.0
 	askTotalVol, bidTotalVol := 0.0, 0.0
@@ -40,7 +41,8 @@ func TestFetchFutureDepthAndIndex(t *testing.T) {
 	}
 	markPrice, err := binanceApi.GetFutureIndex(cons.BTC_USD)
 	if err != nil {
-		t.Error(err);return
+		t.Error(err)
+		return
 	}
 	t.Logf("CURRENT mark price: %f", markPrice)
 	t.Logf("ContractType: %s ContractId: %s Pair: %s UTime: %s AmountTickSize: %d\n", depth.ContractType, depth.ContractId, depth.Pair, depth.UTime.String(), depth.Pair.AmountTickSize)
@@ -52,7 +54,8 @@ func TestSubscribeSpotMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdBaseUrl).BuildSpotWs(cons.BINANCE)
 	if err != nil {
-		t.Error(err);return
+		t.Error(err)
+		return
 	}
 	binanceWs.TickerCallback(func(ticker *wstrader.Ticker) {
 		t.Logf("%+v\n", *ticker)
@@ -73,7 +76,8 @@ func TestSubscribeFutureMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdWsBaseUrl).BuildFuturesWs(cons.BINANCE_FUTURES)
 	if err != nil {
-		t.Error(err);return
+		t.Error(err)
+		return
 	}
 	binanceWs.TickerCallback(func(ticker *wstrader.FutureTicker) {
 		//t.Logf("%+v\n", *ticker.Ticker)
