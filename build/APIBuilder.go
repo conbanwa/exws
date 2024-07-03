@@ -27,7 +27,6 @@ import (
 	"github.com/conbanwa/wstrader/ex/okx"
 	"github.com/conbanwa/wstrader/ex/okx/okex"
 	"github.com/conbanwa/wstrader/ex/poloniex"
-	"github.com/conbanwa/wstrader/ex/zb"
 	"github.com/conbanwa/wstrader/stat/zelo"
 	"net"
 	"net/http"
@@ -214,8 +213,6 @@ func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
 		_api = bithumb.New(builder.client, builder.apiKey, builder.secretKey)
 	case cons.GDAX:
 		_api = gdax.New(builder.client, builder.apiKey, builder.secretKey)
-	case cons.ZB:
-		_api = zb.New(builder.client, builder.apiKey, builder.secretKey)
 	case cons.COINEX:
 		_api = coinex.New(builder.client, builder.apiKey, builder.secretKey)
 	case cons.BIGONE:

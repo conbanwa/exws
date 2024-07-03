@@ -1,5 +1,6 @@
 package allcoin
 
+/*
 import (
 	"encoding/json"
 	"errors"
@@ -412,3 +413,4 @@ func (ac *Allcoin) GetOrderHistorys(currency cons.CurrencyPair, opt ...wstrader.
 func (ac *Allcoin) adaptCurrencyPair(pair cons.CurrencyPair) cons.CurrencyPair {
 	return pair
 }
+*/
