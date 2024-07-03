@@ -1,16 +1,16 @@
 package binance
 
 import (
-	"net/http"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
 	"testing"
 )
 
 var baDapi = NewBinanceFutures(&wstrader.APIConfig{
 	HttpClient:   http.DefaultClient,
-	ApiKey:       testnetApiKey,
-	ApiSecretKey: testnetApiKeySecret,
+	ApiKey:       TestnetApiKey,
+	ApiSecretKey: TestnetApiKeySecret,
 })
 
 func TestBinanceFutures_GetFutureDepth(t *testing.T) {

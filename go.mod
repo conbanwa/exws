@@ -5,7 +5,7 @@ go 1.21.4
 require (
 	github.com/Kucoin/kucoin-go-sdk v1.2.14
 	github.com/conbanwa/logs v0.4.7
-	github.com/conbanwa/num v0.0.2
+	github.com/conbanwa/num v0.0.4
 	github.com/conbanwa/slice v0.0.2
 	github.com/gateio/gateapi-go/v6 v6.71.0
 	github.com/go-openapi/errors v0.22.0

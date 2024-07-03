@@ -2,20 +2,20 @@ package okx
 
 import (
 	"fmt"
-	"net/url"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"net/url"
 	"testing"
 )
 
 const (
-	testnetApiKey       = "YOUR_KEY"
-	testnetApiKeySecret = "YOUR_KEY_SECRET"
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if testnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without testnetApiKey")
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
 	}
 }
 
@@ -31,8 +31,8 @@ func newOKExV5Client() *OKX {
 		//	},
 		//},
 		Endpoint:      "https://www.okx.com",
-		ApiKey:        testnetApiKey,
-		ApiSecretKey:  testnetApiKeySecret,
+		ApiKey:        TestnetApiKey,
+		ApiSecretKey:  TestnetApiKeySecret,
 		ApiPassphrase: "",
 	})
 }

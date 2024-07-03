@@ -1,8 +1,8 @@
 package bittrex
 
 import (
-	"net/http"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
 	"testing"
 )
 

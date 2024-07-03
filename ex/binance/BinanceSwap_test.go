@@ -1,23 +1,24 @@
 package binance
 
 import (
-	"net/http"
-	"net/url"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/url"
 	"testing"
 	"time"
 )
 
 const (
-	testnetApiKey       = "YOUR_KEY"
-	testnetApiKeySecret = "YOUR_KEY_SECRET"
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if testnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without testnetApiKey")
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
 	}
 }
 
@@ -31,18 +32,22 @@ var bs = NewBinanceSwap(&wstrader.APIConfig{
 		},
 		Timeout: 10 * time.Second,
 	},
-	ApiKey:       testnetApiKey,
-	ApiSecretKey: testnetApiKeySecret,
+	ApiKey:       TestnetApiKey,
+	ApiSecretKey: TestnetApiKeySecret,
 })
 
 func TestBinanceSwap_Ping(t *testing.T) {
 	bs.Ping()
 }
 func TestBinanceSwap_GetFutureDepth(t *testing.T) {
-	t.Log(bs.GetFutureDepth(cons.BTC_USDT, "", 1))
+	res, err := bs.GetFutureDepth(cons.BTC_USDT, cons.SWAP_CONTRACT, 1)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestBinanceSwap_GetFutureIndex(t *testing.T) {
-	t.Log(bs.GetFutureIndex(cons.BTC_USDT))
+	res, err := bs.GetFutureIndex(cons.BTC_USDT)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestBinanceSwap_GetKlineRecords(t *testing.T) {
 	skipKey(t)
