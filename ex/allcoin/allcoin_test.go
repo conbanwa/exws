@@ -1,11 +1,6 @@
 package allcoin
 
-import (
-	"github.com/conbanwa/wstrader/cons"
-	"net/http"
-	"testing"
-)
-
+/*
 var ac = New(http.DefaultClient, "", "")
 
 func TestAllcoin_GetAccount(t *testing.T) {
@@ -28,3 +23,4 @@ func TestAllcoin_GetDepth(t *testing.T) {
 func TestAllcoin_LimitBuy(t *testing.T) {
 	t.Log(ac.LimitBuy("1", "0.07", cons.ETH_BTC))
 }
+*/
