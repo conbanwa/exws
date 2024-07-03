@@ -13,6 +13,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	TestnetApiKey    = "YOUR_KEY"
+	TestnetSecretkey = ""
+)
 var httpProxyClient = &http.Client{
 	Transport: &http.Transport{
 		Proxy: func(req *http.Request) (*url.URL, error) {
@@ -23,15 +27,16 @@ var httpProxyClient = &http.Client{
 	},
 	Timeout: 10 * time.Second,
 }
-var (
-	apikey    = ""
-	secretkey = ""
-)
 var hbpro *HuoBiPro
 
 func init() {
 	logs.Log.Level = logs.L_DEBUG
-	hbpro = NewHuoBiProSpot(httpProxyClient, apikey, secretkey)
+	hbpro = NewHuoBiProSpot(httpProxyClient, TestnetApiKey, TestnetSecretkey)
+}
+func skipKey(t *testing.T) {
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
+	}
 }
 func TestHuobiPro_GetTicker(t *testing.T) {
 	ticker, err := hbpro.GetTicker(cons.XRP_BTC)
@@ -54,7 +59,7 @@ func TestHuobiPro_GetAccountInfo(t *testing.T) {
 // 获取点卡剩余
 func TestHuoBiPro_GetPoint(t *testing.T) {
 	return
-	point := NewHuoBiProPoint(httpProxyClient, apikey, secretkey)
+	point := NewHuoBiProPoint(httpProxyClient, TestnetApiKey, TestnetSecretkey)
 	acc, _ := point.GetAccount()
 	t.Log(acc.SubAccounts[HBPOINT])
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
@@ -39,10 +40,14 @@ func TestBinanceSwap_Ping(t *testing.T) {
 	bs.Ping()
 }
 func TestBinanceSwap_GetFutureDepth(t *testing.T) {
-	t.Log(bs.GetFutureDepth(cons.BTC_USDT, "", 1))
+	res, err := bs.GetFutureDepth(cons.BTC_USDT, cons.SWAP_CONTRACT, 1)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestBinanceSwap_GetFutureIndex(t *testing.T) {
-	t.Log(bs.GetFutureIndex(cons.BTC_USDT))
+	res, err := bs.GetFutureIndex(cons.BTC_USDT)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestBinanceSwap_GetKlineRecords(t *testing.T) {
 	skipKey(t)

@@ -24,10 +24,10 @@ func TestSpotWs_DepthCallback(t *testing.T) {
 	createSpotWs()
 	spotWs.SubscribeDepth(cons.BTC_USDT)
 	spotWs.SubscribeTicker(cons.LTC_USDT)
-	time.Sleep(11 * time.Minute)
+	time.Sleep(5 * time.Second)
 }
 func TestSpotWs_SubscribeTicker(t *testing.T) {
 	createSpotWs()
 	spotWs.SubscribeTicker(cons.LTC_USDT)
-	time.Sleep(30 * time.Minute)
+	time.Sleep(3 * time.Second)
 }

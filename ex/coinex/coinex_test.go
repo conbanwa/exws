@@ -21,7 +21,6 @@ func TestCoinEx_GetDepth(t *testing.T) {
 	t.Log(dep.BidList)
 }
 func TestCoinEx_GetAccount(t *testing.T) {
-	//os.Setenv("https_proxy", "http://120.27.230.57:30000")
 	acc, err := coinex.GetAccount()
 	t.Log(err)
 	t.Log(acc)
@@ -36,7 +35,9 @@ func TestCoinEx_LimitSell(t *testing.T) {
 func TestCoinEx_GetUnfinishOrders(t *testing.T) {
 	ords, err := coinex.GetUnfinishedOrders(cons.NewCurrencyPair2("CET_BCH"))
 	t.Log(err)
-	t.Log(fmt.Sprint(ords[0].OrderID))
+	if len(ords) > 0 {
+		t.Log(fmt.Sprint(ords[0].OrderID))
+	}
 }
 func TestCoinEx_CancelOrder(t *testing.T) {
 	r, err := coinex.CancelOrder("37504128", cons.NewCurrencyPair2("CET_BCH"))
