@@ -18,18 +18,21 @@ func TestAPIBuilder_Build(t *testing.T) {
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.OKEX).String(), cons.OKEX)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.POLONIEX).String(), cons.POLONIEX)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.KRAKEN).String(), cons.KRAKEN)
-	api, err := builder.APIKey("").APISecretkey("").BuildSpotWs(cons.GATEIO)
-	assert.Nil(t, err)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").BuildFuture(cons.HBDM).String(), cons.HBDM)
 }
 func TestAPIBuilder_BuildSpotWs(t *testing.T) {
-	wsApi, err := builder.BuildSpotWs(cons.BINANCE)
+	buildSpotWs(t, cons.BINANCE)
+	buildSpotWs(t, cons.GATEIO)
+	buildSpotWs(t, cons.OKEX)
+	time.Sleep(time.Minute)
+}
+func buildSpotWs(t *testing.T, ex string) {
+	wsApi, err := builder.BuildSpotWs(ex)
 	assert.Nil(t, err)
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)
 	})
 	wsApi.SubscribeDepth(cons.BTC_USDT)
-	time.Sleep(time.Minute)
 }
 func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
 	wsApi, err := builder.BuildFuturesWs(cons.BINANCE)
