@@ -18,11 +18,12 @@ func TestAPIBuilder_Build(t *testing.T) {
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.OKEX).String(), cons.OKEX)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.POLONIEX).String(), cons.POLONIEX)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.KRAKEN).String(), cons.KRAKEN)
-	assert.Equal(t, builder.APIKey("").APISecretkey("").Build(cons.ZB).String(), cons.ZB)
+	assert.Equal(t, builder.APIKey("").APISecretkey("").BuildSpotWs(cons.ZB).String(), cons.ZB)
 	assert.Equal(t, builder.APIKey("").APISecretkey("").BuildFuture(cons.HBDM).String(), cons.HBDM)
 }
 func TestAPIBuilder_BuildSpotWs(t *testing.T) {
-	wsApi, _ := builder.BuildSpotWs(cons.OKEX_V3)
+	wsApi, err := builder.BuildSpotWs(cons.BINANCE)
+	assert.Nil(t, err)
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)
 	})
@@ -30,7 +31,8 @@ func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	time.Sleep(time.Minute)
 }
 func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
-	wsApi, _ := builder.BuildFuturesWs(cons.OKEX_V3)
+	wsApi, err := builder.BuildFuturesWs(cons.BINANCE)
+	assert.Nil(t, err)
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)
 	})
