@@ -19,6 +19,26 @@ const (
 	codeJSONMarshalErr      = 50001
 )
 
+// HttpErr contains custom code, error message, and HTTP status code.
+type HttpErr struct {
+    HTTPStatus int    `json:"-"`
+    Code       int    `json:"code"`
+    Message    string `json:"message"`
+}
+
+func (e HttpErr) Error() string {
+    return fmt.Sprintf("HTTPStatus: %v, Code: %v, Message: %q",
+        e.HTTPStatus, e.Code, e.Message)
+}
+
+func EmptyNameErr(name string, code int) HttpErr {
+    return HttpErr{
+        HTTPStatus: http.StatusBadRequest,
+        Code:       codeEmptyNameErr,
+        Message:    name,
+    }
+}
+
 var (
 	fastHttpClient = &fasthttp.Client{
 		Name:                "goex-http-utils",
@@ -69,11 +89,12 @@ func FasthttpRequest(client *http.Client, reqMethod, reqUrl, postData string, he
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode() == http.StatusTeapot || resp.StatusCode() == http.StatusTooManyRequests {
+	httpStatus := resp.StatusCode()
+	if httpStatus == http.StatusTeapot || httpStatus == http.StatusTooManyRequests {
 		panic("FATAL breaking a request rate limit")
 	}
-	if resp.StatusCode() != http.StatusOK {
-		err = fmt.Errorf("HttpStatusCode:%d", resp.StatusCode())
+	if httpStatus != http.StatusOK {
+		err = EmptyNameErr("", httpStatus)
 	}
 	body = resp.Body()
 	return
