@@ -150,8 +150,6 @@ const (
 	BITTREX         = "bittrex.com"
 	GDAX            = "gdax.com"
 	BIGONE          = "big.one"
-	FCOIN           = "fcoin.com"
-	FCOIN_MARGIN    = "fcoin.com_margin"
 	FMEX            = "fmex.com"
 	HITBTC          = "hitbtc.com"
 	BITMEX          = "bitmex.com"
