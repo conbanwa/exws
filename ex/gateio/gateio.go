@@ -3,7 +3,6 @@ package gateio
 import (
 	"fmt"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
@@ -45,7 +44,7 @@ func (g *Gate) GetOneOrder(orderId string, currency CurrencyPair) (*Order, error
 func (g *Gate) GetUnfinishedOrders(currency CurrencyPair) ([]Order, error) {
 	panic("not implement")
 }
-func (g *Gate) GetOrderHistorys(currency CurrencyPair, para ...wstrader.OptionalParameter) ([]Order, error) {
+func (g *Gate) GetOrderHistorys(currency CurrencyPair, para ...OptionalParameter) ([]Order, error) {
 	panic("not implement")
 }
 func (g *Gate) GetAccount() (*Account, error) {

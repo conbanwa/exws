@@ -1,4 +1,4 @@
-package coinbene
+package coinbase
 
 import (
 	"errors"
@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func (Coinbene *Coinbene) PairArray() (map[string]q.D, map[q.D]q.P, error) {
+func (c *Coinbase) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	return nil, nil, nil
 }
 func Sym2duo(pair string) q.D {
@@ -21,10 +21,10 @@ func Sym2duo(pair string) q.D {
 	}
 	return q.D{Base: unify(parts[0]), Quote: unify(parts[1])}
 }
-func (Coinbene *Coinbene) Fee() float64 {
+func (c *Coinbase) Fee() float64 {
 	return 0.001
 }
-func (Coinbene *Coinbene) PlaceOrders(places [3]q.Order) (orders [3]q.Order, err error) {
+func (c *Coinbase) PlaceOrders(places [3]q.Order) (orders [3]q.Order, err error) {
 	orders = places
 	for _, p := range places {
 		go func(p q.Order) {
@@ -32,34 +32,33 @@ func (Coinbene *Coinbene) PlaceOrders(places [3]q.Order) (orders [3]q.Order, err
 	}
 	return
 }
-func (Coinbene *Coinbene) Balances() (availables, frozens *sync.Map, err error) {
+func (c *Coinbase) Balances() (availables, frozens *sync.Map, err error) {
 	availables, frozens = new(sync.Map), new(sync.Map)
 	return
 }
-func (Coinbene *Coinbene) Test() bool {
+func (c *Coinbase) Test() bool {
 	return true
 }
 func unify(local string) string {
 	global := strings.ToUpper(local)
 	return global
 }
-func (Coinbene *Coinbene) GetAttr() (a q.Attr) {
+func (c *Coinbase) GetAttr() (a q.Attr) {
 	a.MultiOrder = false
 	return a
 }
 
-func (Coinbene *Coinbene) FeeMap() (map[string]q.TradeFee, error) {
+func (c *Coinbase) TradeFee() (map[string]q.TradeFee, error) {
 	return nil, nil
 }
-func (Coinbene *Coinbene) WithdrawFee() (sf []q.NetworkWithdraw, err error) {
-
+func (c *Coinbase) WithdrawFee() (sf []q.NetworkWithdraw, err error) {
 	return
 }
-func (Coinbene *Coinbene) OneTicker(d q.D) (ticker q.Bbo, err error) {
+func (c *Coinbase) OneTicker(d q.D) (ticker q.Bbo, err error) {
 	return
 }
-func (Coinbene *Coinbene) AllTicker(SymPair map[string]q.D) (mdt *sync.Map, err error) {
-	url := "Coinbene.baseurl" + "wait_market_tickers"
+func (c *Coinbase) AllTicker(SymPair map[string]q.D) (mdt *sync.Map, err error) {
+	url := "Coinbase.baseurl" + "wait_market_tickers"
 	respMap, err := HttpGet(nil, url)
 	if err != nil {
 		return
