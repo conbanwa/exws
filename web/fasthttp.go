@@ -2,7 +2,6 @@ package web
 
 import (
 	"fmt"
-	"github.com/conbanwa/logs"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
@@ -90,16 +89,21 @@ func HttpRequest(client *http.Client, reqType, reqUrl, postData string, requestH
 	for k, v := range requestHeaders {
 		req.Header.Add(k, v)
 	}
-	logs.I(req.Header)
+	log.Info().Any("Header", req.Header).Send()
 	resp, err := client.Do(req)
 	if err != nil {
-		logs.E(*req, resp)
+		log.Error().Any("req", *req).Any("response data", resp).Send()
 		return
 	}
-	defer resp.Body.Close()
+	defer func(body io.ReadCloser) {
+		err = body.Close()
+		if err != nil {
+			return
+		}
+	}(resp.Body)
 	body, err = io.ReadAll(resp.Body)
 	if err != nil {
-		logs.E(resp.Body)
+		log.Error().Any("response data", resp.Body).Send()
 		return
 	}
 	if resp.StatusCode != http.StatusOK {

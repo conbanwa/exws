@@ -25,7 +25,7 @@ func (bn *Binance) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	if bn.ExchangeInfo == nil {
 		var err error
 		bn.ExchangeInfo, err = bn.GetExchangeInfo()
-		zelo.PanicOnErr(err).Send()
+		zelo.PanicOnErr(err).Msg("GetExchangeInfo Failed")
 	}
 	var sm = map[string]q.D{}
 	var ps = map[q.D]q.P{}
@@ -200,7 +200,7 @@ func (bn *Binance) AllTicker(SymPair map[string]q.D) (*sync.Map, error) {
 		}
 		pair, ok := SymPair[v.Symbol]
 		if !ok {
-			log.Debug().Msg(v.Symbol + "not exit")
+			log.Debug().Str("Symbol", v.Symbol).Msg("not found in SymPair")
 			continue
 		}
 		var ticker = q.Bbo{
