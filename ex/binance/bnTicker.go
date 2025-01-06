@@ -200,7 +200,7 @@ func (bn *Binance) AllTicker(SymPair map[string]q.D) (*sync.Map, error) {
 		}
 		pair, ok := SymPair[v.Symbol]
 		if !ok {
-			log.Debug().Msg(v.Symbol + "not exit")
+			log.Debug().Str("Symbol", v.Symbol).Msg("not found in SymPair")
 			continue
 		}
 		var ticker = q.Bbo{

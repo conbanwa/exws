@@ -103,6 +103,9 @@ func (d D) Reverse() D {
 func (d D) Clip(s string) string {
 	return d.Base + s + d.Quote
 }
+func (d D) String() string {
+	return d.Clip(" ")
+}
 func (d D) Contains(currency string) bool {
 	return strings.Contains(d.Quote, currency) || strings.Contains(d.Base, currency)
 }
