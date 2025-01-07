@@ -39,12 +39,12 @@ func (ok *OKX) PairArray() (sm map[string]q.D, ps map[q.D]q.P, err error) {
 			Lever        string  `json:"lever"`
 			ListTime     float64 `json:"listTime,string"`
 			LotSz        float64 `json:"lotSz,string"`
-			MaxIcebergSz float64 `json:"maxIcebergSz,string"`
+			MaxIcebergSz string  `json:"maxIcebergSz"`
 			MaxLmtSz     float64 `json:"maxLmtSz,string"`
 			MaxMktSz     float64 `json:"maxMktSz,string"`
 			MaxStopSz    float64 `json:"maxStopSz,string"`
-			MaxTriggerSz float64 `json:"maxTriggerSz,string"`
-			MaxTwapSz    float64 `json:"maxTwapSz,string"`
+			MaxTriggerSz string  `json:"maxTriggerSz"`
+			MaxTwapSz    string  `json:"maxTwapSz"`
 			MinSz        float64 `json:"minSz,string"`
 			OptType      string  `json:"optType"`
 			QuoteCcy     string  `json:"quoteCcy"`
