@@ -25,7 +25,7 @@ func (bn *Binance) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	if bn.ExchangeInfo == nil {
 		var err error
 		bn.ExchangeInfo, err = bn.GetExchangeInfo()
-		zelo.PanicOnErr(err).Send()
+		zelo.PanicOnErr(err).Msg("GetExchangeInfo Failed")
 	}
 	var sm = map[string]q.D{}
 	var ps = map[q.D]q.P{}
