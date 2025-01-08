@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	API_BASE_URL = "https://www.coinbig.com"
+	API_BASE_URL = "https://www.coinbig.io"
 )
 
 type CoinBig struct {

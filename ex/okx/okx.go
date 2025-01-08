@@ -19,6 +19,7 @@ import (
 const (
 	v5RestBaseUrl         = "https://www.okx.com"
 	v5WsBaseUrl           = "wss://ws.okx.com:8443/ws/v5"
+	testnetWsBaseUrl      = "wss://wspap.okx.com:8443/ws/v5"
 	CONTENT_TYPE          = "Content-Type"
 	ACCEPT                = "Accept"
 	APPLICATION_JSON_UTF8 = "application/json; charset=UTF-8"

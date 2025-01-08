@@ -28,7 +28,7 @@ func TestNewWsConn(t *testing.T) {
 		return ping3
 	}
 	//logs.D(ping)
-	ws := NewWsBuilder().Dump().WsUrl("wss://api.fcoin.com/v2/ws").
+	ws := NewWsBuilder().Dump().WsUrl("wss://ws.okx.com:8443/ws/v5/public").
 		AutoReconnect().
 		Heartbeat(heartbeatFunc, 5*time.Second).ProtoHandleFunc(ProtoHandle).Build()
 	t.Log(ws.Subscribe(map[string]string{
