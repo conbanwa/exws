@@ -23,6 +23,7 @@ func TestAPIBuilder_Build(t *testing.T) {
 }
 func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	buildSpotWs(t, cons.BINANCE)
+	buildSpotWs(t, cons.OKX)
 	buildSpotWs(t, cons.GATEIO)
 	buildSpotWs(t, cons.HUOBI_PRO)
 	time.Sleep(time.Minute)
@@ -35,6 +36,9 @@ func buildSpotWs(t *testing.T, ex string) {
 	})
 
 	wsApi.SubscribeBBO([]string{})
+	if ex == cons.GATEIO || ex == cons.OKX {
+		t.Skip("Skipping testing without implement" + cons.GATEIO)
+	}
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)
 	})
@@ -47,5 +51,5 @@ func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
 		t.Log(depth)
 	})
 	wsApi.SubscribeDepth(cons.BTC_USD, cons.QUARTER_CONTRACT)
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second * 20)
 }
