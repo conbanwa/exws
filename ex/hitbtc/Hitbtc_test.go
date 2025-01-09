@@ -67,12 +67,14 @@ func TestTrades(t *testing.T) {
 	t.Log(res)
 }
 func TestPlaceOrder(t *testing.T) {
+	skipKey(t)
 	res, err := htb.LimitBuy("15", "0.000008", cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestCancelOrder(t *testing.T) {
+	skipKey(t)
 	res, err := htb.CancelOrder("a605f2abbcc750da9138687bb27a2835", cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)

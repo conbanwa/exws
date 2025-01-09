@@ -11,14 +11,14 @@ import (
 func TestNewHbdmWs(t *testing.T) {
 	ws := NewHbdmWs()
 	ws.SetCallbacks(func(ticker *wstrader.FutureTicker) {
-		log.Println(ticker.Ticker)
+		t.Log(ticker.Ticker)
 	}, func(depth *wstrader.Depth) {
-		log.Println(">>>>>>>>>>>>>>>")
-		log.Println(depth.ContractType, depth.Pair)
-		log.Println(depth.BidList)
-		log.Println(depth.AskList)
+		t.Log(">>>>>>>>>>>>>>>")
+		t.Log(depth.ContractType, depth.Pair)
+		t.Log(depth.BidList)
+		t.Log(depth.AskList)
 	}, func(trade *q.Trade, s string) {
-		log.Println(s, trade)
+		t.Log(s, trade)
 	})
 	t.Log(ws.SubscribeTicker(cons.BTC_USD, cons.QUARTER_CONTRACT))
 	t.Log(ws.SubscribeDepth(cons.BTC_USD, cons.NEXT_WEEK_CONTRACT))
