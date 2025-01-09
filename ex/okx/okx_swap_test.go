@@ -3,6 +3,7 @@ package okx
 import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
 )
@@ -22,10 +23,7 @@ func TestOKExV5Swap_GetFutureDepth(t *testing.T) {
 		HttpClient: http.DefaultClient,
 	})
 	dep, err := swap.GetFutureDepth(cons.BTC_USDT, cons.SWAP_CONTRACT, 2)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	t.Log(dep.AskList)
 	t.Log(dep.BidList)
 }
@@ -34,10 +32,7 @@ func TestOKExV5Swap_GetKlineRecords(t *testing.T) {
 		HttpClient: http.DefaultClient,
 	})
 	klines, err := swap.GetKlineRecords(cons.SWAP_CONTRACT, cons.BTC_USDT, cons.KLINE_PERIOD_1H, 2)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	for _, k := range klines {
 		t.Logf("%+v", k.Kline)
 	}

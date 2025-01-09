@@ -5,6 +5,7 @@ import (
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/ex/binance"
 	"github.com/conbanwa/wstrader/q"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -25,10 +26,7 @@ func TestFetchFutureDepthAndIndex(t *testing.T) {
 	skipKey(t)
 	binanceApi := api.Endpoint(binance.TestnetSpotWsBaseUrl).BuildFuture(cons.BINANCE_SWAP)
 	depth, err := binanceApi.GetFutureDepth(cons.BTC_USD, cons.SWAP_USDT_CONTRACT, 100)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	askTotalAmount, bidTotalAmount := 0.0, 0.0
 	askTotalVol, bidTotalVol := 0.0, 0.0
 	for _, v := range depth.AskList {
@@ -40,10 +38,7 @@ func TestFetchFutureDepthAndIndex(t *testing.T) {
 		bidTotalVol += v.Price * v.Amount
 	}
 	markPrice, err := binanceApi.GetFutureIndex(cons.BTC_USD)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	t.Logf("CURRENT mark price: %f", markPrice)
 	t.Logf("ContractType: %s ContractId: %s Pair: %s UTime: %s AmountTickSize: %d\n", depth.ContractType, depth.ContractId, depth.Pair, depth.UTime.String(), depth.Pair.AmountTickSize)
 	t.Logf("askTotalAmount: %f, bidTotalAmount: %f, askTotalVol: %f, bidTotalVol: %f", askTotalAmount, bidTotalAmount, askTotalVol, bidTotalVol)
@@ -53,10 +48,7 @@ func TestFetchFutureDepthAndIndex(t *testing.T) {
 func TestSubscribeSpotMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdBaseUrl).BuildSpotWs(cons.BINANCE)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	binanceWs.TickerCallback(func(ticker *wstrader.Ticker) {
 		t.Logf("%+v\n", *ticker)
 	})
@@ -75,10 +67,7 @@ func TestSubscribeSpotMarketData(t *testing.T) {
 func TestSubscribeFutureMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdWsBaseUrl).BuildFuturesWs(cons.BINANCE_FUTURES)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	assert.Nil(t, err)
 	binanceWs.TickerCallback(func(ticker *wstrader.FutureTicker) {
 		//t.Logf("%+v\n", *ticker.Ticker)
 	})
