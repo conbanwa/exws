@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/conbanwa/num"
+	"github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader"
 	. "github.com/conbanwa/wstrader/cons"
 	. "github.com/conbanwa/wstrader/q"
@@ -22,7 +23,7 @@ type Coinbase struct {
 }
 
 func New(client *http.Client, accesskey, secretkey string) *Coinbase {
-	return &Coinbase{client, "https://api.coinbase.com", accesskey, secretkey}
+	return &Coinbase{client, "https://api.exchange.coinbase.com", accesskey, secretkey}
 }
 func (c *Coinbase) LimitBuy(amount, price string, currency CurrencyPair, opt ...LimitOrderOptionalParameter) (*Order, error) {
 	panic("not implement")
@@ -130,14 +131,14 @@ func (c *Coinbase) GetKlineRecords(currency CurrencyPair, period KlinePeriod, si
 		errCode.OriginErrMsg = err.Error()
 		return nil, errCode
 	}
-	var klines []Kline
+	var klines []wstrader.Kline
 	for i := 0; i < len(resp); i++ {
 		k, is := resp[i].([]any)
 		if !is {
 			logs.E("data format err data =", resp[i])
 			continue
 		}
-		klines = append(klines, Kline{
+		klines = append(klines, wstrader.Kline{
 			Pair:      currency,
 			Timestamp: num.ToInt[int64](k[0]),
 			Low:       num.ToFloat64(k[1]),

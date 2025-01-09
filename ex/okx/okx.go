@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	v5RestBaseUrl         = "https://www.okx.com"
+	baseUrl               = "https://www.okx.com"
 	v5WsBaseUrl           = "wss://ws.okx.com:8443/ws/v5"
 	testnetWsBaseUrl      = "wss://wspap.okx.com:8443/ws/v5"
 	CONTENT_TYPE          = "Content-Type"
@@ -38,7 +38,7 @@ type OKX struct {
 
 func NewOKExV5(config *APIConfig) *OKX {
 	if config.Endpoint == "" {
-		config.Endpoint = v5RestBaseUrl
+		config.Endpoint = baseUrl
 	}
 	okx := &OKX{config: config}
 	return okx

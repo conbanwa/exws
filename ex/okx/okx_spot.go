@@ -18,7 +18,7 @@ type V5Spot struct {
 
 func NewOKExV5Spot(config *APIConfig) *V5Spot {
 	if config.Endpoint == "" {
-		config.Endpoint = v5RestBaseUrl
+		config.Endpoint = baseUrl
 	}
 	okx := &V5Spot{OKX: NewOKExV5(config)}
 	return okx

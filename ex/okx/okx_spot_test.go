@@ -2,26 +2,40 @@ package okx
 
 import (
 	"github.com/conbanwa/wstrader"
+	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/conbanwa/logs"
 )
 
+const (
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
+)
+
+func skipKey(t *testing.T) {
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
+	}
+}
+
 func newOKExV5SpotClient() *V5Spot {
 	return NewOKExV5Spot(&wstrader.APIConfig{
-		//HttpClient: &http.Client{
-		//	Transport: &http.Transport{
-		//		Proxy: func(req *http.Request) (*url.URL, error) {
-		//			return &url.URL{
-		//				Scheme: "socks5",
-		//				Host:   "192.168.1.29:2222"}, nil
-		//		},
-		//	},
-		//},
-		Endpoint:      "https://www.okx.com",
-		ApiKey:        "",
-		ApiSecretKey:  "",
+		HttpClient: &http.Client{
+			Transport: &http.Transport{
+				Proxy: func(req *http.Request) (*url.URL, error) {
+					return &url.URL{
+						Scheme: "socks5",
+						Host:   config.Proxy}, nil
+				},
+			},
+		},
+		Endpoint:      baseUrl,
+		ApiKey:        TestnetApiKey,
+		ApiSecretKey:  TestnetApiKeySecret,
 		ApiPassphrase: "",
 	})
 }

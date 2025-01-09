@@ -30,7 +30,7 @@ func NewHbdmSwapWs() *HbdmSwapWs {
 	ws := &HbdmSwapWs{WsBuilder: NewWsBuilder()}
 	ws.WsBuilder = ws.WsBuilder.
 		WsUrl("wss://api.hbdm.com/swap-ws").
-		//ProxyUrl("socks5://"+config.PROXY).
+		//ProxyUrl("socks5://"+config.Proxy).
 		AutoReconnect().
 		DecompressFunc(GzipDecompress).
 		ProtoHandleFunc(ws.handle)
@@ -42,7 +42,7 @@ func NewHbdmLinearSwapWs() *HbdmSwapWs {
 	ws := &HbdmSwapWs{WsBuilder: NewWsBuilder()}
 	ws.WsBuilder = ws.WsBuilder.
 		WsUrl("wss://api.hbdm.com/linear-swap-ws").
-		//ProxyUrl("socks5://"+config.PROXY).
+		//ProxyUrl("socks5://"+config.Proxy).
 		AutoReconnect().
 		DecompressFunc(GzipDecompress).
 		ProtoHandleFunc(ws.handle)
