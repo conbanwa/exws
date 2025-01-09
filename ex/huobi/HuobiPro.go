@@ -113,7 +113,7 @@ func NewHuoBiProSpot(client *http.Client, apikey, secretkey string) *HuoBiPro {
 	accinfo, err := hb.GetAccountInfo(HB_SPOT_ACCOUNT)
 	if err != nil {
 		hb.accountId = ""
-		panic(err)
+		logs.E(err)
 	} else {
 		hb.accountId = accinfo.Id
 		logs.I("account state :", accinfo.State)

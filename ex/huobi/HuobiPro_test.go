@@ -4,13 +4,11 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"testing"
 	"time"
-
-	"github.com/conbanwa/logs"
-	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -31,7 +29,6 @@ var httpProxyClient = &http.Client{
 var hbpro *HuoBiPro
 
 func init() {
-	logs.Log.Level = logs.L_DEBUG
 	hbpro = NewHuoBiProSpot(httpProxyClient, TestnetApiKey, TestnetSecretkey)
 }
 func skipKey(t *testing.T) {
@@ -51,7 +48,7 @@ func TestHuobiPro_GetDepth(t *testing.T) {
 	t.Log(dep.BidList)
 }
 func TestHuobiPro_GetAccountInfo(t *testing.T) {
-	return
+	skipKey(t)
 	info, err := hbpro.GetAccountInfo("point")
 	assert.Nil(t, err)
 	t.Log(info)
@@ -59,7 +56,7 @@ func TestHuobiPro_GetAccountInfo(t *testing.T) {
 
 // 获取点卡剩余
 func TestHuoBiPro_GetPoint(t *testing.T) {
-	return
+	skipKey(t)
 	point := NewHuoBiProPoint(httpProxyClient, TestnetApiKey, TestnetSecretkey)
 	acc, _ := point.GetAccount()
 	t.Log(acc.SubAccounts[HBPOINT])
@@ -67,43 +64,43 @@ func TestHuoBiPro_GetPoint(t *testing.T) {
 
 // 获取现货资产信息
 func TestHuobiPro_GetAccount(t *testing.T) {
-	return
+	skipKey(t)
 	acc, err := hbpro.GetAccount()
 	assert.Nil(t, err)
 	t.Log(acc.SubAccounts)
 }
 func TestHuobiPro_LimitBuy(t *testing.T) {
-	return
+	skipKey(t)
 	ord, err := hbpro.LimitBuy("", "0.09122", cons.BCC_BTC)
 	assert.Nil(t, err)
 	t.Log(ord)
 }
 func TestHuobiPro_LimitSell(t *testing.T) {
-	return
+	skipKey(t)
 	ord, err := hbpro.LimitSell("1", "0.212", cons.BCC_BTC)
 	assert.Nil(t, err)
 	t.Log(ord)
 }
 func TestHuobiPro_MarketSell(t *testing.T) {
-	return
+	skipKey(t)
 	ord, err := hbpro.MarketSell("0.1738", "0.212", cons.BCC_BTC)
 	assert.Nil(t, err)
 	t.Log(ord)
 }
 func TestHuobiPro_MarketBuy(t *testing.T) {
-	return
+	skipKey(t)
 	ord, err := hbpro.MarketBuy("0.02", "", cons.BCC_BTC)
 	assert.Nil(t, err)
 	t.Log(ord)
 }
 func TestHuobiPro_GetUnfinishOrders(t *testing.T) {
-	return
+	skipKey(t)
 	ords, err := hbpro.GetUnfinishedOrders(cons.ETC_USDT)
 	assert.Nil(t, err)
 	t.Log(ords)
 }
 func TestHuobiPro_CancelOrder(t *testing.T) {
-	return
+	skipKey(t)
 	r, err := hbpro.CancelOrder("600329873", cons.ETH_USDT)
 	assert.Nil(t, err)
 	t.Log(r)

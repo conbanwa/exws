@@ -17,12 +17,11 @@ func TestNewHbdmWs(t *testing.T) {
 		log.Println(depth.ContractType, depth.Pair)
 		log.Println(depth.BidList)
 		log.Println(depth.AskList)
-		log.Println("<<<<<<<<<<<<<<")
 	}, func(trade *q.Trade, s string) {
 		log.Println(s, trade)
 	})
 	t.Log(ws.SubscribeTicker(cons.BTC_USD, cons.QUARTER_CONTRACT))
 	t.Log(ws.SubscribeDepth(cons.BTC_USD, cons.NEXT_WEEK_CONTRACT))
 	t.Log(ws.SubscribeTrade(cons.LTC_USD, cons.THIS_WEEK_CONTRACT))
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second)
 }
