@@ -3,6 +3,7 @@ package build
 import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/wstrader/q"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -22,13 +23,18 @@ func TestAPIBuilder_Build(t *testing.T) {
 }
 func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	buildSpotWs(t, cons.BINANCE)
-	buildSpotWs(t, cons.OKEX)
+	buildSpotWs(t, cons.GATEIO)
 	buildSpotWs(t, cons.HUOBI_PRO)
 	time.Sleep(time.Minute)
 }
 func buildSpotWs(t *testing.T, ex string) {
 	wsApi, err := builder.BuildSpotWs(ex)
 	assert.Nil(t, err)
+	wsApi.BBOCallback(func(bbo *q.Bbo) {
+		t.Log(bbo)
+	})
+
+	wsApi.SubscribeBBO([]string{})
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)
 	})
