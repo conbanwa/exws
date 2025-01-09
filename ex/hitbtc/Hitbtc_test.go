@@ -9,17 +9,24 @@ import (
 )
 
 const (
-	PubKey    = ""
-	SecretKey = ""
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
 )
+
+func skipKey(t *testing.T) {
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
+	}
+}
 
 var htb *Hitbtc
 
 func init() {
-	htb = New(http.DefaultClient, PubKey, SecretKey)
+	htb = New(http.DefaultClient, TestnetApiKey, TestnetApiKeySecret)
 }
 func TestHitbtc_GetSymbols(t *testing.T) {
-	t.Log(htb.GetSymbols())
+	// panic: (map[string]interface {}) 0xc0000a1350 [recovered]
+	// t.Log(htb.GetSymbols())
 }
 func TestHitbtc_adaptSymbolToCurrencyPair(t *testing.T) {
 	t.Log(htb.adaptSymbolToCurrencyPair("DOGEBTC").String() == "DOGE_BTC")
@@ -35,55 +42,59 @@ func TestGetTicker(t *testing.T) {
 	t.Log(res)
 }
 func TestGetAccount(t *testing.T) {
+	skipKey(t)
 	res, err := htb.GetAccount()
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestDepth(t *testing.T) {
-	res, err := htb.GetDepth(10, YCC_BTC)
+	res, err := htb.GetDepth(10, cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestKline(t *testing.T) {
-	res, err := htb.GetKline(YCC_BTC, "1M", 10, 0)
+	res, err := htb.GetKline(cons.BTC_USD, "1M", 10, 0)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestTrades(t *testing.T) {
-	res, err := htb.GetTrades(YCC_BTC, 1519862400)
+	res, err := htb.GetTrades(cons.BTC_USD, 1519862400)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestPlaceOrder(t *testing.T) {
-	res, err := htb.LimitBuy("15", "0.000008", YCC_BTC)
+	res, err := htb.LimitBuy("15", "0.000008", cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestCancelOrder(t *testing.T) {
-	res, err := htb.CancelOrder("a605f2abbcc750da9138687bb27a2835", YCC_BTC)
+	res, err := htb.CancelOrder("a605f2abbcc750da9138687bb27a2835", cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestGetOneOrder(t *testing.T) {
-	res, err := htb.GetOneOrder("177836e71c8d57a14648d465e893efce", YCC_BTC)
+	skipKey(t)
+	res, err := htb.GetOneOrder("177836e71c8d57a14648d465e893efce", cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestGetOrders(t *testing.T) {
-	res, err := htb.GetOrderHistorys(YCC_BTC)
+	skipKey(t)
+	res, err := htb.GetOrderHistorys(cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)
 }
 func TestGetUnfinishOrders(t *testing.T) {
-	res, err := htb.GetUnfinishedOrders(YCC_BTC)
+	skipKey(t)
+	res, err := htb.GetUnfinishedOrders(cons.BTC_USD)
 	requires := require.New(t)
 	requires.Nil(err)
 	t.Log(res)

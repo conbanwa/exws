@@ -32,12 +32,6 @@ const (
 	KLINE_URI     = "public/candles"
 )
 
-var (
-	YCC = cons.Currency{Symbol: "YCC", Desc: "Yuan Chain New"}
-	// BTC     = wstrader.Currency{"BTC", "Bitcoin"}
-	YCC_BTC = cons.CurrencyPair{CurrencyA: YCC, CurrencyB: cons.BTC}
-)
-
 type Hitbtc struct {
 	accessKey,
 	secretKey string
@@ -402,7 +396,9 @@ func (hitbtc *Hitbtc) GetKline(currencyPair cons.CurrencyPair, period string, si
 		params.Set("limit", fmt.Sprintf("%v", size))
 	}
 	var resp []map[string]any
-	err := hitbtc.doRequest("GET", KLINE_URI+"/"+currencyPair.ToSymbol("")+"?"+params.Encode(), &resp)
+	query := KLINE_URI+"/"+currencyPair.ToSymbol("")+"?"+params.Encode()
+	// api.hitbtc.com/api/2/public/candles/BTCUSD?limit=10&period=1M
+	err := hitbtc.doRequest("GET", query, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -412,8 +408,8 @@ func (hitbtc *Hitbtc) GetKline(currencyPair cons.CurrencyPair, period string, si
 			Timestamp: parseTime(e["timestamp"].(string)),
 			Open:      num.ToFloat64(e["open"]),
 			Close:     num.ToFloat64(e["close"]),
-			High:      num.ToFloat64(e["high"]),
-			Low:       num.ToFloat64(e["low"]),
+			High:      num.ToFloat64(e["max"]),// <nil> is not a number 
+			Low:       num.ToFloat64(e["min"]),
 			Vol:       num.ToFloat64(e["volume"]), // base currency, eg: ETH for pair ETHBTC
 		}
 		klines = append(klines, one)

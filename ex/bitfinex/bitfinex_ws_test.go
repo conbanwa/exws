@@ -11,6 +11,9 @@ import (
 
 func TestNewBitfinexWs(t *testing.T) {
 	bitfinexWs := NewWs()
+	handleBbo := func(ticker *q.Bbo) {
+		log.Printf("Ticker: %+v: ", ticker)
+	}
 	handleTicker := func(ticker *wstrader.Ticker) {
 		log.Printf("Ticker: %+v: ", ticker)
 	}
@@ -20,7 +23,7 @@ func TestNewBitfinexWs(t *testing.T) {
 	handleCandle := func(candle *wstrader.Kline) {
 		log.Printf("Candle: %+v: ", candle)
 	}
-	bitfinexWs.SetCallbacks(handleTicker, handleTrade, handleCandle)
+	bitfinexWs.SetCallbacks(handleBbo, handleTicker, handleTrade, handleCandle)
 	//Ticker
 	t.Log(bitfinexWs.SubscribeTicker(cons.BTC_USD))
 	t.Log(bitfinexWs.SubscribeTicker(cons.LTC_USD))

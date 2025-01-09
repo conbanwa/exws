@@ -55,7 +55,8 @@ func NewWs() *BitfinexWs {
 		ProtoHandleFunc(bws.handle)
 	return bws
 }
-func (bws *BitfinexWs) SetCallbacks(tickerCallback func(*Ticker), tradeCallback func(*Trade), candleCallback func(*Kline)) {
+func (bws *BitfinexWs) SetCallbacks(bboCallback func(*Bbo), tickerCallback func(*Ticker), tradeCallback func(*Trade), candleCallback func(*Kline)) {
+	bws.bboCallback = bboCallback
 	bws.tickerCallback = tickerCallback
 	bws.tradeCallback = tradeCallback
 	bws.candleCallback = candleCallback
@@ -160,6 +161,7 @@ func (bws *BitfinexWs) handle(msg []byte) error {
 		case ticker:
 			if raw, ok := resp[1].([]any); ok {
 				t := bws.bboFromRaw(event.Symbol, raw)
+				logs.I(bws.bboCallback, &t)
 				bws.bboCallback(t)
 				// pair := symbolToCurrencyPair(event.Pair)
 				// t := bws.tickerFromRaw(pair, raw)

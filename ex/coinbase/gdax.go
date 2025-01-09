@@ -76,7 +76,7 @@ func (c *Coinbase) Get24HStats(pair CurrencyPair) (*Ticker, error) {
 	return &Ticker{
 		High: num.ToFloat64(resp["high"]),
 		Low:  num.ToFloat64(resp["low"]),
-		Vol:  num.ToFloat64(resp["volmue"]),
+		Vol:  num.ToFloat64(resp["volume"]),
 		Last: num.ToFloat64(resp["last"]),
 	}, nil
 }
