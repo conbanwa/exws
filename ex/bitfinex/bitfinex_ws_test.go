@@ -31,5 +31,5 @@ func TestNewBitfinexWs(t *testing.T) {
 	t.Log(bitfinexWs.SubscribeTrade(cons.BTC_USD))
 	//Candles
 	t.Log(bitfinexWs.SubscribeCandle(cons.BTC_USD, cons.KLINE_PERIOD_1MIN))
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second * 10)
 }
