@@ -7,17 +7,17 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 
-var kc = New(TestKey, TestSecret, "")
+var kc = New(apiKey, apiSecretkey, "")
 
 func TestKuCoinerrGetTicker(t *testing.T) {
 	ticker, err := kc.GetTicker(cons.BTC_USDT)

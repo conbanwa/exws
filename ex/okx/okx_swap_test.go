@@ -11,8 +11,8 @@ import (
 func TestOKExV5Swap_GetFutureTicker(t *testing.T) {
 	swap := NewOKExV5Swap(&wstrader.APIConfig{
 		HttpClient:    http.DefaultClient,
-		ApiKey:        TestKey,
-		ApiSecretKey:  TestSecret,
+		ApiKey:        apiKey,
+		ApiSecretKey:  apiSecretkey,
 		ApiPassphrase: "",
 		Lever:         0,
 	})

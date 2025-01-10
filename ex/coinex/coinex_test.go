@@ -9,17 +9,17 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 
-var coinex = New(http.DefaultClient, TestKey, TestSecret)
+var coinex = New(http.DefaultClient, apiKey, apiSecretkey)
 
 func TestCoinEx_GetTicker(t *testing.T) {
 	ticker, err := coinex.GetTicker(cons.LTC_BTC)

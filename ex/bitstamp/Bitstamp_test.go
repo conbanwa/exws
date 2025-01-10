@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
 var client = http.Client{
@@ -21,11 +21,11 @@ var client = http.Client{
 	},
 }
 
-var btmp = NewBitstamp(&client, TestKey, TestSecret, "")
+var btmp = NewBitstamp(&client, apiKey, apiSecretkey, "")
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 

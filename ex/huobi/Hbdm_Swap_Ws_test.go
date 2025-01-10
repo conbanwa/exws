@@ -23,5 +23,5 @@ func TestNewHbdmSwapWs(t *testing.T) {
 	assert.Nil(t, ws.SubscribeDepth(cons.BTC_USD, cons.SWAP_CONTRACT))
 	assert.Nil(t, ws.SubscribeTicker(cons.BTC_USD, cons.SWAP_CONTRACT))
 	assert.Nil(t, ws.SubscribeTrade(cons.BTC_USD, cons.SWAP_CONTRACT))
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 10)
 }

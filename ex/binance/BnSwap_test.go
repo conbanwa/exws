@@ -12,13 +12,13 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 
@@ -32,8 +32,8 @@ var bs = NewBinanceSwap(&wstrader.APIConfig{
 		},
 		Timeout: 10 * time.Second,
 	},
-	ApiKey:       TestKey,
-	ApiSecretKey: TestSecret,
+	ApiKey:       apiKey,
+	ApiSecretKey: apiSecretkey,
 })
 
 func TestBinanceSwap_Ping(t *testing.T) {

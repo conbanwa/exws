@@ -15,8 +15,8 @@ func init() {
 	swap = NewHbdmSwap(&wstrader.APIConfig{
 		HttpClient:   http.DefaultClient,
 		Endpoint:     "https://api.btcgateway.pro",
-		ApiKey:       TestKey,
-		ApiSecretKey: TestSecret,
+		ApiKey:       apiKey,
+		ApiSecretKey: apiSecretkey,
 		Lever:        5,
 	})
 }

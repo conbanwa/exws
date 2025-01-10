@@ -9,16 +9,16 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = ""
+	apiKey    = ""
+	apiSecretkey = ""
 )
 
-var k = New(http.DefaultClient, TestKey, TestSecret)
+var k = New(http.DefaultClient, apiKey, apiSecretkey)
 var BCH_XBT = cons.NewCurrencyPair(cons.BCH, cons.XBT)
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 func TestKraken_GetDepth(t *testing.T) {

@@ -10,15 +10,15 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
-var api = DefaultAPIBuilder.APIKey(TestKey).APISecretkey(TestSecret)
+var api = DefaultAPIBuilder.APIKey(apiKey).APISecretkey(apiSecretkey)
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 

@@ -11,15 +11,15 @@ import (
 )
 
 const (
-	TestKey    = ""
-	TestSecret = "YOUR_KEY_SECRET"
+	apiKey    = ""
+	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
 var c = newOKExV5SpotClient()
 
 func skipKey(t *testing.T) {
-	if TestKey == "" {
-		t.Skip("Skipping testing without TestKey")
+	if apiKey == "" {
+		t.Skip("Skipping testing without apiKey")
 	}
 }
 
@@ -35,8 +35,8 @@ func newOKExV5SpotClient() *V5Spot {
 			},
 		},
 		Endpoint:      baseUrl,
-		ApiKey:        TestKey,
-		ApiSecretKey:  TestSecret,
+		ApiKey:        apiKey,
+		ApiSecretKey:  apiSecretkey,
 		ApiPassphrase: "",
 	})
 }

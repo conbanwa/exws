@@ -22,8 +22,8 @@ func newOKExV5Client() *OKX {
 			},
 		},
 		Endpoint:      baseUrl,
-		ApiKey:        TestKey,
-		ApiSecretKey:  TestSecret,
+		ApiKey:        apiKey,
+		ApiSecretKey:  apiSecretkey,
 		ApiPassphrase: "",
 	})
 }
