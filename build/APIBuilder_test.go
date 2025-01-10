@@ -26,7 +26,7 @@ func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	// buildSpotWs(t, cons.OKEX)
 	buildSpotWs(t, cons.GATEIO)
 	buildSpotWs(t, cons.HUOBI_PRO)
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second * 30)
 }
 func buildSpotWs(t *testing.T, ex string) {
 	wsApi, err := builder.BuildSpotWs(ex)
@@ -45,7 +45,7 @@ func buildSpotWs(t *testing.T, ex string) {
 	wsApi.SubscribeDepth(cons.BTC_USDT)
 }
 func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
-	wsApi, err := builder.BuildFuturesWs(cons.BINANCE)
+	wsApi, err := builder.BuildFuturesWs(cons.HBDM)
 	assert.Nil(t, err)
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)

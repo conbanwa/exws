@@ -123,6 +123,7 @@ func TestHuobiPro_GetCurrenciesList(t *testing.T) {
 	hbpro.GetCurrenciesList()
 }
 func TestHuobiPro_GetCurrenciesPrecision(t *testing.T) {
-	//return
-	t.Log(hbpro.GetCurrenciesPrecision())
+	res, err := hbpro.GetCurrenciesPrecision()
+	assert.Nil(t, err)
+	t.Log("total: ", len(res), res[0], res[1], res[2])
 }

@@ -19,6 +19,7 @@ import (
 const (
 	baseUrl               = "https://www.okx.com"
 	v5WsBaseUrl           = "wss://ws.okx.com:8443/ws/v5"
+	wsPublicUrl           = v5WsBaseUrl + "/public"
 	testnetWsBaseUrl      = "wss://wspap.okx.com:8443/ws/v5"
 	CONTENT_TYPE          = "Content-Type"
 	ACCEPT                = "Accept"

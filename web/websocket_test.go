@@ -36,5 +36,5 @@ func TestNewWsConn(t *testing.T) {
 		"cmd": "sub", "args": "ticker.btcusdt", "id": clientId}))
 	time.Sleep(time.Second * 20)
 	ws.c.Close()
-	time.Sleep(time.Second * 30)
+	time.Sleep(time.Second * 10)
 }
