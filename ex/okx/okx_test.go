@@ -43,5 +43,5 @@ func TestOKExV5_GetKlineRecordsV5(t *testing.T) {
 	o := newOKExV5Client()
 	res, err := o.GetKlineRecordsV5("BTC-USD-SWAP", cons.KLINE_PERIOD_5MIN, &url.Values{})
 	assert.Nil(t, err)
-	t.Log(res)
+	t.Log("total: ", len(res), res[0], res[1], res[2])
 }

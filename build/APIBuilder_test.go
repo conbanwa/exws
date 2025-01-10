@@ -51,5 +51,5 @@ func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
 		t.Log(depth)
 	})
 	wsApi.SubscribeDepth(cons.BTC_USD, cons.QUARTER_CONTRACT)
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 5)
 }

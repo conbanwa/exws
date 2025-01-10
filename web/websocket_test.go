@@ -34,7 +34,7 @@ func TestNewWsConn(t *testing.T) {
 		Heartbeat(heartbeatFunc, 5*time.Second).ProtoHandleFunc(ProtoHandle).Build()
 	assert.Nil(t, ws.Subscribe(map[string]string{
 		"cmd": "sub", "args": "ticker.btcusdt", "id": clientId}))
-	time.Sleep(time.Second * 20)
-	ws.c.Close()
 	time.Sleep(time.Second * 10)
+	ws.c.Close()
+	time.Sleep(time.Second * 5)
 }
