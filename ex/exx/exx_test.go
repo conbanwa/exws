@@ -2,6 +2,7 @@ package exx
 
 import (
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"testing"
@@ -32,12 +33,13 @@ func TestExx_GetAccount(t *testing.T) {
 	t.Log(acc.SubAccounts[cons.BTC])
 }
 func TestExx_GetTicker(t *testing.T) {
-	skipKey(t)
 	ticker, err := exx.GetTicker(cons.BTC_USD)
+	assert.Nil(t, err)
 	t.Log(ticker, err)
 }
 func TestExx_GetDepth(t *testing.T) {
-	dep, _ := exx.GetDepth(2, cons.BTC_USDT)
+	dep, err := exx.GetDepth(2, cons.BTC_USDT)
+	assert.Nil(t, err)
 	t.Log(dep)
 	t.Log(dep.AskList[0])
 	t.Log(dep.BidList[0])
