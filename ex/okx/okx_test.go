@@ -1,7 +1,6 @@
 package okx
 
 import (
-	"fmt"
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"

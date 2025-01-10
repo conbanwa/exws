@@ -23,7 +23,7 @@ func TestAPIBuilder_Build(t *testing.T) {
 }
 func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	buildSpotWs(t, cons.BINANCE)
-	buildSpotWs(t, cons.OKX)
+	buildSpotWs(t, cons.OKEX)
 	buildSpotWs(t, cons.GATEIO)
 	buildSpotWs(t, cons.HUOBI_PRO)
 	time.Sleep(time.Minute)
@@ -36,7 +36,7 @@ func buildSpotWs(t *testing.T, ex string) {
 	})
 
 	wsApi.SubscribeBBO([]string{})
-	if ex == cons.GATEIO || ex == cons.OKX {
+	if ex == cons.GATEIO || ex == cons.OKEX {
 		t.Skip("Skipping testing without implement" + cons.GATEIO)
 	}
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
