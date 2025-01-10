@@ -24,6 +24,6 @@ func TestNewSpotWs(t *testing.T) {
 	spotWs.SubscribeTicker(cons.NewCurrencyPair2("EOS_ETH"))
 	spotWs.SubscribeTicker(cons.NewCurrencyPair2("LTC_HT"))
 	spotWs.SubscribeTicker(cons.NewCurrencyPair2("BTT_TRX"))
-	//spotWs.SubscribeDepth(module.BTC_USDT)
+	//spotWs.SubscribeDepth(cons.BTC_USDT)
 	time.Sleep(time.Second * 20)
 }

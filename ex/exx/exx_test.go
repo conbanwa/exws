@@ -20,8 +20,8 @@ func skipKey(t *testing.T) {
 }
 func TestExx_Signed(t *testing.T) {
 	params := url.Values{}
-	exx.accessKey = ""
-	exx.secretKey = "yourSecretKey"
+	exx.accessKey = apiKey
+	exx.secretKey = apiSecretkey
 	exx.buildPostForm(&params)
 	t.Log(params)
 }
@@ -29,7 +29,7 @@ func TestExx_GetAccount(t *testing.T) {
 	skipKey(t)
 	acc, err := exx.GetAccount()
 	t.Log(acc, err)
-	t.Log(acc.SubAccounts[module.BTC])
+	t.Log(acc.SubAccounts[cons.BTC])
 }
 func TestExx_GetTicker(t *testing.T) {
 	skipKey(t)

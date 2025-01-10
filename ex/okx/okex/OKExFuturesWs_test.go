@@ -33,8 +33,8 @@ func TestNewOKExV3FuturesWs(t *testing.T) {
 	ok.OKExV3FuturesWs.TradeCallback(func(trade *q.Trade, s string) {
 		t.Log(s, trade)
 	})
-	//ok.OKExV3FuturesWs.SubscribeTicker(module.EOS_USD, module.QUARTER_CONTRACT)
+	//ok.OKExV3FuturesWs.SubscribeTicker(cons.EOS_USD, cons.QUARTER_CONTRACT)
 	ok.OKExV3FuturesWs.SubscribeDepth(cons.EOS_USD, cons.QUARTER_CONTRACT)
-	//ok.OKExV3FuturesWs.SubscribeTrade(module.EOS_USD, module.QUARTER_CONTRACT)
+	//ok.OKExV3FuturesWs.SubscribeTrade(cons.EOS_USD, cons.QUARTER_CONTRACT)
 	time.Sleep(time.Second * 20)
 }
