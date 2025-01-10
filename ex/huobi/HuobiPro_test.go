@@ -107,6 +107,7 @@ func TestHuobiPro_CancelOrder(t *testing.T) {
 	t.Log(err)
 }
 func TestHuobiPro_GetOneOrder(t *testing.T) {
+	skipKey(t)
 	ord, err := hbpro.GetOneOrder("165062634284339", cons.BTC_USDT)
 	assert.Nil(t, err)
 	t.Log(ord)
