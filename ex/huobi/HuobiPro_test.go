@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	TestnetApiKey    = "YOUR_KEY"
-	TestnetSecretkey = ""
+	TestKey    = "YOUR_KEY"
+	TestSecret = ""
 )
 
 var httpProxyClient = &http.Client{
@@ -29,11 +29,11 @@ var httpProxyClient = &http.Client{
 var hbpro *HuoBiPro
 
 func init() {
-	hbpro = NewHuoBiProSpot(httpProxyClient, TestnetApiKey, TestnetSecretkey)
+	hbpro = NewHuoBiProSpot(httpProxyClient, TestKey, TestSecret)
 }
 func skipKey(t *testing.T) {
-	if TestnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without TestnetApiKey")
+	if TestKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestKey")
 	}
 }
 func TestHuobiPro_GetTicker(t *testing.T) {
@@ -57,7 +57,7 @@ func TestHuobiPro_GetAccountInfo(t *testing.T) {
 // 获取点卡剩余
 func TestHuoBiPro_GetPoint(t *testing.T) {
 	skipKey(t)
-	point := NewHuoBiProPoint(httpProxyClient, TestnetApiKey, TestnetSecretkey)
+	point := NewHuoBiProPoint(httpProxyClient, TestKey, TestSecret)
 	acc, _ := point.GetAccount()
 	t.Log(acc.SubAccounts[HBPOINT])
 }

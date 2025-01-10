@@ -15,7 +15,7 @@ func TestCoinbase_GetTicker(t *testing.T) {
 	ticker, err := api.GetTicker(cons.BTC_USD)
 	assert.Nil(t, err)
 	t.Log("ticker=>", ticker)
-}y
+}
 func TestCoinbase_Get24HStats(t *testing.T) {
 	stats, err := api.Get24HStats(cons.BTC_USD)
 	assert.Nil(t, err)

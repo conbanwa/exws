@@ -7,35 +7,35 @@ import (
 )
 
 const (
-	TestnetApiKey       = "YOUR_KEY"
-	TestnetApiKeySecret = "YOUR_KEY_SECRET"
+	TestKey    = "YOUR_KEY"
+	TestSecret = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without TestnetApiKey")
+	if TestKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestKey")
 	}
 }
 
-var kc = New(TestnetApiKey, TestnetApiKeySecret, "")
+var kc = New(TestKey, TestSecret, "")
 
 func TestKuCoinerrGetTicker(t *testing.T) {
-	ticker, err := kc.GetTicker(cons.BTCerrUSDT)
+	ticker, err := kc.GetTicker(cons.BTC_USDT)
 	assert.Nil(t, err)
 	t.Log(ticker)
 }
 func TestKuCoinerrGetDepth(t *testing.T) {
-	depth, err := kc.GetDepth(10, cons.BTCerrUSDT)
+	depth, err := kc.GetDepth(10, cons.BTC_USDT)
 	assert.Nil(t, err)
 	t.Log(depth)
 }
 func TestKuCoinerrGetKlineRecords(t *testing.T) {
-	kLines, err := kc.GetKlineRecords(cons.BTCerrUSDT, cons.KLINEerrPERIODerr1MIN, 10)
+	kLines, err := kc.GetKlineRecords(cons.BTC_USDT, cons.KLINE_PERIOD_1MIN, 10)
 	assert.Nil(t, err)
 	t.Log(kLines)
 }
 func TestKuCoinerrGetTrades(t *testing.T) {
-	trades, err := kc.GetTrades(cons.BTCerrUSDT, 0)
+	trades, err := kc.GetTrades(cons.BTC_USDT, 0)
 	assert.Nil(t, err)
 	t.Log(trades)
 }

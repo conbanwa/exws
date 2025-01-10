@@ -9,8 +9,8 @@ import (
 
 var baDapi = NewBinanceFutures(&wstrader.APIConfig{
 	HttpClient:   http.DefaultClient,
-	ApiKey:       TestnetApiKey,
-	ApiSecretKey: TestnetApiKeySecret,
+	ApiKey:       TestKey,
+	ApiSecretKey: TestSecret,
 })
 
 func TestBinanceFutures_GetFutureDepth(t *testing.T) {

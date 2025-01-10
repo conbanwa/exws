@@ -9,20 +9,20 @@ import (
 )
 
 const (
-	TestnetApiKey       = "YOUR_KEY"
-	TestnetApiKeySecret = "YOUR_KEY_SECRET"
+	TestKey    = "YOUR_KEY"
+	TestSecret = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestnetApiKey == "YOUR_KEY" {
-		t.Skip("Skipping testing without TestnetApiKey")
+	if TestKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestKey")
 	}
 }
 
 var htb *Hitbtc
 
 func init() {
-	htb = New(http.DefaultClient, TestnetApiKey, TestnetApiKeySecret)
+	htb = New(http.DefaultClient, TestKey, TestSecret)
 }
 func TestHitbtc_GetSymbols(t *testing.T) {
 	// panic: (map[string]interface {}) 0xc0000a1350 [recovered]
