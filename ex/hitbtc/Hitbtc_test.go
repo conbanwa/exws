@@ -64,7 +64,7 @@ func TestTrades(t *testing.T) {
 	res, err := htb.GetTrades(cons.BTC_USD, 1519862400)
 	requires := require.New(t)
 	requires.Nil(err)
-	t.Log(res)
+	t.Log(res[0], res[1], res[2], len(res))
 }
 func TestPlaceOrder(t *testing.T) {
 	skipKey(t)

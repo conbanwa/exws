@@ -36,7 +36,7 @@ func TestHbdm_GetFutureOrder(t *testing.T) {
 	t.Log(dm.GetFutureOrder("6", cons.BTC_USD, cons.QUARTER_CONTRACT))
 }
 func TestHbdm_GetFutureTicker(t *testing.T) {
-	t.Log(dm.GetFutureTicker(cons.EOS_USD, cons.QUARTER_CONTRACT))
+	t.Log(dm.GetFutureTicker(cons.BTC_USD, cons.QUARTER_CONTRACT))
 }
 func TestHbdm_GetFutureDepth(t *testing.T) {
 	dep, err := dm.GetFutureDepth(cons.BTC_USD, cons.QUARTER_CONTRACT, 0)

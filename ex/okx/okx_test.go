@@ -41,7 +41,7 @@ func TestOKExV5_GetDepth(t *testing.T) {
 }
 func TestOKExV5_GetKlineRecordsV5(t *testing.T) {
 	o := newOKExV5Client()
-	res, err := o.GetKlineRecordsV5("BTC-USD-SWAP", cons.KLINE_PERIOD_1H, &url.Values{})
+	res, err := o.GetKlineRecordsV5("BTC-USD-SWAP", cons.KLINE_PERIOD_5MIN, &url.Values{})
 	assert.Nil(t, err)
 	t.Log(res)
 }

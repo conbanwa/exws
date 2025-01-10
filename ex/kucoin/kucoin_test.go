@@ -37,7 +37,7 @@ func TestKuCoinerrGetKlineRecords(t *testing.T) {
 func TestKuCoinerrGetTrades(t *testing.T) {
 	trades, err := kc.GetTrades(cons.BTC_USDT, 0)
 	assert.Nil(t, err)
-	t.Log(trades)
+	t.Log(trades[0], len(trades))
 }
 func TestKuCoinerrGetAccount(t *testing.T) {
 	skipKey(t)

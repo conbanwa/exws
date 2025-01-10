@@ -472,10 +472,10 @@ func (dm *Hbdm) GetFutureTicker(currencyPair CurrencyPair, contractType string) 
 	if err != nil {
 		return nil, err
 	}
-	log.Println(ret)
 	s := ret["status"].(string)
 	if s == "error" {
-		return nil, errors.New(ret["err_msg"].(string))
+		log.Println(ret["err-code"])
+		return nil, errors.New(ret["err-msg"].(string))
 	}
 	tick, ok1 := ret["tick"].(map[string]any)
 	ask, ok2 := tick["ask"].([]any)
