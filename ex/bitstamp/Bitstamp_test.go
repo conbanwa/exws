@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	TestKey    = "YOUR_KEY"
+	TestKey    = ""
 	TestSecret = "YOUR_KEY_SECRET"
 )
 
@@ -24,7 +24,7 @@ var client = http.Client{
 var btmp = NewBitstamp(&client, TestKey, TestSecret, "")
 
 func skipKey(t *testing.T) {
-	if TestKey == "YOUR_KEY" {
+	if TestKey == "" {
 		t.Skip("Skipping testing without TestKey")
 	}
 }

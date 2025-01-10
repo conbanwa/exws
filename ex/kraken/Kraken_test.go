@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	TestKey    = "YOUR_KEY"
+	TestKey    = ""
 	TestSecret = ""
 )
 
@@ -17,7 +17,7 @@ var k = New(http.DefaultClient, TestKey, TestSecret)
 var BCH_XBT = cons.NewCurrencyPair(cons.BCH, cons.XBT)
 
 func skipKey(t *testing.T) {
-	if TestKey == "YOUR_KEY" {
+	if TestKey == "" {
 		t.Skip("Skipping testing without TestKey")
 	}
 }

@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	TestKey    = "YOUR_KEY"
+	TestKey    = ""
 	TestSecret = "YOUR_KEY_SECRET"
 )
 
 var c = newOKExV5SpotClient()
 
 func skipKey(t *testing.T) {
-	if TestKey == "YOUR_KEY" {
+	if TestKey == "" {
 		t.Skip("Skipping testing without TestKey")
 	}
 }
@@ -58,7 +58,7 @@ func TestOKExV5SpotGetKlineRecords(t *testing.T) {
 }
 func TestOKExV5Spot_LimitBuy(t *testing.T) {
 	skipKey(t)
-	res, err := c.LimitBuy("1", "1.0", cons.XRP_USDT))
+	res, err := c.LimitBuy("1", "1.0", cons.XRP_USDT)
 	//{"code":"0","data":[{"clOrdId":"0bf60374efe445BC258eddf46df044c3","ordId":"305267682086109184","sCode":"0","sMsg":"","tag":""}],"msg":""}}
 	assert.Nil(t, err)
 	t.Log(res)

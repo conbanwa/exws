@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	TestKey    = "YOUR_KEY"
+	TestKey    = ""
 	TestSecret = ""
 )
 
@@ -32,7 +32,7 @@ func init() {
 	hbpro = NewHuoBiProSpot(httpProxyClient, TestKey, TestSecret)
 }
 func skipKey(t *testing.T) {
-	if TestKey == "YOUR_KEY" {
+	if TestKey == "" {
 		t.Skip("Skipping testing without TestKey")
 	}
 }

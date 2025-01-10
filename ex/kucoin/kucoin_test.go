@@ -7,12 +7,12 @@ import (
 )
 
 const (
-	TestKey    = "YOUR_KEY"
+	TestKey    = ""
 	TestSecret = "YOUR_KEY_SECRET"
 )
 
 func skipKey(t *testing.T) {
-	if TestKey == "YOUR_KEY" {
+	if TestKey == "" {
 		t.Skip("Skipping testing without TestKey")
 	}
 }
