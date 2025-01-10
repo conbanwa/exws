@@ -11,7 +11,8 @@ var dm = NewHbdm(&wstrader.APIConfig{
 	Endpoint:     "https://api.hbdm.com",
 	HttpClient:   httpProxyClient,
 	ApiKey:       "1aa7ddfb-2fcaf72e-b1rkuf4drg-dd9a2",
-	ApiSecretKey: "9ca51e4d-dcd8e098-18b345c2-8cea0"})
+	ApiSecretKey: "9ca51e4d-dcd8e098-18b345c2-8cea0",
+})
 
 func TestHbdm_GetFutureUserinfo(t *testing.T) {
 	t.Log(dm.GetFutureUserinfo())

@@ -11,8 +11,8 @@ var wallet *Wallet
 func init() {
 	wallet = NewWallet(&wstrader.APIConfig{
 		HttpClient:   httpProxyClient,
-		ApiKey:       "",
-		ApiSecretKey: "",
+		ApiKey:       TestnetApiKey,
+		ApiSecretKey: TestnetApiKeySecret,
 	})
 }
 func TestWallet_Transfer(t *testing.T) {

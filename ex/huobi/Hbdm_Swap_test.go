@@ -3,6 +3,7 @@ package huobi
 import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
 	"time"
@@ -14,17 +15,19 @@ func init() {
 	swap = NewHbdmSwap(&wstrader.APIConfig{
 		HttpClient:   http.DefaultClient,
 		Endpoint:     "https://api.btcgateway.pro",
-		ApiKey:       "",
-		ApiSecretKey: "",
+		ApiKey:       TestnetApiKey,
+		ApiSecretKey: TestnetApiKeySecret,
 		Lever:        5,
 	})
 }
 func TestHbdmSwap_GetFutureTicker(t *testing.T) {
-	t.Log(swap.GetFutureTicker(cons.BTC_USD, cons.SWAP_CONTRACT))
+	res, err := swap.GetFutureTicker(cons.BTC_USD, cons.SWAP_CONTRACT)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestHbdmSwap_GetFutureDepth(t *testing.T) {
 	dep, err := swap.GetFutureDepth(cons.BTC_USD, cons.SWAP_CONTRACT, 5)
-	t.Log(err)
+	assert.Nil(t, err)
 	t.Log(dep.AskList)
 	t.Log(dep.BidList)
 }

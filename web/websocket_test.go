@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/stretchr/testify/assert"
 	"encoding/json"
 	"testing"
 	"time"
@@ -31,7 +32,7 @@ func TestNewWsConn(t *testing.T) {
 	ws := NewWsBuilder().Dump().WsUrl("wss://ws.okx.com:8443/ws/v5/public").
 		AutoReconnect().
 		Heartbeat(heartbeatFunc, 5*time.Second).ProtoHandleFunc(ProtoHandle).Build()
-	t.Log(ws.Subscribe(map[string]string{
+	assert.Nil(t, ws.Subscribe(map[string]string{
 		"cmd": "sub", "args": "ticker.btcusdt", "id": clientId}))
 	time.Sleep(time.Second * 20)
 	ws.c.Close()

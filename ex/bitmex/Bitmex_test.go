@@ -4,13 +4,11 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/config"
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"testing"
 	"time"
-
-	"github.com/conbanwa/logs"
-	"github.com/stretchr/testify/assert"
 )
 
 var httpProxyClient = &http.Client{
@@ -25,7 +23,6 @@ var httpProxyClient = &http.Client{
 }
 
 func init() {
-	logs.Log.Level = logs.L_DEBUG
 	mex = New(&wstrader.APIConfig{
 		Endpoint:   "https://testnet.bitmex.com/",
 		HttpClient: httpProxyClient,
@@ -41,17 +38,17 @@ func TestBitmex_GetFutureDepth(t *testing.T) {
 	t.Log(dep.BidList)
 }
 func TestBitmex_GetFutureTicker(t *testing.T) {
-	// ticker, er := mex.GetFutureTicker(cons.BTC_USD, "")
-	// if assert.Nil(t, er) {
-	// 	t.Logf("buy:%.8f ,sell: %.8f ,Last:%.8f , vol:%.8f", ticker.Buy, ticker.Sell, ticker.Last, ticker.Vol)
-	// }
+	ticker, err := mex.GetFutureTicker(cons.BTC_USD, "")
+	if assert.Nil(t, err) {
+		t.Logf("buy:%.8f ,sell: %.8f ,Last:%.8f , vol:%.8f", ticker.Buy, ticker.Sell, ticker.Last, ticker.Vol)
+	}
 }
 func TestBitmex_GetIndicativeFundingRate(t *testing.T) {
-	//rate, time, err := mex.GetIndicativeFundingRate("XBTUSD")
-	//if assert.Nil(t, err) {
-	//	t.Log(rate)
-	//	t.Log(time.Local())
-	//}
+	rate, time, err := mex.GetIndicativeFundingRate("XBTUSD")
+	if assert.Nil(t, err) {
+		t.Log(rate)
+		t.Log(time.Local())
+	}
 }
 func TestBitmex_GetFutureUserinfo(t *testing.T) {
 	// userinfo, err := mex.GetFutureUserinfo()

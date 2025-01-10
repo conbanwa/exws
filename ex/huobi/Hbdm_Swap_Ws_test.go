@@ -4,6 +4,7 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
@@ -19,8 +20,8 @@ func TestNewHbdmSwapWs(t *testing.T) {
 	ws.TradeCallback(func(trade *q.Trade, contract string) {
 		t.Log(trade, contract)
 	})
-	//t.Log(ws.SubscribeDepth(module.BTC_USD, module.SWAP_CONTRACT))
-	//t.Log(ws.SubscribeTicker(module.BTC_USD, module.SWAP_CONTRACT))
-	t.Log(ws.SubscribeTrade(cons.BTC_USD, cons.SWAP_CONTRACT))
+	assert.Nil(t, ws.SubscribeDepth(module.BTC_USD, module.SWAP_CONTRACT))
+	assert.Nil(t, ws.SubscribeTicker(module.BTC_USD, module.SWAP_CONTRACT))
+	assert.Nil(t, ws.SubscribeTrade(cons.BTC_USD, cons.SWAP_CONTRACT))
 	time.Sleep(time.Second * 20)
 }

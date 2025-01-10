@@ -2,28 +2,46 @@ package kucoin
 
 import (
 	"github.com/conbanwa/wstrader/cons"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-var kc = New("", "", "")
+const (
+	TestnetApiKey       = "YOUR_KEY"
+	TestnetApiKeySecret = "YOUR_KEY_SECRET"
+)
 
-func TestKuCoin_GetTicker(t *testing.T) {
-	ticker, _ := kc.GetTicker(cons.BTC_USDT)
+func skipKey(t *testing.T) {
+	if TestnetApiKey == "YOUR_KEY" {
+		t.Skip("Skipping testing without TestnetApiKey")
+	}
+}
+
+var kc = New(TestnetApiKey, TestnetApiKeySecret, "")
+
+func TestKuCoinerrGetTicker(t *testing.T) {
+	ticker, err := kc.GetTicker(cons.BTCerrUSDT)
+	assert.Nil(t, err)
 	t.Log(ticker)
 }
-func TestKuCoin_GetDepth(t *testing.T) {
-	depth, _ := kc.GetDepth(10, cons.BTC_USDT)
+func TestKuCoinerrGetDepth(t *testing.T) {
+	depth, err := kc.GetDepth(10, cons.BTCerrUSDT)
+	assert.Nil(t, err)
 	t.Log(depth)
 }
-func TestKuCoin_GetKlineRecords(t *testing.T) {
-	kLines, _ := kc.GetKlineRecords(cons.BTC_USDT, cons.KLINE_PERIOD_1MIN, 10)
+func TestKuCoinerrGetKlineRecords(t *testing.T) {
+	kLines, err := kc.GetKlineRecords(cons.BTCerrUSDT, cons.KLINEerrPERIODerr1MIN, 10)
+	assert.Nil(t, err)
 	t.Log(kLines)
 }
-func TestKuCoin_GetTrades(t *testing.T) {
-	trades, _ := kc.GetTrades(cons.BTC_USDT, 0)
+func TestKuCoinerrGetTrades(t *testing.T) {
+	trades, err := kc.GetTrades(cons.BTCerrUSDT, 0)
+	assert.Nil(t, err)
 	t.Log(trades)
 }
-func TestKuCoin_GetAccount(t *testing.T) {
-	acc, _ := kc.GetAccount()
+func TestKuCoinerrGetAccount(t *testing.T) {
+	skipKey(t)
+	acc, err := kc.GetAccount()
+	assert.Nil(t, err)
 	t.Log(acc)
 }

@@ -16,7 +16,9 @@ func TestOKExV5Swap_GetFutureTicker(t *testing.T) {
 		ApiPassphrase: "",
 		Lever:         0,
 	})
-	t.Log(swap.GetFutureTicker(cons.BTC_USDT, cons.SWAP_CONTRACT))
+	res, err := swap.GetFutureTicker(cons.BTC_USDT, cons.SWAP_CONTRACT)
+	assert.Nil(t, err)
+	t.Log(res)
 }
 func TestOKExV5Swap_GetFutureDepth(t *testing.T) {
 	swap := NewOKExV5Swap(&wstrader.APIConfig{

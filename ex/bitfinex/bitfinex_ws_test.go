@@ -4,6 +4,7 @@ import (
 	"github.com/conbanwa/wstrader"
 	"github.com/conbanwa/wstrader/cons"
 	"github.com/conbanwa/wstrader/q"
+	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
 	"time"
@@ -25,11 +26,11 @@ func TestNewBitfinexWs(t *testing.T) {
 	}
 	bitfinexWs.SetCallbacks(handleBbo, handleTicker, handleTrade, handleCandle)
 	//Ticker
-	t.Log(bitfinexWs.SubscribeTicker(cons.BTC_USD))
-	t.Log(bitfinexWs.SubscribeTicker(cons.LTC_USD))
+	assert.Nil(t, bitfinexWs.SubscribeTicker(cons.BTC_USD))
+	assert.Nil(t, bitfinexWs.SubscribeTicker(cons.LTC_USD))
 	//Trades
-	t.Log(bitfinexWs.SubscribeTrade(cons.BTC_USD))
+	assert.Nil(t, bitfinexWs.SubscribeTrade(cons.BTC_USD))
 	//Candles
-	t.Log(bitfinexWs.SubscribeCandle(cons.BTC_USD, cons.KLINE_PERIOD_1MIN))
-	time.Sleep(time.Second * 10)
+	assert.Nil(t, bitfinexWs.SubscribeCandle(cons.BTC_USD, cons.KLINE_PERIOD_1MIN))
+	time.Sleep(time.Second * 20)
 }
