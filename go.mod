@@ -4,6 +4,7 @@ go 1.21.4
 
 require (
 	github.com/Kucoin/kucoin-go-sdk v1.2.14
+	github.com/amir-the-h/okex v1.1.4-alpha
 	github.com/conbanwa/logs v0.4.7
 	github.com/conbanwa/num v0.0.4
 	github.com/conbanwa/slice v0.0.2
