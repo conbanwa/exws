@@ -9,6 +9,7 @@ import (
 	ws_public_requests "github.com/amir-the-h/okex/requests/ws/public"
 	"os"
 	"testing"
+	"time"
 )
 
 func init() {
