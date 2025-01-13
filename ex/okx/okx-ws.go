@@ -139,22 +139,56 @@ func (s *SpotWs) handle(data []byte) error {
 		log.Error().Err(err).Bytes("response data", data).Msg("json unmarshal ws response error")
 		return err
 	}
+	if len(r.Data) == 0 {
+		log.Warn().Err(err).Bytes("response data", data).Msg("len(r.Data) == 0")
+		return nil
+	}
 	if r.Arg.Channel == "bbo-tbt" {
 		return s.bboHandle(r.Data, r.Arg.InstId)
 	}
 	if strings.HasPrefix(r.Arg.Channel, "books") {
 		return s.bboHandle(r.Data, r.Arg.InstId)
 	}
-	// if strings.HasSuffix(r.Stream, "@depth10@100ms") {
+	// if strings.HasPrefix(r.Stream, "books") {
 	// 	return s.depthHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
 	// }
-	// if strings.HasSuffix(r.Stream, "@ticker") {
+	// if strings.HasPrefix(r.Stream, "ticker") {
 	// 	return s.tickerHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
 	// }
-	// if strings.HasSuffix(r.Stream, "@aggTrade") {
+	// if strings.HasPrefix(r.Stream, "trade") {
 	// 	return s.tradeHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
 	// }
 	log.Warn().Bytes("handle", data).Msg("unknown ws response:")
+	return nil
+}
+type bboResp []struct {
+	Asks      [][]string `json:"asks"`
+	Bids      [][]string `json:"bids"`
+	Ts        string     `json:"ts"`
+	Checksum  int        `json:"checksum"`
+	PrevSeqID int        `json:"prevSeqId"`
+	SeqID     int        `json:"seqId"`
+}
+func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
+	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
+		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
+	}
+	var (
+		tickerData bboResp
+		ticker     q.Bbo
+	)
+	err := json.Unmarshal(data, &tickerData)
+	if err != nil {
+		log.Error().Err(err).Int("len", len(data)).Bytes("response data", data).Str("InstId", InstId).Msg("unmarshal bbo error")
+		return err
+	}
+	ticker.Pair = InstId          // symbol
+	ticker.Bid = num.ToFloat64(tickerData[0].Bids[0][0])     // best bid price
+	ticker.BidSize = num.ToFloat64(tickerData[0].Bids[0][1]) // best bid qty
+	ticker.Ask = num.ToFloat64(tickerData[0].Asks[0][0])     // best ask price
+	ticker.AskSize = num.ToFloat64(tickerData[0].Asks[0][1]) // best ask qty
+	// ticker.Updated = time.Now().UnixMilli()         // order book updateId
+	s.bboCallFn(&ticker)
 	return nil
 }
 type depthResp struct {
@@ -210,36 +244,6 @@ func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) erro
 	ticker.Low = num.ToFloat64(tickerData["l"])
 	ticker.Date = num.ToInt[uint64](tickerData["E"])
 	s.tickerCallFn(&ticker)
-	return nil
-}
-type bboResp []struct {
-	Asks      [][]string `json:"asks"`
-	Bids      [][]string `json:"bids"`
-	Ts        string     `json:"ts"`
-	Checksum  int        `json:"checksum"`
-	PrevSeqID int        `json:"prevSeqId"`
-	SeqID     int        `json:"seqId"`
-}
-func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
-	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
-		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
-	}
-	var (
-		tickerData bboResp
-		ticker     q.Bbo
-	)
-	err := json.Unmarshal(data, &tickerData)
-	if err != nil {
-		log.Error().Err(err).Int("len", len(data)).Bytes("response data", data).Str("InstId", InstId).Msg("unmarshal bbo error")
-		return err
-	}
-	ticker.Pair = InstId          // symbol
-	ticker.Bid = num.ToFloat64(tickerData[0].Bids[0][0])     // best bid price
-	ticker.BidSize = num.ToFloat64(tickerData[0].Bids[0][1]) // best bid qty
-	ticker.Ask = num.ToFloat64(tickerData[0].Asks[0][0])     // best ask price
-	ticker.AskSize = num.ToFloat64(tickerData[0].Asks[0][1]) // best ask qty
-	// ticker.Updated = time.Now().UnixMilli()         // order book updateId
-	s.bboCallFn(&ticker)
 	return nil
 }
 func (s *SpotWs) tradeHandle(data json.RawMessage, pair cons.CurrencyPair) error {
