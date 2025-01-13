@@ -242,10 +242,10 @@ func (s *SpotWs) bboHandle(data json.RawMessage) error {
 		return err
 	}
 	// ticker.Pair = tickerData["s"].(string)          // symbol
-	ticker.Bid = num.ToFloat64(tickerData.Bids[0][0])     // best bid price
-	ticker.BidSize = num.ToFloat64(tickerData.Bids[0][1]) // best bid qty
-	ticker.Ask = num.ToFloat64(tickerData.Asks[0][0])     // best ask price
-	ticker.AskSize = num.ToFloat64(tickerData.Asks[0][1]) // best ask qty
+	ticker.Bid = num.ToFloat64(tickerData[0].Bids[0][0])     // best bid price
+	ticker.BidSize = num.ToFloat64(tickerData[0].Bids[0][1]) // best bid qty
+	ticker.Ask = num.ToFloat64(tickerData[0].Asks[0][0])     // best ask price
+	ticker.AskSize = num.ToFloat64(tickerData[0].Asks[0][1]) // best ask qty
 	// ticker.Updated = time.Now().UnixMilli()         // order book updateId
 	s.bboCallFn(&ticker)
 	return nil
