@@ -42,7 +42,7 @@ func toReq(pair ...string) req {
 	for i, v := range pair {
 		args[i] = Arg{
 			Channel:  "tickers",
-			InstType: pair,
+			InstType: v,
 		}
 	}
 	return req{
