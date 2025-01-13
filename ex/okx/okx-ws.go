@@ -40,7 +40,7 @@ type Arg struct {
 func toReq(pair ...string) req {
 	args := make([]Arg, len(pair))
 	for i, v := range pair {
-		args[i] = Arg struct {
+		args[i] = Arg{
 			Channel:  "tickers",
 			InstType: pair,
 		}
