@@ -3,7 +3,7 @@ module github.com/conbanwa/wstrader
 go 1.21.4
 
 require (
-	github.com/Kucoin/kucoin-go-sdk v1.2.18
+	github.com/Kucoin/kucoin-go-sdk v1.2.14
 	github.com/amir-the-h/okex v1.1.4-alpha
 	github.com/conbanwa/logs v0.4.7
 	github.com/conbanwa/num v0.0.4
@@ -23,9 +23,7 @@ require (
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/antihax/optional v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
