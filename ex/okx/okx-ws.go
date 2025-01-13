@@ -27,8 +27,8 @@ const MaxSymbolChannels = 2
 const MaxChannelSymbols = 358
 
 type req struct {
-	Op string `json:"op"`
-	Args   []Arg  `json:"args"`
+	Op   string `json:"op"`
+	Args []Arg  `json:"args"`
 }
 type Arg struct {
 	Channel    string `json:"channel"`
@@ -41,7 +41,7 @@ func toReq(pair ...string) req {
 	args := make([]Arg, len(pair))
 	for i, v := range pair {
 		args[i] = Arg{
-			Channel:  "books",
+			Channel:  "bbo-tbt",
 			InstId: v,
 		}
 	}
@@ -50,10 +50,18 @@ func toReq(pair ...string) req {
 		Args: args,
 	}
 }
-
 type resp struct {
-	Stream string          `json:"stream"`
+	Arg    Arg `json:"arg"`
+	Action string `json:"action"`
 	Data   json.RawMessage `json:"data"`
+}
+type bboResp struct {
+	Asks [][]string `json:"asks"`
+	Bids [][]string `json:"bids"`
+	Ts string `json:"ts"`
+	Checksum int `json:"checksum"`
+	PrevSeqID int `json:"prevSeqId"`
+	SeqID int `json:"seqId"`
 }
 type depthResp struct {
 	LastUpdateId int     `json:"lastUpdateId"`
@@ -214,9 +222,9 @@ func (s *SpotWs) handle(data []byte) error {
 		log.Error().Err(err).Bytes("response data", data).Msg("json unmarshal ws response error")
 		return err
 	}
-	// if strings.HasSuffix(r.Stream, "@bookTicker") {
-	// 	return s.bboHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
-	// }
+	if strings.HasSuffix(r.Data, "@bookTicker") {
+		// return s.bboHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
+	}
 	// if strings.HasSuffix(r.Stream, "@depth10@100ms") {
 	// 	return s.depthHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
 	// }
