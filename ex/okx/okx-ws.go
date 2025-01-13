@@ -145,7 +145,7 @@ func (s *SpotWs) SubscribeDepth(pair cons.CurrencyPair) error {
 	}()
 	s.connect()
 	return s.c.Subscribe(req{
-		Method: "SUBSCRIBE",
+		Method: "subscribe",
 		Params: []string{
 			fmt.Sprintf("%s@depth10@100ms", pair.ToLower().ToSymbol("")),
 		},
@@ -158,7 +158,7 @@ func (s *SpotWs) SubscribeTicker(pair cons.CurrencyPair) error {
 	}()
 	s.connect()
 	return s.c.Subscribe(req{
-		Method: "SUBSCRIBE",
+		Method: "subscribe",
 		Params: []string{pair.ToLower().ToSymbol("") + "@ticker"},
 		Id:     s.reqId,
 	})
@@ -182,7 +182,7 @@ func (s *SpotWs) SubscribeBBO(sm []string) (err error) {
 	for i := 0; i < lp; i++ {
 		s.reqId++
 		err = s.c.Subscribe(req{
-			Method: "SUBSCRIBE",
+			Method: "subscribe",
 			Params: params[i],
 			Id:     s.reqId,
 		})
@@ -200,7 +200,7 @@ func (s *SpotWs) SubscribeTrade(pair cons.CurrencyPair) error {
 	}()
 	s.connect()
 	return s.c.Subscribe(req{
-		Method: "SUBSCRIBE",
+		Method: "subscribe",
 		Params: []string{pair.ToLower().ToSymbol("") + "@aggTrade"},
 		Id:     s.reqId,
 	})

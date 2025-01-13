@@ -79,5 +79,5 @@ func TestWs(t *testing.T) {
 		}
 	}
 	go listener()
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second)
 }

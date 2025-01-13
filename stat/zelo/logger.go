@@ -14,7 +14,7 @@ import (
 var Writer Logger
 
 func init() {
-	Writer = Json(os.Stderr)
+	Writer = Colored(os.Stderr)
 }
 
 func Json(writer io.Writer, domain ...string) Logger {
