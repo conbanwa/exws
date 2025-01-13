@@ -46,7 +46,7 @@ func toReq(pair ...string) req {
 		}
 	}
 	return req{
-		Op:   "tickers",
+		Op:   "subscribe",
 		Args: args,
 	}
 }
@@ -75,7 +75,7 @@ func NewSpotWs() *SpotWs {
 	spotWs := &SpotWs{}
 	spotWs.wsBuilder = web.NewWsBuilder().
 		WsUrl(wsPublicUrl + "").
-		ProxyUrl(config.Proxy).
+		ProxyUrl(config.GetProxy()).
 		ProtoHandleFunc(spotWs.handle).AutoReconnect()
 	return spotWs
 }
