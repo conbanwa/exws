@@ -15,24 +15,20 @@ import (
 	"github.com/conbanwa/wstrader/build"
 	"github.com/conbanwa/wstrader/config"
 )
+
 //创建api
 func NewCryptoMarket() wstrader.API {
 	config.UseProxy = "localhost:7890"
-	
 	api := build.DefaultAPIBuilder.APIKey(apiKey).APISecretkey(Secretkey).ApiPassphrase(phrase).Build("alias")
-
-    return api
+	return api
 }
+
 //使用创建的api
 func main() {
-    api := NewCryptoMarket()
-
+	api := NewCryptoMarket()
 	name := api.String()
-
 	pairs, err := api.PairArray()
-
 	allTicker, err := api.AllTicker()
-
 	fees, err := api.TradeFee()
 }
 ```

@@ -73,11 +73,8 @@ func bothBbo(bbo *sync.Map, d D) (Bbo, Bbo) {
 }
 func (d D) validSlug() bool {
 	isValid := validCurrency(d.Base, 49) && validCurrency(d.Quote, 39) && d.Base != d.Quote
-	if len(d.Quote) < 2 {
-		isValid = isValid && d.Quote == "T"
-	}
-	if len(d.Base) < 2 {
-		isValid = isValid && d.Base == "T"
+	if len(d.Quote) < 2 || len(d.Base) < 2 && d.Quote != "T" && d.Base == "T" {
+		zelo.Str("one letter pair", d).Send()
 	}
 	// if d.Quote == "tether" {
 	// 	return true

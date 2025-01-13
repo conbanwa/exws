@@ -83,6 +83,8 @@ func (builder *APIBuilder) BuildSpotWs(exName string) (wstrader.SpotWsApi, error
 		return huobi.NewSpotWs(), nil
 	case cons.BINANCE:
 		return binance.NewSpotWs(), nil
+	case cons.OKEX:
+		return okx.NewSpotWs(), nil
 	case cons.BITFINEX:
 		return bitfinex.NewWs(), nil
 	case cons.GATEIO:
