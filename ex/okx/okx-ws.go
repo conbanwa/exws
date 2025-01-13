@@ -27,10 +27,30 @@ const MaxSymbolChannels = 2
 const MaxChannelSymbols = 358
 
 type req struct {
-	Method string   `json:"method"`
-	Params []string `json:"params"`
-	Id     int      `json:"id"`
+	Op string `json:"op"`
+	Args   []Arg  `json:"args"`
 }
+type Arg struct {
+	Channel    string `json:"channel"`
+	InstId     string `json:"instId,omitempty"`
+	InstType   string `json:"instType,omitempty"`
+	InstFamily string `json:"instFamily,omitempty"`
+}
+
+func toReq(pair ...string) req {
+	args := make([]Arg, len(pair))
+	for i, v := range pair {
+		args[i] = Arg struct {
+			Channel:  "tickers",
+			InstType: pair,
+		}
+	}
+	return req{
+		Op:   "tickers",
+		Args: args,
+	}
+}
+
 type resp struct {
 	Stream string          `json:"stream"`
 	Data   json.RawMessage `json:"data"`
@@ -144,52 +164,38 @@ func (s *SpotWs) SubscribeDepth(pair cons.CurrencyPair) error {
 		s.reqId++
 	}()
 	s.connect()
-	return s.c.Subscribe(req{
-		Method: "subscribe",
-		Params: []string{
-			fmt.Sprintf("%s@depth10@100ms", pair.ToLower().ToSymbol("")),
-		},
-		Id: s.reqId,
-	})
+	return s.c.Subscribe(toReq("BTC-USDT"))
 }
 func (s *SpotWs) SubscribeTicker(pair cons.CurrencyPair) error {
 	defer func() {
 		s.reqId++
 	}()
 	s.connect()
-	return s.c.Subscribe(req{
-		Method: "subscribe",
-		Params: []string{pair.ToLower().ToSymbol("") + "@ticker"},
-		Id:     s.reqId,
-	})
+	return s.c.Subscribe(toReq("BTC-USDT"))
 }
 func (s *SpotWs) SubscribeBBO(sm []string) (err error) {
 	if len(sm) <= 0 {
 		return fmt.Errorf("nothing to subscribe")
 	}
 	s.connect()
-	n, pn := 0, MaxChannelSymbols
-	params := make([][]string, len(sm)/pn+1)
-	for _, k := range sm {
-		n++
-		params[n/pn] = append(params[n/pn], strings.ToLower(k)+"@bookTicker")
-	}
-	lp := len(params)
-	if lp > MaxSymbolChannels {
-		log.Error().Int("max", MaxSymbolChannels).Int("got", lp).Msg("too many symbol channels to subscribe")
-		lp = MaxSymbolChannels
-	}
-	for i := 0; i < lp; i++ {
+	// n, pn := 0, MaxChannelSymbols
+	// params := make([][]string, len(sm)/pn+1)
+	// for _, k := range sm {
+	// 	n++
+	// 	params[n/pn] = append(params[n/pn], strings.ToLower(k)+"@bookTicker")
+	// }
+	// lp := len(params)
+	// if lp > MaxSymbolChannels {
+	// 	log.Error().Int("max", MaxSymbolChannels).Int("got", lp).Msg("too many symbol channels to subscribe")
+	// 	lp = MaxSymbolChannels
+	// }
+	// for i := 0; i < lp; i++ {
 		s.reqId++
-		err = s.c.Subscribe(req{
-			Method: "subscribe",
-			Params: params[i],
-			Id:     s.reqId,
-		})
+		err = s.c.Subscribe(toReq(sm...))
 		if err != nil {
 			return
 		}
-	}
+	// }
 	return
 }
 
@@ -199,11 +205,7 @@ func (s *SpotWs) SubscribeTrade(pair cons.CurrencyPair) error {
 		s.reqId++
 	}()
 	s.connect()
-	return s.c.Subscribe(req{
-		Method: "subscribe",
-		Params: []string{pair.ToLower().ToSymbol("") + "@aggTrade"},
-		Id:     s.reqId,
-	})
+	return s.c.Subscribe(toReq("BTC-USDT"))
 }
 func (s *SpotWs) handle(data []byte) error {
 	var r resp
