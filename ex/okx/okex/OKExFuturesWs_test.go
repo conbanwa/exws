@@ -36,5 +36,5 @@ func TestNewOKExV3FuturesWs(t *testing.T) {
 	//ok.OKExV3FuturesWs.SubscribeTicker(cons.EOS_USD, cons.QUARTER_CONTRACT)
 	ok.OKExV3FuturesWs.SubscribeDepth(cons.EOS_USD, cons.QUARTER_CONTRACT)
 	//ok.OKExV3FuturesWs.SubscribeTrade(cons.EOS_USD, cons.QUARTER_CONTRACT)
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 10)
 }

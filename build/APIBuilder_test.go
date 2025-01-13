@@ -26,7 +26,7 @@ func TestAPIBuilder_BuildSpotWs(t *testing.T) {
 	buildSpotWs(t, cons.OKEX)
 	// buildSpotWs(t, cons.GATEIO)
 	buildSpotWs(t, cons.HUOBI_PRO)
-	time.Sleep(time.Second * 30)
+	time.Sleep(time.Second * 10)
 }
 func buildSpotWs(t *testing.T, ex string) {
 	wsApi, err := builder.BuildSpotWs(ex)

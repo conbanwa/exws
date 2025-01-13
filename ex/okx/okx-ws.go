@@ -140,11 +140,10 @@ func (s *SpotWs) handle(data []byte) error {
 		return err
 	}
 	if r.Arg.Channel == "bbo-tbt" {
-		log.Warn().Bytes("handle", r.Data).Msg("unknown ws response:")
-		return s.bboHandle(r.Data)
+		return s.bboHandle(r.Data, r.Arg.InstId)
 	}
 	if strings.HasPrefix(r.Arg.Channel, "books") {
-		return s.bboHandle(r.Data)
+		return s.bboHandle(r.Data, r.Arg.InstId)
 	}
 	// if strings.HasSuffix(r.Stream, "@depth10@100ms") {
 	// 	return s.depthHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
@@ -221,7 +220,7 @@ type bboResp []struct {
 	PrevSeqID int        `json:"prevSeqId"`
 	SeqID     int        `json:"seqId"`
 }
-func (s *SpotWs) bboHandle(data json.RawMessage) error {
+func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
 	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
 		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
 	}
@@ -234,7 +233,7 @@ func (s *SpotWs) bboHandle(data json.RawMessage) error {
 		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal ticker response data error")
 		return err
 	}
-	// ticker.Pair = tickerData["s"].(string)          // symbol
+	ticker.Pair = InstId          // symbol
 	ticker.Bid = num.ToFloat64(tickerData[0].Bids[0][0])     // best bid price
 	ticker.BidSize = num.ToFloat64(tickerData[0].Bids[0][1]) // best bid qty
 	ticker.Ask = num.ToFloat64(tickerData[0].Asks[0][0])     // best ask price

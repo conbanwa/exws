@@ -32,5 +32,5 @@ func TestNewBitfinexWs(t *testing.T) {
 	assert.Nil(t, bitfinexWs.SubscribeTrade(cons.BTC_USD))
 	//Candles
 	assert.Nil(t, bitfinexWs.SubscribeCandle(cons.BTC_USD, cons.KLINE_PERIOD_1MIN))
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 10)
 }
