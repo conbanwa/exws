@@ -230,7 +230,7 @@ func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
 	)
 	err := json.Unmarshal(data, &tickerData)
 	if err != nil {
-		log.Error().Err(err).Bytes("response data", data).Msg("unmarshal ticker response data error")
+		log.Error().Err(err).Int("len", len(data)).Bytes("response data", data).Str("InstId", InstId).Msg("unmarshal bbo error")
 		return err
 	}
 	ticker.Pair = InstId          // symbol
