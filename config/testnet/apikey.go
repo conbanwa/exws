@@ -1,6 +1,6 @@
 package testnet
 
-import "github.com/conbanwa/wstrader/cons"
+import "github.com/conbanwa/exws/cons"
 
 var (
 	huobi   = [4]string{}

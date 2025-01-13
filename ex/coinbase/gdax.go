@@ -3,12 +3,12 @@ package coinbase
 import (
 	"errors"
 	"fmt"
+	"github.com/conbanwa/exws"
+	. "github.com/conbanwa/exws"
+	. "github.com/conbanwa/exws/cons"
+	. "github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader"
-	. "github.com/conbanwa/wstrader"
-	. "github.com/conbanwa/wstrader/cons"
-	. "github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/web"
 	"net/http"
 	"sort"
 
@@ -131,14 +131,14 @@ func (c *Coinbase) GetKlineRecords(currency CurrencyPair, period KlinePeriod, si
 		errCode.OriginErrMsg = err.Error()
 		return nil, errCode
 	}
-	var klines []wstrader.Kline
+	var klines []exws.Kline
 	for i := 0; i < len(resp); i++ {
 		k, is := resp[i].([]any)
 		if !is {
 			logs.E("data format err data =", resp[i])
 			continue
 		}
-		klines = append(klines, wstrader.Kline{
+		klines = append(klines, exws.Kline{
 			Pair:      currency,
 			Timestamp: num.ToInt[int64](k[0]),
 			Low:       num.ToFloat64(k[1]),

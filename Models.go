@@ -1,9 +1,9 @@
-package wstrader
+package exws
 
 import (
 	"fmt"
+	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/cons"
 	"net/http"
 	"time"
 )

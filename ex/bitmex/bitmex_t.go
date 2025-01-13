@@ -2,10 +2,10 @@ package bitmex
 
 import (
 	"errors"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/stat/zelo"
-	. "github.com/conbanwa/wstrader/web"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/stat/zelo"
+	. "github.com/conbanwa/exws/web"
 	"strings"
 	"sync"
 )

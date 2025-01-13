@@ -1,7 +1,7 @@
-package wstrader
+package exws
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 )
 
 type WalletApi interface {

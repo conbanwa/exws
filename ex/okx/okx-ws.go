@@ -3,13 +3,13 @@ package okx
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
 	"github.com/conbanwa/slice"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/web"
 	"sort"
 	"strings"
 	"sync"
@@ -34,8 +34,8 @@ func toReq(pair ...string) req {
 	args := make([]Arg, len(pair))
 	for i, v := range pair {
 		args[i] = Arg{
-			Channel:  "bbo-tbt",
-			InstId: v,
+			Channel: "bbo-tbt",
+			InstId:  v,
 		}
 	}
 	return req{
@@ -43,9 +43,10 @@ func toReq(pair ...string) req {
 		Args: args,
 	}
 }
+
 type resp struct {
-	Arg    Arg `json:"arg"`
-	Action string `json:"action"`
+	Arg    Arg             `json:"arg"`
+	Action string          `json:"action"`
 	Data   json.RawMessage `json:"data"`
 }
 type SpotWs struct {
@@ -53,8 +54,8 @@ type SpotWs struct {
 	once         sync.Once
 	wsBuilder    *web.WsBuilder
 	reqId        int
-	depthCallFn  func(depth *wstrader.Depth)
-	tickerCallFn func(ticker *wstrader.Ticker)
+	depthCallFn  func(depth *exws.Depth)
+	tickerCallFn func(ticker *exws.Ticker)
 	bboCallFn    func(ticker *q.Bbo)
 	tradeCallFn  func(trade *q.Trade)
 }
@@ -72,10 +73,10 @@ func (s *SpotWs) connect() {
 		s.c = s.wsBuilder.Build()
 	})
 }
-func (s *SpotWs) DepthCallback(f func(depth *wstrader.Depth)) {
+func (s *SpotWs) DepthCallback(f func(depth *exws.Depth)) {
 	s.depthCallFn = f
 }
-func (s *SpotWs) TickerCallback(f func(ticker *wstrader.Ticker)) {
+func (s *SpotWs) TickerCallback(f func(ticker *exws.Ticker)) {
 	s.tickerCallFn = f
 }
 func (s *SpotWs) BBOCallback(f func(ticker *q.Bbo)) {
@@ -115,11 +116,11 @@ func (s *SpotWs) SubscribeBBO(sm []string) (err error) {
 	// 	lp = MaxSymbolChannels
 	// }
 	// for i := 0; i < lp; i++ {
-		s.reqId++
-		err = s.c.Subscribe(toReq(sm...))
-		if err != nil {
-			return
-		}
+	s.reqId++
+	err = s.c.Subscribe(toReq(sm...))
+	if err != nil {
+		return
+	}
 	// }
 	return
 }
@@ -161,6 +162,7 @@ func (s *SpotWs) handle(data []byte) error {
 	log.Warn().Bytes("handle", data).Msg("unknown ws response:")
 	return nil
 }
+
 type bboResp []struct {
 	Asks      [][]string `json:"asks"`
 	Bids      [][]string `json:"bids"`
@@ -169,6 +171,7 @@ type bboResp []struct {
 	PrevSeqID int        `json:"prevSeqId"`
 	SeqID     int        `json:"seqId"`
 }
+
 func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
 	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
 		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
@@ -182,7 +185,7 @@ func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
 		log.Error().Err(err).Int("len", len(data)).Bytes("response data", data).Str("InstId", InstId).Msg("unmarshal bbo error")
 		return err
 	}
-	ticker.Pair = InstId          // symbol
+	ticker.Pair = InstId                                     // symbol
 	ticker.Bid = num.ToFloat64(tickerData[0].Bids[0][0])     // best bid price
 	ticker.BidSize = num.ToFloat64(tickerData[0].Bids[0][1]) // best bid qty
 	ticker.Ask = num.ToFloat64(tickerData[0].Asks[0][0])     // best ask price
@@ -191,15 +194,17 @@ func (s *SpotWs) bboHandle(data json.RawMessage, InstId string) error {
 	s.bboCallFn(&ticker)
 	return nil
 }
+
 type depthResp struct {
 	LastUpdateId int     `json:"lastUpdateId"`
 	Bids         [][]any `json:"bids"`
 	Asks         [][]any `json:"asks"`
 }
+
 func (s *SpotWs) depthHandle(data json.RawMessage, pair cons.CurrencyPair) error {
 	var (
 		depthR depthResp
-		dep    wstrader.Depth
+		dep    exws.Depth
 		err    error
 	)
 	err = json.Unmarshal(data, &depthR)
@@ -210,13 +215,13 @@ func (s *SpotWs) depthHandle(data json.RawMessage, pair cons.CurrencyPair) error
 	dep.UTime = time.Now()
 	dep.Pair = pair
 	for _, bid := range depthR.Bids {
-		dep.BidList = append(dep.BidList, wstrader.DepthRecord{
+		dep.BidList = append(dep.BidList, exws.DepthRecord{
 			Price:  num.ToFloat64(bid[0]),
 			Amount: num.ToFloat64(bid[1]),
 		})
 	}
 	for _, ask := range depthR.Asks {
-		dep.AskList = append(dep.AskList, wstrader.DepthRecord{
+		dep.AskList = append(dep.AskList, exws.DepthRecord{
 			Price:  num.ToFloat64(ask[0]),
 			Amount: num.ToFloat64(ask[1]),
 		})
@@ -228,7 +233,7 @@ func (s *SpotWs) depthHandle(data json.RawMessage, pair cons.CurrencyPair) error
 func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) error {
 	var (
 		tickerData = make(map[string]any, 4)
-		ticker     wstrader.Ticker
+		ticker     exws.Ticker
 	)
 	err := json.Unmarshal(data, &tickerData)
 	if err != nil {

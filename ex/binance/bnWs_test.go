@@ -1,9 +1,9 @@
 package binance
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -13,10 +13,10 @@ var spotWs *SpotWs
 func createSpotWs() {
 	config.SetProxy()
 	spotWs = NewSpotWs()
-	spotWs.DepthCallback(func(depth *wstrader.Depth) {
+	spotWs.DepthCallback(func(depth *exws.Depth) {
 		log.Println(depth)
 	})
-	spotWs.TickerCallback(func(ticker *wstrader.Ticker) {
+	spotWs.TickerCallback(func(ticker *exws.Ticker) {
 		log.Println(ticker)
 	})
 }

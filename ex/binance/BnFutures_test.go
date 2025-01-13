@@ -1,13 +1,13 @@
 package binance
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"net/http"
 	"testing"
 )
 
-var baDapi = NewBinanceFutures(&wstrader.APIConfig{
+var baDapi = NewBinanceFutures(&exws.APIConfig{
 	HttpClient:   http.DefaultClient,
 	ApiKey:       apiKey,
 	ApiSecretKey: apiSecretkey,

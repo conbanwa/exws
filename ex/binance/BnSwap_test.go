@@ -1,9 +1,9 @@
 package binance
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
@@ -22,7 +22,7 @@ func skipKey(t *testing.T) {
 	}
 }
 
-var bs = NewBinanceSwap(&wstrader.APIConfig{
+var bs = NewBinanceSwap(&exws.APIConfig{
 	Endpoint: "https://testnet.binancefuture.com",
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
@@ -51,7 +51,7 @@ func TestBinanceSwap_GetFutureIndex(t *testing.T) {
 }
 func TestBinanceSwap_GetKlineRecords(t *testing.T) {
 	skipKey(t)
-	kline, err := bs.GetKlineRecords("", cons.BTC_USDT, cons.KLINE_PERIOD_4H, 1, wstrader.OptionalParameter{"test": 0})
+	kline, err := bs.GetKlineRecords("", cons.BTC_USDT, cons.KLINE_PERIOD_4H, 1, exws.OptionalParameter{"test": 0})
 	t.Log(err, kline[0].Kline)
 }
 func TestBinanceSwap_GetTrades(t *testing.T) {

@@ -2,7 +2,7 @@ package bitmex
 
 import (
 	"fmt"
-	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/exws/cons"
 	"strings"
 )
 

@@ -1,9 +1,9 @@
 package huobi
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -11,9 +11,9 @@ import (
 
 func TestNewHbdmWs(t *testing.T) {
 	ws := NewHbdmWs()
-	ws.SetCallbacks(func(ticker *wstrader.FutureTicker) {
+	ws.SetCallbacks(func(ticker *exws.FutureTicker) {
 		t.Log(ticker.Ticker)
-	}, func(depth *wstrader.Depth) {
+	}, func(depth *exws.Depth) {
 		t.Log(">>>>>>>>>>>>>>>")
 		t.Log(depth.ContractType, depth.Pair)
 		t.Log(depth.BidList)

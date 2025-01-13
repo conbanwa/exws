@@ -1,7 +1,7 @@
 package bitstamp
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 	"log"
 	"net/http"
 	"testing"
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 

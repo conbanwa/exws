@@ -1,13 +1,13 @@
 package kucoin
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 

@@ -4,26 +4,26 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/ex/bigone"
-	"github.com/conbanwa/wstrader/ex/binance"
-	"github.com/conbanwa/wstrader/ex/bitfinex"
-	"github.com/conbanwa/wstrader/ex/bithumb"
-	"github.com/conbanwa/wstrader/ex/bitmex"
-	"github.com/conbanwa/wstrader/ex/bitstamp"
-	"github.com/conbanwa/wstrader/ex/coinbase"
-	"github.com/conbanwa/wstrader/ex/coinex"
-	"github.com/conbanwa/wstrader/ex/gateio"
-	"github.com/conbanwa/wstrader/ex/hitbtc"
-	"github.com/conbanwa/wstrader/ex/huobi"
-	"github.com/conbanwa/wstrader/ex/kraken"
-	"github.com/conbanwa/wstrader/ex/kucoin"
-	"github.com/conbanwa/wstrader/ex/okx"
-	"github.com/conbanwa/wstrader/ex/okx/okex"
-	"github.com/conbanwa/wstrader/ex/poloniex"
-	"github.com/conbanwa/wstrader/stat/zelo"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/ex/bigone"
+	"github.com/conbanwa/exws/ex/binance"
+	"github.com/conbanwa/exws/ex/bitfinex"
+	"github.com/conbanwa/exws/ex/bithumb"
+	"github.com/conbanwa/exws/ex/bitmex"
+	"github.com/conbanwa/exws/ex/bitstamp"
+	"github.com/conbanwa/exws/ex/coinbase"
+	"github.com/conbanwa/exws/ex/coinex"
+	"github.com/conbanwa/exws/ex/gateio"
+	"github.com/conbanwa/exws/ex/hitbtc"
+	"github.com/conbanwa/exws/ex/huobi"
+	"github.com/conbanwa/exws/ex/kraken"
+	"github.com/conbanwa/exws/ex/kucoin"
+	"github.com/conbanwa/exws/ex/okx"
+	"github.com/conbanwa/exws/ex/okx/okex"
+	"github.com/conbanwa/exws/ex/poloniex"
+	"github.com/conbanwa/exws/stat/zelo"
 	"net"
 	"net/http"
 	"net/url"
@@ -77,7 +77,7 @@ func NewCustomAPIBuilder(client *http.Client) (builder *APIBuilder) {
 	return &APIBuilder{client: client}
 }
 
-func (builder *APIBuilder) BuildSpotWs(exName string) (wstrader.SpotWsApi, error) {
+func (builder *APIBuilder) BuildSpotWs(exName string) (exws.SpotWsApi, error) {
 	switch exName {
 	case cons.HUOBI_PRO, cons.HUOBI:
 		return huobi.NewSpotWs(), nil
@@ -154,8 +154,8 @@ func (builder *APIBuilder) FuturesLever(lever float64) (_builder *APIBuilder) {
 	builder.futuresLever = lever
 	return builder
 }
-func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
-	var _api wstrader.API
+func (builder *APIBuilder) Build(exName string) (api exws.API) {
+	var _api exws.API
 	switch exName {
 	case cons.KUCOIN:
 		_api = kucoin.New(builder.apiKey, builder.secretKey, builder.apiPassphrase)
@@ -169,13 +169,13 @@ func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
 		_api = bitstamp.NewBitstamp(builder.client, builder.apiKey, builder.secretKey, builder.clientId)
 	case cons.HUOBI_PRO:
 		//_api = huobi.NewHuoBiProSpot(builder.client, builder.apiKey, builder.secretKey)
-		_api = huobi.NewHuobiWithConfig(&wstrader.APIConfig{
+		_api = huobi.NewHuobiWithConfig(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.endPoint,
 			ApiKey:       builder.apiKey,
 			ApiSecretKey: builder.secretKey})
 	case cons.OKEX:
-		_api = okx.NewOKExV5Spot(&wstrader.APIConfig{
+		_api = okx.NewOKExV5Spot(&exws.APIConfig{
 			HttpClient:    builder.client,
 			ApiKey:        builder.apiKey,
 			ApiSecretKey:  builder.secretKey,
@@ -188,7 +188,7 @@ func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
 		_api = kraken.New(builder.client, builder.apiKey, builder.secretKey)
 	case cons.BINANCE:
 		//_api = binance.New(builder.client, builder.apiKey, builder.secretKey)
-		_api = binance.NewWithConfig(&wstrader.APIConfig{
+		_api = binance.NewWithConfig(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.endPoint,
 			ApiKey:       builder.apiKey,
@@ -208,17 +208,17 @@ func (builder *APIBuilder) Build(exName string) (api wstrader.API) {
 	}
 	return _api
 }
-func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAPI) {
+func (builder *APIBuilder) BuildFuture(exName string) (api exws.FutureRestAPI) {
 	switch exName {
 	case cons.BITMEX:
-		return bitmex.New(&wstrader.APIConfig{
+		return bitmex.New(&exws.APIConfig{
 			//Endpoint:     "https://www.bitmex.com/",
 			Endpoint:     builder.futuresEndPoint,
 			HttpClient:   builder.client,
 			ApiKey:       builder.apiKey,
 			ApiSecretKey: builder.secretKey})
 	case cons.BITMEX_TEST:
-		return bitmex.New(&wstrader.APIConfig{
+		return bitmex.New(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     "https://testnet.bitmex.com",
 			ApiKey:       builder.apiKey,
@@ -226,7 +226,7 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 		})
 	case cons.OKEX_FUTURE:
 		//return okcoin.NewOKEx(builder.client, builder.apiKey, builder.secretKey)
-		return okex.NewOKEx(&wstrader.APIConfig{
+		return okex.NewOKEx(&exws.APIConfig{
 			HttpClient: builder.client,
 			//	Endpoint:      "https://www.okx.com",
 			Endpoint:      builder.futuresEndPoint,
@@ -235,14 +235,14 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 			ApiPassphrase: builder.apiPassphrase,
 			Lever:         builder.futuresLever}).OKExFuture
 	case cons.HBDM:
-		return huobi.NewHbdm(&wstrader.APIConfig{
+		return huobi.NewHbdm(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.futuresEndPoint,
 			ApiKey:       builder.apiKey,
 			ApiSecretKey: builder.secretKey,
 			Lever:        builder.futuresLever})
 	case cons.HBDM_SWAP:
-		return huobi.NewHbdmSwap(&wstrader.APIConfig{
+		return huobi.NewHbdmSwap(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.endPoint,
 			ApiKey:       builder.apiKey,
@@ -250,7 +250,7 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 			Lever:        builder.futuresLever,
 		})
 	case cons.OKEX_SWAP:
-		return okex.NewOKEx(&wstrader.APIConfig{
+		return okex.NewOKEx(&exws.APIConfig{
 			HttpClient:    builder.client,
 			Endpoint:      builder.futuresEndPoint,
 			ApiKey:        builder.apiKey,
@@ -258,7 +258,7 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 			ApiPassphrase: builder.apiPassphrase,
 			Lever:         builder.futuresLever}).OKExSwap
 	case cons.BINANCE_SWAP:
-		return binance.NewBinanceSwap(&wstrader.APIConfig{
+		return binance.NewBinanceSwap(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.futuresEndPoint,
 			ApiKey:       builder.apiKey,
@@ -266,7 +266,7 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 			Lever:        builder.futuresLever,
 		})
 	case cons.BINANCE, cons.BINANCE_FUTURES:
-		return binance.NewBinanceFutures(&wstrader.APIConfig{
+		return binance.NewBinanceFutures(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.futuresEndPoint,
 			ApiKey:       builder.apiKey,
@@ -278,10 +278,10 @@ func (builder *APIBuilder) BuildFuture(exName string) (api wstrader.FutureRestAP
 		return nil
 	}
 }
-func (builder *APIBuilder) BuildFuturesWs(exName string) (wstrader.FuturesWsApi, error) {
+func (builder *APIBuilder) BuildFuturesWs(exName string) (exws.FuturesWsApi, error) {
 	switch exName {
 	case cons.OKEX, cons.OKEX_FUTURE:
-		return okex.NewOKExV3FuturesWs(okex.NewOKEx(&wstrader.APIConfig{
+		return okex.NewOKExV3FuturesWs(okex.NewOKEx(&exws.APIConfig{
 			HttpClient: builder.client,
 			Endpoint:   builder.futuresEndPoint,
 		})), nil
@@ -296,24 +296,24 @@ func (builder *APIBuilder) BuildFuturesWs(exName string) (wstrader.FuturesWsApi,
 	}
 	return nil, errors.New("not support the exchange " + exName)
 }
-func (builder *APIBuilder) BuildWallet(exName string) (wstrader.WalletApi, error) {
+func (builder *APIBuilder) BuildWallet(exName string) (exws.WalletApi, error) {
 	switch exName {
 	case cons.OKEX:
-		return okex.NewOKEx(&wstrader.APIConfig{
+		return okex.NewOKEx(&exws.APIConfig{
 			HttpClient:    builder.client,
 			ApiKey:        builder.apiKey,
 			ApiSecretKey:  builder.secretKey,
 			ApiPassphrase: builder.apiPassphrase,
 		}).OKExWallet, nil
 	case cons.HUOBI_PRO:
-		return huobi.NewWallet(&wstrader.APIConfig{
+		return huobi.NewWallet(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.endPoint,
 			ApiKey:       builder.apiKey,
 			ApiSecretKey: builder.secretKey,
 		}), nil
 	case cons.BINANCE:
-		return binance.NewWallet(&wstrader.APIConfig{
+		return binance.NewWallet(&exws.APIConfig{
 			HttpClient:   builder.client,
 			Endpoint:     builder.endPoint,
 			ApiKey:       builder.apiKey,

@@ -5,8 +5,8 @@ import (
 	"compress/flate"
 	"compress/gzip"
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"github.com/google/uuid"
 	"io/ioutil"
 	"net/url"
@@ -14,7 +14,7 @@ import (
 	"unicode"
 )
 
-func MergeOptionalParameter(values *url.Values, opts ...wstrader.OptionalParameter) url.Values {
+func MergeOptionalParameter(values *url.Values, opts ...exws.OptionalParameter) url.Values {
 	for _, opt := range opts {
 		for k, v := range opt {
 			values.Set(k, fmt.Sprint(v))

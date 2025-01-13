@@ -1,9 +1,9 @@
 package coinbase
 
 import (
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/slice"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
@@ -28,7 +28,7 @@ func TestCoinbase_GetDepth(t *testing.T) {
 	t.Log("asks=>", slice.Slice(dep.AskList, -4))
 }
 func TestCoinbase_GetKlineRecords(t *testing.T) {
-	kline, err := api.GetKlineRecords(cons.BTC_USD, cons.KLINE_PERIOD_1DAY, 0, wstrader.OptionalParameter{"test": 0})
+	kline, err := api.GetKlineRecords(cons.BTC_USD, cons.KLINE_PERIOD_1DAY, 0, exws.OptionalParameter{"test": 0})
 	assert.Nil(t, err)
 	t.Log(slice.Slice(kline, 0, 4))
 }

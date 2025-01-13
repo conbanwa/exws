@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/stat/zelo"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/stat/zelo"
 	"github.com/gorilla/websocket"
 )
 

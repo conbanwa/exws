@@ -2,9 +2,9 @@ package bitfinex
 
 import (
 	"errors"
+	"github.com/conbanwa/exws/q"
+	. "github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader/q"
-	. "github.com/conbanwa/wstrader/web"
 	"strings"
 	"sync"
 

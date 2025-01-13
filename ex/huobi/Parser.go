@@ -2,19 +2,19 @@ package huobi
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"sort"
 	"strings"
 )
 
-func parseDepthFromResponse(r DepthResponse) wstrader.Depth {
-	var dep wstrader.Depth
+func parseDepthFromResponse(r DepthResponse) exws.Depth {
+	var dep exws.Depth
 	for _, bid := range r.Bids {
-		dep.BidList = append(dep.BidList, wstrader.DepthRecord{Price: bid[0], Amount: bid[1]})
+		dep.BidList = append(dep.BidList, exws.DepthRecord{Price: bid[0], Amount: bid[1]})
 	}
 	for _, ask := range r.Asks {
-		dep.AskList = append(dep.AskList, wstrader.DepthRecord{Price: ask[0], Amount: ask[1]})
+		dep.AskList = append(dep.AskList, exws.DepthRecord{Price: ask[0], Amount: ask[1]})
 	}
 	sort.Sort(sort.Reverse(dep.BidList))
 	sort.Sort(sort.Reverse(dep.AskList))

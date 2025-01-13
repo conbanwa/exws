@@ -1,4 +1,4 @@
-module github.com/conbanwa/wstrader
+module github.com/conbanwa/exws
 
 go 1.21.4
 

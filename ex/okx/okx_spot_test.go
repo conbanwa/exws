@@ -1,9 +1,9 @@
 package okx
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
@@ -24,7 +24,7 @@ func skipKey(t *testing.T) {
 }
 
 func newOKExV5SpotClient() *V5Spot {
-	return NewOKExV5Spot(&wstrader.APIConfig{
+	return NewOKExV5Spot(&exws.APIConfig{
 		HttpClient: &http.Client{
 			Transport: &http.Transport{
 				Proxy: func(req *http.Request) (*url.URL, error) {

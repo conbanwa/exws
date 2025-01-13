@@ -2,11 +2,11 @@ package binance
 
 import (
 	"encoding/json"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/web"
 	"net/http"
 	"net/url"
 	"os"
@@ -23,8 +23,8 @@ type FuturesWs struct {
 	wsBuilder    *web.WsBuilder
 	f            *web.WsConn
 	d            *web.WsConn
-	depthCallFn  func(depth *wstrader.Depth)
-	tickerCallFn func(ticker *wstrader.FutureTicker)
+	depthCallFn  func(depth *exws.Depth)
+	tickerCallFn func(ticker *exws.FutureTicker)
 	tradeCalFn   func(trade *q.Trade, contract string)
 }
 
@@ -46,7 +46,7 @@ func NewFuturesWs() *FuturesWs {
 			Timeout: 10 * time.Second,
 		}
 	}
-	futuresWs.base = NewBinanceFutures(&wstrader.APIConfig{
+	futuresWs.base = NewBinanceFutures(&exws.APIConfig{
 		HttpClient: httpCli,
 	})
 	return futuresWs
@@ -61,10 +61,10 @@ func (s *FuturesWs) connectFutures() {
 		s.d = s.wsBuilder.WsUrl(TestnetFutureCoinWsBaseUrl).Build()
 	})
 }
-func (s *FuturesWs) DepthCallback(f func(depth *wstrader.Depth)) {
+func (s *FuturesWs) DepthCallback(f func(depth *exws.Depth)) {
 	s.depthCallFn = f
 }
-func (s *FuturesWs) TickerCallback(f func(ticker *wstrader.FutureTicker)) {
+func (s *FuturesWs) TickerCallback(f func(ticker *exws.FutureTicker)) {
 	s.tickerCallFn = f
 }
 func (s *FuturesWs) TradeCallback(f func(trade *q.Trade, contract string)) {
@@ -158,19 +158,19 @@ func (s *FuturesWs) handle(data []byte) error {
 	log.Info().Bytes("handle", data).Msg("unknown ws response:")
 	return nil
 }
-func (s *FuturesWs) depthHandle(bids []any, asks []any) *wstrader.Depth {
-	var dep wstrader.Depth
+func (s *FuturesWs) depthHandle(bids []any, asks []any) *exws.Depth {
+	var dep exws.Depth
 	for _, item := range bids {
 		bid := item.([]any)
 		dep.BidList = append(dep.BidList,
-			wstrader.DepthRecord{
+			exws.DepthRecord{
 				Price:  num.ToFloat64(bid[0]),
 				Amount: num.ToFloat64(bid[1]),
 			})
 	}
 	for _, item := range asks {
 		ask := item.([]any)
-		dep.AskList = append(dep.AskList, wstrader.DepthRecord{
+		dep.AskList = append(dep.AskList, exws.DepthRecord{
 			Price:  num.ToFloat64(ask[0]),
 			Amount: num.ToFloat64(ask[1]),
 		})
@@ -178,9 +178,9 @@ func (s *FuturesWs) depthHandle(bids []any, asks []any) *wstrader.Depth {
 	sort.Sort(sort.Reverse(dep.AskList))
 	return &dep
 }
-func (s *FuturesWs) tickerHandle(tickers map[string]any) *wstrader.FutureTicker {
-	var ticker wstrader.FutureTicker
-	ticker.Ticker = new(wstrader.Ticker)
+func (s *FuturesWs) tickerHandle(tickers map[string]any) *exws.FutureTicker {
+	var ticker exws.FutureTicker
+	ticker.Ticker = new(exws.Ticker)
 	symbol, ok := tickers["ps"].(string)
 	if ok {
 		ticker.Pair = adaptSymbolToCurrencyPair(symbol)

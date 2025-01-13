@@ -1,10 +1,10 @@
-package wstrader
+package exws
 
 import (
 	"errors"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/stat/zelo"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/stat/zelo"
 	"reflect"
 	"time"
 )

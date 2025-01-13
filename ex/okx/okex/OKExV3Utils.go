@@ -1,7 +1,7 @@
 package okex
 
 import (
-	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/exws/cons"
 	"time"
 	//
 )

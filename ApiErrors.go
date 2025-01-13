@@ -1,4 +1,4 @@
-package wstrader
+package exws
 
 type ApiError struct {
 	ErrCode,

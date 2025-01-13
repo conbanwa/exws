@@ -1,9 +1,9 @@
 package bitmex
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"testing"
 	"time"
 )
@@ -11,10 +11,10 @@ import (
 func TestNewSwapWs(t *testing.T) {
 	config.SetProxy()
 	ws := NewSwapWs()
-	ws.DepthCallback(func(depth *wstrader.Depth) {
+	ws.DepthCallback(func(depth *exws.Depth) {
 		t.Log(depth)
 	})
-	ws.TickerCallback(func(ticker *wstrader.FutureTicker) {
+	ws.TickerCallback(func(ticker *exws.FutureTicker) {
 		t.Logf("%s %v", ticker.ContractType, ticker.Ticker)
 	})
 	//ws.SubscribeDepth(cons.NewCurrencyPair2("LTC_USD"), cons.SWAP_CONTRACT)

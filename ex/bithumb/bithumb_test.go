@@ -1,7 +1,7 @@
 package bithumb
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"

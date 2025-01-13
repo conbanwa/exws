@@ -1,9 +1,9 @@
 package build
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -34,7 +34,7 @@ func buildSpotWs(t *testing.T, ex string) {
 	wsApi.BBOCallback(func(bbo *q.Bbo) {
 		t.Log(ex, bbo)
 	})
-	wsApi.DepthCallback(func(depth *wstrader.Depth) {
+	wsApi.DepthCallback(func(depth *exws.Depth) {
 		t.Log(ex, depth)
 	})
 
@@ -44,7 +44,7 @@ func buildSpotWs(t *testing.T, ex string) {
 func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
 	wsApi, err := builder.BuildFuturesWs(cons.HBDM)
 	assert.Nil(t, err)
-	wsApi.DepthCallback(func(depth *wstrader.Depth) {
+	wsApi.DepthCallback(func(depth *exws.Depth) {
 		t.Log(depth)
 	})
 	wsApi.SubscribeDepth(cons.BTC_USD, cons.QUARTER_CONTRACT)

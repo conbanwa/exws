@@ -2,14 +2,14 @@ package coinex
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 

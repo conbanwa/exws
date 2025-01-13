@@ -2,12 +2,12 @@ package okx
 
 import (
 	"fmt"
+	. "github.com/conbanwa/exws"
+	. "github.com/conbanwa/exws/cons"
+	. "github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/util"
 	"github.com/conbanwa/logs"
 	"github.com/conbanwa/num"
-	. "github.com/conbanwa/wstrader"
-	. "github.com/conbanwa/wstrader/cons"
-	. "github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/util"
 	"net/url"
 	"sort"
 	"time"

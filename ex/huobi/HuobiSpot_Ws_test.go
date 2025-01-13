@@ -1,9 +1,9 @@
 package huobi
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"testing"
 	"time"
 )
@@ -11,11 +11,11 @@ import (
 func TestNewSpotWs(t *testing.T) {
 	config.SetProxy()
 	spotWs := NewSpotWs()
-	spotWs.DepthCallback(func(depth *wstrader.Depth) {
+	spotWs.DepthCallback(func(depth *exws.Depth) {
 		t.Log("asks=", depth.AskList)
 		t.Log("bids=", depth.BidList)
 	})
-	spotWs.TickerCallback(func(ticker *wstrader.Ticker) {
+	spotWs.TickerCallback(func(ticker *exws.Ticker) {
 		t.Log(ticker)
 	})
 	spotWs.SubscribeTicker(cons.NewCurrencyPair2("BTC_USDT"))

@@ -1,9 +1,9 @@
 package huobi
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = ""
 )
 
@@ -115,7 +115,7 @@ func TestHuobiPro_GetOneOrder(t *testing.T) {
 func TestHuobiPro_GetOrderHistorys(t *testing.T) {
 	ords, err := hbpro.GetOrderHistorys(
 		cons.NewCurrencyPair2("BTC_USDT"),
-		wstrader.OptionalParameter{}.Optional("start-date", "2020-11-30"))
+		exws.OptionalParameter{}.Optional("start-date", "2020-11-30"))
 	t.Log(err)
 	t.Log(ords)
 }

@@ -1,10 +1,10 @@
 package binance
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/stat/zelo"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/stat/zelo"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -15,10 +15,10 @@ func init() {
 	log = zelo.Writer
 	config.SetProxy()
 	futuresWs = NewFuturesWs()
-	futuresWs.DepthCallback(func(depth *wstrader.Depth) {
+	futuresWs.DepthCallback(func(depth *exws.Depth) {
 		//log.Debug().Any("depth", depth).Send()
 	})
-	futuresWs.TickerCallback(func(ticker *wstrader.FutureTicker) {
+	futuresWs.TickerCallback(func(ticker *exws.FutureTicker) {
 		//log.Println(ticker.Ticker, ticker.ContractType)
 	})
 }

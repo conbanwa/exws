@@ -1,9 +1,9 @@
 package bitmex
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
@@ -23,7 +23,7 @@ var httpProxyClient = &http.Client{
 }
 
 func init() {
-	mex = New(&wstrader.APIConfig{
+	mex = New(&exws.APIConfig{
 		Endpoint:   "https://testnet.bitmex.com/",
 		HttpClient: httpProxyClient,
 	})

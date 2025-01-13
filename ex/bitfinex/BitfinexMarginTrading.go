@@ -1,9 +1,9 @@
 package bitfinex
 
 import (
-	. "github.com/conbanwa/wstrader"
-	. "github.com/conbanwa/wstrader/cons"
-	. "github.com/conbanwa/wstrader/q"
+	. "github.com/conbanwa/exws"
+	. "github.com/conbanwa/exws/cons"
+	. "github.com/conbanwa/exws/q"
 )
 
 type MarginLimits struct {

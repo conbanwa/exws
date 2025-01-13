@@ -1,15 +1,15 @@
 package bitget
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"net/http"
 	"net/url"
 	"testing"
 )
 
-var bg = NewSwap(&wstrader.APIConfig{
+var bg = NewSwap(&exws.APIConfig{
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
 			Proxy: func(req *http.Request) (*url.URL, error) {

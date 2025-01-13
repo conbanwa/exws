@@ -1,10 +1,10 @@
 package okex
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
 	"net/http"
 	"testing"
 	"time"
@@ -21,13 +21,13 @@ func init() {
 }
 func TestNewOKExV3FuturesWs(t *testing.T) {
 	config.SetProxy()
-	ok := NewOKEx(&wstrader.APIConfig{
+	ok := NewOKEx(&exws.APIConfig{
 		HttpClient: http.DefaultClient,
 	})
-	ok.OKExV3FuturesWs.TickerCallback(func(ticker *wstrader.FutureTicker) {
+	ok.OKExV3FuturesWs.TickerCallback(func(ticker *exws.FutureTicker) {
 		t.Log(ticker.Ticker, ticker.ContractType)
 	})
-	ok.OKExV3FuturesWs.DepthCallback(func(depth *wstrader.Depth) {
+	ok.OKExV3FuturesWs.DepthCallback(func(depth *exws.Depth) {
 		t.Log(depth)
 	})
 	ok.OKExV3FuturesWs.TradeCallback(func(trade *q.Trade, s string) {

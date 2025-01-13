@@ -1,8 +1,8 @@
 package huobi
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
@@ -12,7 +12,7 @@ import (
 var swap *HbdmSwap
 
 func init() {
-	swap = NewHbdmSwap(&wstrader.APIConfig{
+	swap = NewHbdmSwap(&exws.APIConfig{
 		HttpClient:   http.DefaultClient,
 		Endpoint:     "https://api.btcgateway.pro",
 		ApiKey:       apiKey,
@@ -52,6 +52,6 @@ func TestHbdmSwap_GetFutureOrder(t *testing.T) {
 }
 func TestHbdmSwap_GetFutureOrderHistory(t *testing.T) {
 	t.Log(swap.GetFutureOrderHistory(cons.NewCurrencyPair2("KSM_USD"), cons.SWAP_CONTRACT,
-		wstrader.OptionalParameter{}.Optional("start_time", time.Now().Add(-5*24*time.Hour).Unix()*1000),
-		wstrader.OptionalParameter{}.Optional("end_time", time.Now().Unix()*1000)))
+		exws.OptionalParameter{}.Optional("start_time", time.Now().Add(-5*24*time.Hour).Unix()*1000),
+		exws.OptionalParameter{}.Optional("end_time", time.Now().Unix()*1000)))
 }

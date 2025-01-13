@@ -1,4 +1,4 @@
-package wstrader
+package exws
 
 import (
 	"crypto/hmac"

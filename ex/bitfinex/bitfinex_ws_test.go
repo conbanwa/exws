@@ -1,9 +1,9 @@
 package bitfinex
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
@@ -15,13 +15,13 @@ func TestNewBitfinexWs(t *testing.T) {
 	handleBbo := func(ticker *q.Bbo) {
 		log.Printf("Ticker: %+v: ", ticker)
 	}
-	handleTicker := func(ticker *wstrader.Ticker) {
+	handleTicker := func(ticker *exws.Ticker) {
 		log.Printf("Ticker: %+v: ", ticker)
 	}
 	handleTrade := func(trade *q.Trade) {
 		log.Printf("Trade: %+v: ", trade)
 	}
-	handleCandle := func(candle *wstrader.Kline) {
+	handleCandle := func(candle *exws.Kline) {
 		log.Printf("Candle: %+v: ", candle)
 	}
 	bitfinexWs.SetCallbacks(handleBbo, handleTicker, handleTrade, handleCandle)

@@ -1,8 +1,8 @@
 package binance
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"net/http"
 	"testing"
 )
@@ -10,14 +10,14 @@ import (
 var wallet *Wallet
 
 func init() {
-	wallet = NewWallet(&wstrader.APIConfig{
+	wallet = NewWallet(&exws.APIConfig{
 		HttpClient:   http.DefaultClient,
 		ApiKey:       apiKey,
 		ApiSecretKey: apiSecretkey,
 	})
 }
 func TestWallet_Transfer(t *testing.T) {
-	t.Log(wallet.Transfer(wstrader.TransferParameter{
+	t.Log(wallet.Transfer(exws.TransferParameter{
 		Currency: "USDT",
 		From:     cons.SPOT,
 		To:       cons.SWAP_USDT,

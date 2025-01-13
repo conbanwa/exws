@@ -1,7 +1,7 @@
 package hitbtc
 
 import (
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws/q"
 	"strings"
 	"sync"
 )

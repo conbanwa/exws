@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/util"
+	"github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/util"
-	"github.com/conbanwa/wstrader/web"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -97,7 +97,7 @@ curl "https://api.hitbtc.com/api/2/public/ticker"
 	}
 ]
 */
-func (hitbtc *Hitbtc) GetTicker(currency cons.CurrencyPair) (*wstrader.Ticker, error) {
+func (hitbtc *Hitbtc) GetTicker(currency cons.CurrencyPair) (*exws.Ticker, error) {
 	curr := hitbtc.adaptCurrencyPair(currency).ToSymbol("")
 	tickerUri := API_BASE_URL + API_V2 + TICKER_URI + curr
 	bodyDataMap, err := web.HttpGet(hitbtc.httpClient, tickerUri)
@@ -108,7 +108,7 @@ func (hitbtc *Hitbtc) GetTicker(currency cons.CurrencyPair) (*wstrader.Ticker, e
 		return nil, errors.New(result["message"].(string) + ", " + result["description"].(string))
 	}
 	tickerMap := bodyDataMap
-	var ticker wstrader.Ticker
+	var ticker exws.Ticker
 	ticker.Pair = currency
 	timestamp := time.Now().Unix()
 	ticker.Date = uint64(timestamp)
@@ -260,7 +260,7 @@ func (hitbtc *Hitbtc) GetUnfinishedOrders(currency cons.CurrencyPair) ([]q.Order
 
 // TODO
 // https://api.hitbtc.com/#orders-history
-func (hitbtc *Hitbtc) GetOrderHistorys(currency cons.CurrencyPair, optional ...wstrader.OptionalParameter) ([]q.Order, error) {
+func (hitbtc *Hitbtc) GetOrderHistorys(currency cons.CurrencyPair, optional ...exws.OptionalParameter) ([]q.Order, error) {
 	params := url.Values{}
 	params.Set("symbol", currency.ToSymbol(""))
 	var resp []map[string]any
@@ -278,18 +278,18 @@ func (hitbtc *Hitbtc) GetOrderHistorys(currency cons.CurrencyPair, optional ...w
 }
 
 // https://api.hitbtc.com/#account-balance
-func (hitbtc *Hitbtc) GetAccount() (*wstrader.Account, error) {
+func (hitbtc *Hitbtc) GetAccount() (*exws.Account, error) {
 	var ret []any
 	err := hitbtc.doRequest("GET", BALANCE_URI, &ret)
 	if err != nil {
 		return nil, err
 	}
-	acc := new(wstrader.Account)
-	acc.SubAccounts = make(map[cons.Currency]wstrader.SubAccount, 1)
+	acc := new(exws.Account)
+	acc.SubAccounts = make(map[cons.Currency]exws.SubAccount, 1)
 	for _, v := range ret {
 		vv := v.(map[string]any)
 		currency := cons.NewCurrency(vv["currency"].(string), "")
-		acc.SubAccounts[currency] = wstrader.SubAccount{
+		acc.SubAccounts[currency] = exws.SubAccount{
 			Currency:     currency,
 			Amount:       num.ToFloat64(vv["available"]),
 			ForzenAmount: num.ToFloat64(vv["reserved"])}
@@ -322,7 +322,7 @@ func (hitbtc *Hitbtc) GetAccount() (*wstrader.Account, error) {
   ]
 }
 */
-func (hitbtc *Hitbtc) GetDepth(size int, currency cons.CurrencyPair) (*wstrader.Depth, error) {
+func (hitbtc *Hitbtc) GetDepth(size int, currency cons.CurrencyPair) (*exws.Depth, error) {
 	params := url.Values{}
 	params.Set("limit", fmt.Sprintf("%v", size))
 	resp := map[string]any{}
@@ -333,27 +333,27 @@ func (hitbtc *Hitbtc) GetDepth(size int, currency cons.CurrencyPair) (*wstrader.
 	if errObj, ok := resp["error"]; ok {
 		return nil, errors.New(errObj.(map[string]string)["message"])
 	}
-	var askList []wstrader.DepthRecord
+	var askList []exws.DepthRecord
 	for _, ee := range resp["ask"].([]any) {
 		e := ee.(map[string]any)
-		one := wstrader.DepthRecord{
+		one := exws.DepthRecord{
 			Price:  num.ToFloat64(e["price"]),
 			Amount: num.ToFloat64(e["size"]),
 		}
 		askList = append(askList, one)
 	}
-	var bidList []wstrader.DepthRecord
+	var bidList []exws.DepthRecord
 	for _, ee := range resp["bid"].([]any) {
 		e := ee.(map[string]any)
-		one := wstrader.DepthRecord{
+		one := exws.DepthRecord{
 			Price:  num.ToFloat64(e["price"]),
 			Amount: num.ToFloat64(e["size"]),
 		}
 		bidList = append(bidList, one)
 	}
-	return &wstrader.Depth{AskList: askList, BidList: bidList}, nil
+	return &exws.Depth{AskList: askList, BidList: bidList}, nil
 }
-func (hitbtc *Hitbtc) GetKlineRecords(currency cons.CurrencyPair, period cons.KlinePeriod, size int, opt ...wstrader.OptionalParameter) ([]wstrader.Kline, error) {
+func (hitbtc *Hitbtc) GetKlineRecords(currency cons.CurrencyPair, period cons.KlinePeriod, size int, opt ...exws.OptionalParameter) ([]exws.Kline, error) {
 	panic("not implement")
 }
 
@@ -381,7 +381,7 @@ curl "https://api.hitbtc.com/api/2/public/candles/ETHBTC?period=M30"
 	}
 ]
 */
-func (hitbtc *Hitbtc) GetKline(currencyPair cons.CurrencyPair, period string, size, since int64) ([]wstrader.Kline, error) {
+func (hitbtc *Hitbtc) GetKline(currencyPair cons.CurrencyPair, period string, size, since int64) ([]exws.Kline, error) {
 	switch period {
 	case "M1", "M3", "M5", "M15", "M30", "H1", "H4", "D1", "D7", "1M":
 	default:
@@ -396,19 +396,19 @@ func (hitbtc *Hitbtc) GetKline(currencyPair cons.CurrencyPair, period string, si
 		params.Set("limit", fmt.Sprintf("%v", size))
 	}
 	var resp []map[string]any
-	query := KLINE_URI+"/"+currencyPair.ToSymbol("")+"?"+params.Encode()
+	query := KLINE_URI + "/" + currencyPair.ToSymbol("") + "?" + params.Encode()
 	// api.hitbtc.com/api/2/public/candles/BTCUSD?limit=10&period=1M
 	err := hitbtc.doRequest("GET", query, &resp)
 	if err != nil {
 		return nil, err
 	}
-	var klines []wstrader.Kline
+	var klines []exws.Kline
 	for _, e := range resp {
-		one := wstrader.Kline{
+		one := exws.Kline{
 			Timestamp: parseTime(e["timestamp"].(string)),
 			Open:      num.ToFloat64(e["open"]),
 			Close:     num.ToFloat64(e["close"]),
-			High:      num.ToFloat64(e["max"]),// <nil> is not a number 
+			High:      num.ToFloat64(e["max"]), // <nil> is not a number
 			Low:       num.ToFloat64(e["min"]),
 			Vol:       num.ToFloat64(e["volume"]), // base currency, eg: ETH for pair ETHBTC
 		}

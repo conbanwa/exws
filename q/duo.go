@@ -1,8 +1,8 @@
 package q
 
 import (
+	"github.com/conbanwa/exws/stat/zelo"
 	"github.com/conbanwa/logs"
-	"github.com/conbanwa/wstrader/stat/zelo"
 	"strings"
 	"sync"
 )

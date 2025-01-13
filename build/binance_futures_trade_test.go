@@ -1,16 +1,16 @@
 package build
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/ex/binance"
-	"github.com/conbanwa/wstrader/q"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/ex/binance"
+	"github.com/conbanwa/exws/q"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = "YOUR_KEY_SECRET"
 )
 
@@ -49,11 +49,11 @@ func TestSubscribeSpotMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdBaseUrl).BuildSpotWs(cons.BINANCE)
 	assert.Nil(t, err)
-	binanceWs.TickerCallback(func(ticker *wstrader.Ticker) {
+	binanceWs.TickerCallback(func(ticker *exws.Ticker) {
 		t.Logf("%+v\n", *ticker)
 	})
 	binanceWs.SubscribeTicker(cons.BTC_USDT)
-	binanceWs.DepthCallback(func(depth *wstrader.Depth) {
+	binanceWs.DepthCallback(func(depth *exws.Depth) {
 		t.Logf("%+v\n", *depth)
 	})
 	binanceWs.SubscribeDepth(cons.BTC_USDT)
@@ -68,11 +68,11 @@ func TestSubscribeFutureMarketData(t *testing.T) {
 	skipKey(t)
 	binanceWs, err := api.Endpoint(binance.TestnetFutureUsdWsBaseUrl).BuildFuturesWs(cons.BINANCE_FUTURES)
 	assert.Nil(t, err)
-	binanceWs.TickerCallback(func(ticker *wstrader.FutureTicker) {
+	binanceWs.TickerCallback(func(ticker *exws.FutureTicker) {
 		//t.Logf("%+v\n", *ticker.Ticker)
 	})
 	binanceWs.SubscribeTicker(cons.BTC_USD, cons.SWAP_USDT_CONTRACT)
-	binanceWs.DepthCallback(func(depth *wstrader.Depth) {
+	binanceWs.DepthCallback(func(depth *exws.Depth) {
 		t.Logf("%+v\n", *depth)
 	})
 	binanceWs.SubscribeDepth(cons.BTC_USDT, cons.SWAP_USDT_CONTRACT)

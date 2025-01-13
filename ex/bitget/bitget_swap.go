@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/util"
+	"github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/util"
-	"github.com/conbanwa/wstrader/web"
 	"net/http"
 	"strconv"
 	"strings"
@@ -29,7 +29,7 @@ type BitgetSwap struct {
 	timeOffset int64
 }
 
-func NewSwap(config *wstrader.APIConfig) *BitgetSwap {
+func NewSwap(config *exws.APIConfig) *BitgetSwap {
 	if config.Endpoint == "" {
 		config.Endpoint = baseUrl
 	}
@@ -71,7 +71,7 @@ func (bs *BitgetSwap) GetFutureEstimatedPrice(currencyPair cons.CurrencyPair) (f
  * @param currency_pair   btc_usd:比特币    ltc_usd :莱特币
  * @param contractType  合约类型: this_week:当周   next_week:下周   month:当月   quarter:季度
  */
-func (bs *BitgetSwap) GetFutureTicker(currency cons.CurrencyPair, contractType string) (*wstrader.Ticker, error) {
+func (bs *BitgetSwap) GetFutureTicker(currency cons.CurrencyPair, contractType string) (*exws.Ticker, error) {
 	url := fmt.Sprintf("%s/api/swap/v1/instruments/%s/ticker", bs.baseUrl, bs.adaptSymbol(currency))
 	tickerMap, err := web.HttpGet(bs.httpClient, url)
 	if err != nil {
@@ -83,7 +83,7 @@ func (bs *BitgetSwap) GetFutureTicker(currency cons.CurrencyPair, contractType s
 	}
 	data := tickerMap["data"].(any)
 	_data := data.(map[string]any)
-	var ticker wstrader.Ticker
+	var ticker exws.Ticker
 	ticker.Pair = currency
 	ticker.Date = num.ToInt[uint64](_data["timestamp"])
 	ticker.Last = num.ToFloat64(_data["last"])
@@ -102,7 +102,7 @@ func (bs *BitgetSwap) GetFutureTicker(currency cons.CurrencyPair, contractType s
  * @param size 获取深度档数
  * @return
  */
-func (bs *BitgetSwap) GetFutureDepth(currency cons.CurrencyPair, contractType string, size int) (*wstrader.Depth, error) {
+func (bs *BitgetSwap) GetFutureDepth(currency cons.CurrencyPair, contractType string, size int) (*exws.Depth, error) {
 	panic("not implement")
 }
 func (bs *BitgetSwap) GetTrades(contractType string, currencyPair cons.CurrencyPair, since int64) ([]q.Trade, error) {
@@ -130,14 +130,14 @@ func (bs *BitgetSwap) doAuthRequest(method, uri string, param map[string]any) ([
 		postBody = string(postBodyArray)
 	}
 	payload := fmt.Sprintf("%d%s%s%s", timestamp, method, uri, postBody)
-	sign, _ := wstrader.GetParamHmacSHA256Base64Sign(bs.secretKey, payload)
+	sign, _ := exws.GetParamHmacSHA256Base64Sign(bs.secretKey, payload)
 	headers["ACCESS-SIGN"] = sign
 	resp, err := web.NewRequest(bs.httpClient, method, bs.baseUrl+uri, postBody, headers)
 	return resp, err
 }
 
 // 全仓账户
-func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*wstrader.FutureAccount, error) {
+func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*exws.FutureAccount, error) {
 	if len(currencyPair) > 1 {
 		panic("not support")
 	}
@@ -162,7 +162,7 @@ func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*wst
 		TotalAvailBalance   float64 `json:"total_avail_balance,string"`
 		UnrealizedPnl       float64 `json:"unrealized_pnl,string"`
 	}
-	subAccount := make(map[cons.Currency]wstrader.FutureSubAccount)
+	subAccount := make(map[cons.Currency]exws.FutureSubAccount)
 	if len(currencyPair) == 0 {
 		accs := make([]Account, 0)
 		err = json.Unmarshal(resp, &accs)
@@ -174,7 +174,7 @@ func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*wst
 				Symbol: acc.Symbol,
 				Desc:   "",
 			}
-			subAccount[currency] = wstrader.FutureSubAccount{
+			subAccount[currency] = exws.FutureSubAccount{
 				Currency:      currency,
 				AccountRights: acc.Equity,
 				KeepDeposit:   acc.TotalAvailBalance,
@@ -193,7 +193,7 @@ func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*wst
 			Symbol: acc.Symbol,
 			Desc:   "",
 		}
-		subAccount[currency] = wstrader.FutureSubAccount{
+		subAccount[currency] = exws.FutureSubAccount{
 			Currency:      currency,
 			AccountRights: acc.Equity,
 			KeepDeposit:   acc.TotalAvailBalance,
@@ -202,7 +202,7 @@ func (bs *BitgetSwap) GetFutureUserinfo(currencyPair ...cons.CurrencyPair) (*wst
 			RiskRate:      0,
 		}
 	}
-	return &wstrader.FutureAccount{
+	return &exws.FutureAccount{
 		FutureSubAccounts: subAccount,
 	}, nil
 }
@@ -221,8 +221,8 @@ func (bs *BitgetSwap) PlaceFutureOrder(currencyPair cons.CurrencyPair, contractT
  * @param openType   1:开多   2:开空   3:平多   4:平空
  * @param matchPrice  是否为对手价 0:不是    1:是   ,当取值为1时,price无效
  */
-func (bs *BitgetSwap) PlaceFutureOrder2(currencyPair cons.CurrencyPair, contractType, price, amount string, openType, matchPrice int, leverRate float64) (*wstrader.FutureOrder, error) {
-	fOrder := &wstrader.FutureOrder{
+func (bs *BitgetSwap) PlaceFutureOrder2(currencyPair cons.CurrencyPair, contractType, price, amount string, openType, matchPrice int, leverRate float64) (*exws.FutureOrder, error) {
+	fOrder := &exws.FutureOrder{
 		Currency:     currencyPair,
 		ClientOid:    util.GenerateOrderClientId(32),
 		Price:        num.ToFloat64(price),
@@ -259,10 +259,10 @@ func (bs *BitgetSwap) PlaceFutureOrder2(currencyPair cons.CurrencyPair, contract
 	fOrder.OrderID2 = respMap["order_id"].(string)
 	return fOrder, nil
 }
-func (bs *BitgetSwap) LimitFuturesOrder(currencyPair cons.CurrencyPair, contractType, price, amount string, openType int, opt ...cons.LimitOrderOptionalParameter) (*wstrader.FutureOrder, error) {
+func (bs *BitgetSwap) LimitFuturesOrder(currencyPair cons.CurrencyPair, contractType, price, amount string, openType int, opt ...cons.LimitOrderOptionalParameter) (*exws.FutureOrder, error) {
 	return bs.PlaceFutureOrder2(currencyPair, contractType, price, amount, openType, 0, 10)
 }
-func (bs *BitgetSwap) MarketFuturesOrder(currencyPair cons.CurrencyPair, contractType, amount string, openType int) (*wstrader.FutureOrder, error) {
+func (bs *BitgetSwap) MarketFuturesOrder(currencyPair cons.CurrencyPair, contractType, amount string, openType int) (*exws.FutureOrder, error) {
 	return bs.PlaceFutureOrder2(currencyPair, contractType, "0", amount, openType, 1, 10)
 }
 
@@ -297,7 +297,7 @@ func (bs *BitgetSwap) FutureCancelOrder(currencyPair cons.CurrencyPair, contract
  * @param contractType   合约类型: this_week:当周   next_week:下周   month:当月   quarter:季度
  * @return
  */
-func (bs *BitgetSwap) GetFuturePosition(currencyPair cons.CurrencyPair, contractType string) ([]wstrader.FuturePosition, error) {
+func (bs *BitgetSwap) GetFuturePosition(currencyPair cons.CurrencyPair, contractType string) ([]exws.FuturePosition, error) {
 	symbol := bs.adaptSymbol(currencyPair)
 	uri := "/api/swap/v3/position/singlePosition?symbol=" + symbol
 	resp, err := bs.doAuthRequest(http.MethodGet, uri, nil)
@@ -327,8 +327,8 @@ func (bs *BitgetSwap) GetFuturePosition(currencyPair cons.CurrencyPair, contract
 	if len(pos.Holding) != 2 {
 		return nil, fmt.Errorf("position is not correct:%s", string(resp))
 	}
-	var positions []wstrader.FuturePosition
-	p := wstrader.FuturePosition{
+	var positions []exws.FuturePosition
+	p := exws.FuturePosition{
 		LeverRate:      pos.Holding[0].Leverage,
 		Symbol:         currencyPair,
 		ForceLiquPrice: pos.Holding[0].LiquidationPrice,
@@ -356,14 +356,14 @@ func (bs *BitgetSwap) GetFuturePosition(currencyPair cons.CurrencyPair, contract
 /**
  *获取订单信息
  */
-func (bs *BitgetSwap) GetFutureOrders(orderIds []string, currencyPair cons.CurrencyPair, contractType string) ([]wstrader.FutureOrder, error) {
+func (bs *BitgetSwap) GetFutureOrders(orderIds []string, currencyPair cons.CurrencyPair, contractType string) ([]exws.FutureOrder, error) {
 	panic("not implement")
 }
 
 /**
  *获取单个订单信息
  */
-func (bs *BitgetSwap) GetFutureOrder(orderId string, currencyPair cons.CurrencyPair, contractType string) (*wstrader.FutureOrder, error) {
+func (bs *BitgetSwap) GetFutureOrder(orderId string, currencyPair cons.CurrencyPair, contractType string) (*exws.FutureOrder, error) {
 	symbol := bs.adaptSymbol(currencyPair)
 	uri := fmt.Sprintf("/api/swap/v3/order/detail?symbol=%s&orderId=%s", symbol, orderId)
 	resp, err := bs.doAuthRequest(http.MethodGet, uri, nil)
@@ -375,7 +375,7 @@ func (bs *BitgetSwap) GetFutureOrder(orderId string, currencyPair cons.CurrencyP
 	if err != nil {
 		return nil, err
 	}
-	order := &wstrader.FutureOrder{}
+	order := &exws.FutureOrder{}
 	order.Currency = currencyPair
 	order.Price = num.ToFloat64(result["price"])
 	order.Amount = num.ToFloat64(result["size"])
@@ -404,7 +404,7 @@ func (bs *BitgetSwap) GetFutureOrder(orderId string, currencyPair cons.CurrencyP
 /**
  *获取未完成订单信息
  */
-func (bs *BitgetSwap) GetUnfinishFutureOrders(currencyPair cons.CurrencyPair, contractType string) ([]wstrader.FutureOrder, error) {
+func (bs *BitgetSwap) GetUnfinishFutureOrders(currencyPair cons.CurrencyPair, contractType string) ([]exws.FutureOrder, error) {
 	symbol := bs.adaptSymbol(currencyPair)
 	uri := fmt.Sprintf("/api/swap/v3/order/orders?symbol=%s&from=1&to=1&limit=100&status=0", symbol)
 	resp, err := bs.doAuthRequest(http.MethodGet, uri, nil)
@@ -416,10 +416,10 @@ func (bs *BitgetSwap) GetUnfinishFutureOrders(currencyPair cons.CurrencyPair, co
 	if err != nil {
 		return nil, err
 	}
-	orders := make([]wstrader.FutureOrder, 0)
+	orders := make([]exws.FutureOrder, 0)
 	for _, v := range result {
 		vv := v.(map[string]any)
-		order := wstrader.FutureOrder{}
+		order := exws.FutureOrder{}
 		order.Currency = currencyPair
 		order.Price = num.ToFloat64(vv["price"])
 		order.Amount = num.ToFloat64(vv["size"])
@@ -471,7 +471,7 @@ func (bs *BitgetSwap) GetDeliveryTime() (int, int, int, int) {
 /**
  * 获取K线数据
  */
-func (bs *BitgetSwap) GetKlineRecords(contractType string, currency cons.CurrencyPair, period, size, since int) ([]wstrader.FutureKline, error) {
+func (bs *BitgetSwap) GetKlineRecords(contractType string, currency cons.CurrencyPair, period, size, since int) ([]exws.FutureKline, error) {
 	panic("not supported.")
 }
 func (bs *BitgetSwap) GetServerTime() (int64, error) {

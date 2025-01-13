@@ -3,10 +3,10 @@ package bigone
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/q"
-	"github.com/conbanwa/wstrader/web"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/q"
+	"github.com/conbanwa/exws/web"
 	"log"
 	"net/http"
 	"time"
@@ -72,7 +72,7 @@ type TickerResp struct {
 	} `json:"data"`
 }
 
-func (bo *Bigone) GetTicker(currency cons.CurrencyPair) (*wstrader.Ticker, error) {
+func (bo *Bigone) GetTicker(currency cons.CurrencyPair) (*exws.Ticker, error) {
 	tickerURI := fmt.Sprintf(TICKER_URI, bo.baseUri, currency.ToSymbol("-"))
 	var resp TickerResp
 	//log.Printf("GetTicker -> %s", tickerURI)
@@ -81,7 +81,7 @@ func (bo *Bigone) GetTicker(currency cons.CurrencyPair) (*wstrader.Ticker, error
 		log.Printf("GetTicker - HttpGet4 failed : %v", err)
 		return nil, err
 	}
-	var ticker wstrader.Ticker
+	var ticker exws.Ticker
 	ticker.Pair = currency
 	ticker.Date = uint64(time.Now().Unix())
 	ticker.Last = num.ToFloat64(resp.Data.Close)
@@ -320,7 +320,7 @@ func (bo *Bigone) GetOneOrder(orderId string, currencyPair cons.CurrencyPair) (*
 func (bo *Bigone) GetUnfinishedOrders(currencyPair cons.CurrencyPair) ([]q.Order, error) {
 	return bo.getOrdersList(currencyPair, -1, cons.ORDER_UNFINISH)
 }
-func (bo *Bigone) GetOrderHistorys(currencyPair cons.CurrencyPair, opt ...wstrader.OptionalParameter) ([]q.Order, error) {
+func (bo *Bigone) GetOrderHistorys(currencyPair cons.CurrencyPair, opt ...exws.OptionalParameter) ([]q.Order, error) {
 	return bo.getOrdersList(currencyPair, -1, cons.ORDER_FINISH)
 }
 
@@ -343,7 +343,7 @@ type AccountResp struct {
 	} `json:"data"`
 }
 
-func (bo *Bigone) GetAccount() (*wstrader.Account, error) {
+func (bo *Bigone) GetAccount() (*exws.Account, error) {
 	var resp AccountResp
 	apiUrl := fmt.Sprintf(ACCOUNT_URI, bo.baseUri)
 	err := web.HttpGet4(bo.httpClient, apiUrl, bo.privateHeader(), &resp)
@@ -351,9 +351,9 @@ func (bo *Bigone) GetAccount() (*wstrader.Account, error) {
 		log.Println("GetAccount error:", err)
 		return nil, err
 	}
-	acc := wstrader.Account{}
+	acc := exws.Account{}
 	acc.Exchange = bo.String()
-	acc.SubAccounts = make(map[cons.Currency]wstrader.SubAccount)
+	acc.SubAccounts = make(map[cons.Currency]exws.SubAccount)
 	for _, v := range resp.Data {
 		//log.Println(v)
 		var currency cons.Currency
@@ -362,7 +362,7 @@ func (bo *Bigone) GetAccount() (*wstrader.Account, error) {
 		} else {
 			currency = cons.NewCurrency(v.AssetSymbol, "")
 		}
-		acc.SubAccounts[currency] = wstrader.SubAccount{
+		acc.SubAccounts[currency] = exws.SubAccount{
 			Currency:     currency,
 			Amount:       num.ToFloat64(v.Balance),
 			ForzenAmount: num.ToFloat64(v.LockedBalance),
@@ -399,7 +399,7 @@ type DepthResp struct {
 	}
 }
 
-func (bo *Bigone) GetDepth(size int, currencyPair cons.CurrencyPair) (*wstrader.Depth, error) {
+func (bo *Bigone) GetDepth(size int, currencyPair cons.CurrencyPair) (*exws.Depth, error) {
 	var resp DepthResp
 	apiURL := fmt.Sprintf(DEPTH_URI, bo.baseUri, currencyPair.ToSymbol("-"))
 	err := web.HttpGet4(bo.httpClient, apiURL, nil, &resp)
@@ -407,7 +407,7 @@ func (bo *Bigone) GetDepth(size int, currencyPair cons.CurrencyPair) (*wstrader.
 		log.Println("GetDepth error:", err)
 		return nil, err
 	}
-	depth := new(wstrader.Depth)
+	depth := new(exws.Depth)
 	for _, bid := range resp.Data.Bids {
 		var amount float64
 		if bid.Amount != "" {
@@ -416,7 +416,7 @@ func (bo *Bigone) GetDepth(size int, currencyPair cons.CurrencyPair) (*wstrader.
 			amount = num.ToFloat64(bid.Quantity)
 		}
 		price := num.ToFloat64(bid.Price)
-		dr := wstrader.DepthRecord{Amount: amount, Price: price}
+		dr := exws.DepthRecord{Amount: amount, Price: price}
 		depth.BidList = append(depth.BidList, dr)
 	}
 	for _, ask := range resp.Data.Asks {
@@ -427,13 +427,13 @@ func (bo *Bigone) GetDepth(size int, currencyPair cons.CurrencyPair) (*wstrader.
 			amount = num.ToFloat64(ask.Quantity)
 		}
 		price := num.ToFloat64(ask.Price)
-		dr := wstrader.DepthRecord{Amount: amount, Price: price}
+		dr := exws.DepthRecord{Amount: amount, Price: price}
 		depth.AskList = append(depth.AskList, dr)
 	}
 	depth.Pair = currencyPair
 	return depth, nil
 }
-func (bo *Bigone) GetKlineRecords(currency cons.CurrencyPair, period cons.KlinePeriod, size int, opt ...wstrader.OptionalParameter) ([]wstrader.Kline, error) {
+func (bo *Bigone) GetKlineRecords(currency cons.CurrencyPair, period cons.KlinePeriod, size int, opt ...exws.OptionalParameter) ([]exws.Kline, error) {
 	panic("not implements")
 }
 

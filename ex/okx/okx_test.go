@@ -1,9 +1,9 @@
 package okx
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/config"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/config"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
@@ -11,7 +11,7 @@ import (
 )
 
 func newOKExV5Client() *OKX {
-	return NewOKExV5(&wstrader.APIConfig{
+	return NewOKExV5(&exws.APIConfig{
 		HttpClient: &http.Client{
 			Transport: &http.Transport{
 				Proxy: func(req *http.Request) (*url.URL, error) {

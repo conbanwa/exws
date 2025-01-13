@@ -2,7 +2,7 @@ package web
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader/config"
+	"github.com/conbanwa/exws/config"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"io"

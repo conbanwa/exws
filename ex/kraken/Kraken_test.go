@@ -1,7 +1,7 @@
 package kraken
 
 import (
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws/cons"
 	"net/http"
 	"testing"
 
@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	apiKey    = ""
+	apiKey       = ""
 	apiSecretkey = ""
 )
 

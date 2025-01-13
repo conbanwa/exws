@@ -2,8 +2,8 @@ package web
 
 import (
 	"encoding/json"
+	"github.com/conbanwa/exws/stat/zelo"
 	"github.com/conbanwa/slice"
-	"github.com/conbanwa/wstrader/stat/zelo"
 	"net/http"
 	"net/url"
 	"regexp"

@@ -2,8 +2,8 @@ package binance
 
 import (
 	"fmt"
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
@@ -11,7 +11,7 @@ import (
 )
 
 var ba = NewWithConfig(
-	&wstrader.APIConfig{
+	&exws.APIConfig{
 		HttpClient: http.DefaultClient,
 		Endpoint:   "https://api.binance.com",
 	})
@@ -61,7 +61,7 @@ func TestBinance_GetKlineRecords(t *testing.T) {
 	endTime := time.Now().Add(-5*time.Hour).Unix() * 1000
 	kline, _ := ba.GetKlineRecords(cons.ETH_BTC,
 		cons.KLINE_PERIOD_5MIN, 100,
-		wstrader.OptionalParameter{}.
+		exws.OptionalParameter{}.
 			Optional("startTime", fmt.Sprint(startTime)).
 			Optional("endTime", fmt.Sprint(endTime)))
 	for _, k := range kline {
@@ -81,7 +81,7 @@ func TestBinance_SetTimeOffset(t *testing.T) {
 }
 func TestBinance_GetOrderHistorys(t *testing.T) {
 	t.Log(ba.GetOrderHistorys(cons.BTC_USDT,
-		wstrader.OptionalParameter{}.
+		exws.OptionalParameter{}.
 			Optional("startTime", "1607656034333").
 			Optional("limit", "5")))
 }

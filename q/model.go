@@ -1,8 +1,8 @@
 package q
 
 import (
-	"github.com/conbanwa/wstrader/cons"
-	"github.com/conbanwa/wstrader/stat/zelo"
+	"github.com/conbanwa/exws/cons"
+	"github.com/conbanwa/exws/stat/zelo"
 )
 
 var log = zelo.Writer

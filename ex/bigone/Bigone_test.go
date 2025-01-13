@@ -1,7 +1,7 @@
 package bigone
 
 import (
-	. "github.com/conbanwa/wstrader/cons"
+	. "github.com/conbanwa/exws/cons"
 	"net/http"
 	"testing"
 )

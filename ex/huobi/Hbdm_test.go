@@ -1,13 +1,13 @@
 package huobi
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/cons"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/cons"
 	"testing"
 	"time"
 )
 
-var dm = NewHbdm(&wstrader.APIConfig{
+var dm = NewHbdm(&exws.APIConfig{
 	Endpoint:     "https://api.hbdm.com",
 	HttpClient:   httpProxyClient,
 	ApiKey:       "1aa7ddfb-2fcaf72e-b1rkuf4drg-dd9a2",
@@ -50,7 +50,7 @@ func TestHbdm_GetFutureEstimatedPrice(t *testing.T) {
 	t.Log(dm.GetFutureEstimatedPrice(cons.BTC_USD))
 }
 func TestHbdm_GetKlineRecords(t *testing.T) {
-	klines, _ := dm.GetKlineRecords(cons.QUARTER_CONTRACT, cons.EOS_USD, cons.KLINE_PERIOD_1MIN, 20, wstrader.OptionalParameter{"test": 0})
+	klines, _ := dm.GetKlineRecords(cons.QUARTER_CONTRACT, cons.EOS_USD, cons.KLINE_PERIOD_1MIN, 20, exws.OptionalParameter{"test": 0})
 	for _, k := range klines {
 		tt := time.Unix(k.Timestamp, 0)
 		t.Log(k.Pair, tt, k.Open, k.Close, k.High, k.Low, k.Vol, k.Vol2)

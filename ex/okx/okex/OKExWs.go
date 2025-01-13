@@ -3,9 +3,9 @@ package okex
 import (
 	"encoding/json"
 	"fmt"
-	. "github.com/conbanwa/wstrader/cons"
-	. "github.com/conbanwa/wstrader/util"
-	. "github.com/conbanwa/wstrader/web"
+	. "github.com/conbanwa/exws/cons"
+	. "github.com/conbanwa/exws/util"
+	. "github.com/conbanwa/exws/web"
 	"os"
 	"strconv"
 	"strings"
