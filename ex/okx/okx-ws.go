@@ -1,13 +1,6 @@
 package okx
 
 import (
-	// "github.com/amir-the-h/okex"
-	// "github.com/amir-the-h/okex/api"
-	// "github.com/amir-the-h/okex/events"
-	// "github.com/amir-the-h/okex/events/public"
-	// ws_public_requests "github.com/amir-the-h/okex/requests/ws/public"
-	// "os"
-	// "context"
 	"encoding/json"
 	"fmt"
 	"github.com/conbanwa/num"
@@ -221,12 +214,12 @@ func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) erro
 	return nil
 }
 type bboResp []struct {
-	Asks      [][]float64 `json:"asks,string"`
-	Bids      [][]float64 `json:"bids,string"`
-	Ts        string          `json:"ts"`
-	Checksum  int             `json:"checksum"`
-	PrevSeqID int             `json:"prevSeqId"`
-	SeqID     int             `json:"seqId"`
+	Asks      [][]string `json:"asks"`
+	Bids      [][]string `json:"bids"`
+	Ts        string     `json:"ts"`
+	Checksum  int        `json:"checksum"`
+	PrevSeqID int        `json:"prevSeqId"`
+	SeqID     int        `json:"seqId"`
 }
 func (s *SpotWs) bboHandle(data json.RawMessage) error {
 	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
