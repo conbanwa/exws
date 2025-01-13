@@ -222,8 +222,9 @@ func (s *SpotWs) handle(data []byte) error {
 		log.Error().Err(err).Bytes("response data", data).Msg("json unmarshal ws response error")
 		return err
 	}
-	if strings.HasSuffix(r.Data, "@bookTicker") {
-		// return s.bboHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
+	if r.Arg.Channel == "books" {
+		log.Warn().Bytes("handle", r.Data).Msg("unknown ws response:")
+		return s.bboHandle(r.Data)
 	}
 	// if strings.HasSuffix(r.Stream, "@depth10@100ms") {
 	// 	return s.depthHandle(r.Data, adaptStreamToCurrencyPair(r.Stream))
@@ -287,12 +288,12 @@ func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) erro
 	s.tickerCallFn(&ticker)
 	return nil
 }
-func (s *SpotWs) bboHandle(data json.RawMessage, pair cons.CurrencyPair) error {
+func (s *SpotWs) bboHandle(data json.RawMessage) error {
 	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
 		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
 	}
 	var (
-		tickerData = make(map[string]any, 4)
+		tickerData bboResp
 		ticker     q.Bbo
 	)
 	err := json.Unmarshal(data, &tickerData)
