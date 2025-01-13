@@ -37,7 +37,7 @@ func buildSpotWs(t *testing.T, ex string) {
 
 	wsApi.SubscribeBBO([]string{})
 	if ex == cons.GATEIO || ex == cons.OKEX {
-		t.Skip("Skipping testing without implement" + cons.GATEIO)
+		t.Skip("Skipping testing without implement: " + cons.GATEIO)
 	}
 	wsApi.DepthCallback(func(depth *wstrader.Depth) {
 		t.Log(depth)

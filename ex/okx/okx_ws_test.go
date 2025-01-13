@@ -42,38 +42,41 @@ func TestWs(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
-	for {
-		select {
-		case <-logChan:
-			log.Print("[Authorized]")
-		case success := <-sucChan:
-			log.Printf("[SUCCESS]\t%+v", success)
-		case sub := <-subChan:
-			channel, _ := sub.Arg.Get("channel")
-			log.Printf("[Subscribed]\t%s", channel)
-		case uSub := <-uSubChan:
-			channel, _ := uSub.Arg.Get("channel")
-			log.Printf("[Unsubscribed]\t%s", channel)
-		case err := <-client.Ws.ErrChan:
-			log.Printf("[Error]\t%+v", err)
-			for _, datum := range err.Data {
-				log.Printf("[Error]\t\t%+v", datum)
-			}
-		case i := <-obCh:
-			ch, _ := i.Arg.Get("channel")
-			log.Printf("[Event]\t%s", ch)
-			for _, p := range i.Books {
-				for i := len(p.Asks) - 1; i >= 0; i-- {
-					log.Printf("\t\tAsk\t%+v", p.Asks[i])
+	var listener = func() {
+		for {
+			select {
+			case <-logChan:
+				log.Print("[Authorized]")
+			case success := <-sucChan:
+				log.Printf("[SUCCESS]\t%+v", success)
+			case sub := <-subChan:
+				channel, _ := sub.Arg.Get("channel")
+				log.Printf("[Subscribed]\t%s", channel)
+			case uSub := <-uSubChan:
+				channel, _ := uSub.Arg.Get("channel")
+				log.Printf("[Unsubscribed]\t%s", channel)
+			case err := <-client.Ws.ErrChan:
+				log.Printf("[Error]\t%+v", err)
+				for _, datum := range err.Data {
+					log.Printf("[Error]\t\t%+v", datum)
 				}
-				for _, bid := range p.Bids {
-					log.Printf("\t\tBid\t%+v", bid)
+			case i := <-obCh:
+				ch, _ := i.Arg.Get("channel")
+				log.Printf("[Event]\t%s", ch)
+				for _, p := range i.Books {
+					for i := len(p.Asks) - 1; i >= 0; i-- {
+						log.Printf("\t\tAsk\t%+v", p.Asks[i])
+					}
+					for _, bid := range p.Bids {
+						log.Printf("\t\tBid\t%+v", bid)
+					}
 				}
+			case b := <-client.Ws.DoneChan:
+				log.Printf("[End]:\t%v", b)
+				return
 			}
-		case b := <-client.Ws.DoneChan:
-			log.Printf("[End]:\t%v", b)
-			return
 		}
 	}
+	go listener()
+	time.Sleep(time.Second * 15)
 }
