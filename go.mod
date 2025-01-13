@@ -13,7 +13,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/nubo/jwt v0.0.0-20150918093313-da5b79c3bbaf
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.9.0
 	github.com/valyala/fasthttp v1.58.0
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842
