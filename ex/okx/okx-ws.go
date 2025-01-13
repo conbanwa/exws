@@ -41,7 +41,7 @@ func toReq(pair ...string) req {
 	args := make([]Arg, len(pair))
 	for i, v := range pair {
 		args[i] = Arg{
-			Channel:  "tickers",
+			Channel:  "books",
 			InstId: v,
 		}
 	}

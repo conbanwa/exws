@@ -32,16 +32,13 @@ func buildSpotWs(t *testing.T, ex string) {
 	wsApi, err := builder.BuildSpotWs(ex)
 	assert.Nil(t, err)
 	wsApi.BBOCallback(func(bbo *q.Bbo) {
-		t.Log(bbo)
+		t.Log(ex, bbo)
+	})
+	wsApi.DepthCallback(func(depth *wstrader.Depth) {
+		t.Log(ex, depth)
 	})
 
 	wsApi.SubscribeBBO([]string{})
-	if ex == cons.GATEIO || ex == cons.OKEX {
-		// t.Skip("Skipping testing without implement: " + cons.GATEIO)
-	}
-	wsApi.DepthCallback(func(depth *wstrader.Depth) {
-		t.Log(depth)
-	})
 	wsApi.SubscribeDepth(cons.BTC_USDT)
 }
 func TestAPIBuilder_BuildFuturesWs(t *testing.T) {
