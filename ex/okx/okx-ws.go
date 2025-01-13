@@ -55,19 +55,6 @@ type resp struct {
 	Action string `json:"action"`
 	Data   json.RawMessage `json:"data"`
 }
-type bboResp struct {
-	Asks [][]string `json:"asks"`
-	Bids [][]string `json:"bids"`
-	Ts string `json:"ts"`
-	Checksum int `json:"checksum"`
-	PrevSeqID int `json:"prevSeqId"`
-	SeqID int `json:"seqId"`
-}
-type depthResp struct {
-	LastUpdateId int     `json:"lastUpdateId"`
-	Bids         [][]any `json:"bids"`
-	Asks         [][]any `json:"asks"`
-}
 type SpotWs struct {
 	c            *web.WsConn
 	once         sync.Once
@@ -222,8 +209,11 @@ func (s *SpotWs) handle(data []byte) error {
 		log.Error().Err(err).Bytes("response data", data).Msg("json unmarshal ws response error")
 		return err
 	}
-	if r.Arg.Channel == "books" {
+	if r.Arg.Channel == "bbo-tbt" {
 		log.Warn().Bytes("handle", r.Data).Msg("unknown ws response:")
+		return s.bboHandle(r.Data)
+	}
+	if strings.HasPrefix(r.Arg.Channel, "books") {
 		return s.bboHandle(r.Data)
 	}
 	// if strings.HasSuffix(r.Stream, "@depth10@100ms") {
@@ -237,6 +227,11 @@ func (s *SpotWs) handle(data []byte) error {
 	// }
 	log.Warn().Bytes("handle", data).Msg("unknown ws response:")
 	return nil
+}
+type depthResp struct {
+	LastUpdateId int     `json:"lastUpdateId"`
+	Bids         [][]any `json:"bids"`
+	Asks         [][]any `json:"asks"`
 }
 func (s *SpotWs) depthHandle(data json.RawMessage, pair cons.CurrencyPair) error {
 	var (
@@ -288,6 +283,14 @@ func (s *SpotWs) tickerHandle(data json.RawMessage, pair cons.CurrencyPair) erro
 	s.tickerCallFn(&ticker)
 	return nil
 }
+type bboResp struct {
+	Asks [][]string `json:"asks"`
+	Bids [][]string `json:"bids"`
+	Ts string `json:"ts"`
+	Checksum int `json:"checksum"`
+	PrevSeqID int `json:"prevSeqId"`
+	SeqID int `json:"seqId"`
+}
 func (s *SpotWs) bboHandle(data json.RawMessage) error {
 	if strings.Contains(slice.Bytes2String(data), "0.00000000") {
 		return fmt.Errorf(cons.BINANCE + "0 in ask bid" + slice.Bytes2String(data))
@@ -302,11 +305,11 @@ func (s *SpotWs) bboHandle(data json.RawMessage) error {
 		return err
 	}
 	// ticker.Pair = tickerData["s"].(string)          // symbol
-	// ticker.Bid = num.ToFloat64(tickerData["b"])     // best bid price
-	// ticker.BidSize = num.ToFloat64(tickerData["B"]) // best bid qty
-	// ticker.Ask = num.ToFloat64(tickerData["a"])     // best ask price
-	// ticker.AskSize = num.ToFloat64(tickerData["A"]) // best ask qty
-	ticker.Updated = time.Now().UnixMilli()         // "u" order book updateId
+	ticker.Bid = num.ToFloat64(tickerData.Bids[0][0])     // best bid price
+	ticker.BidSize = num.ToFloat64(tickerData.Bids[0][1]) // best bid qty
+	ticker.Ask = num.ToFloat64(tickerData.Asks[0][0])     // best ask price
+	ticker.AskSize = num.ToFloat64(tickerData.Asks[0][1]) // best ask qty
+	// ticker.Updated = time.Now().UnixMilli()         // order book updateId
 	s.bboCallFn(&ticker)
 	return nil
 }
