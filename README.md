@@ -1,4 +1,4 @@
-# wstrader
+# exws
 
 A Golang cryptocurrency websocket trading API with support for more than 10 bitcoin/altcoin exchanges
 
@@ -15,13 +15,13 @@ A Golang cryptocurrency websocket trading API with support for more than 10 bitc
 package main
 
 import (
-	"github.com/conbanwa/wstrader"
-	"github.com/conbanwa/wstrader/build"
-	"github.com/conbanwa/wstrader/config"
+	"github.com/conbanwa/exws"
+	"github.com/conbanwa/exws/build"
+	"github.com/conbanwa/exws/config"
 )
 
 //创建api
-func NewCryptoMarket() wstrader.API {
+func NewCryptoMarket() exws.API {
 	config.UseProxy = "localhost:7890"
 	api := build.DefaultAPIBuilder.APIKey(apiKey).APISecretkey(Secretkey).ApiPassphrase(phrase).Build("alias")
 	return api
