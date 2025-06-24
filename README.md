@@ -7,6 +7,7 @@ A Golang cryptocurrency websocket trading API with support for more than 10 bitc
 ## 本项目已完成自测代码100%覆盖 在各个目录下的_test文件中可找到使用方法
 ## This project has achieved 100% self-test code coverage. You can find usage examples in the _test files within each directory.
 
+## update apikey info in ```config/testnet/apikey.go```
 
 ## 创建项目
 ## create project by import this repo
