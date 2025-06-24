@@ -2,14 +2,14 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"github.com/conbanwa/slice"
 	"net/http"
 	"net/url"
 	"regexp"
 )
 
-var log = zelo.Writer
+var log = zero.Writer
 
 func HttpGet(client *http.Client, reqUrl string) (map[string]any, error) {
 	respData, err := NewRequest(client, "GET", reqUrl, "", nil)

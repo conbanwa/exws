@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"github.com/conbanwa/exws/web"
 	"math"
 	"net/url"
@@ -16,7 +16,7 @@ import (
 	"github.com/conbanwa/num"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.BINANCE).Logger()
+var log = zero.Writer.With().Str("ex", cons.BINANCE).Logger()
 
 func (bn *Binance) Test() bool {
 	return true
@@ -25,7 +25,7 @@ func (bn *Binance) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	if bn.ExchangeInfo == nil {
 		var err error
 		bn.ExchangeInfo, err = bn.GetExchangeInfo()
-		zelo.PanicOnErr(err).Msg("GetExchangeInfo Failed")
+		zero.PanicOnErr(err).Msg("GetExchangeInfo Failed")
 	}
 	var sm = map[string]q.D{}
 	var ps = map[q.D]q.P{}
@@ -51,7 +51,7 @@ func (bn *Binance) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 			panic(v)
 		}
 	}
-	zelo.Assert(len(sm) != 0, true).Msgf("%v", bn.ExchangeInfo.Symbols)
+	zero.Assert(len(sm) != 0, true).Msgf("%v", bn.ExchangeInfo.Symbols)
 	return sm, ps, nil
 }
 

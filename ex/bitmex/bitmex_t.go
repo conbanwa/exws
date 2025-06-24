@@ -4,13 +4,13 @@ import (
 	"errors"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	. "github.com/conbanwa/exws/web"
 	"strings"
 	"sync"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.BITMEX).Logger()
+var log = zero.Writer.With().Str("ex", cons.BITMEX).Logger()
 
 func (bm *Bitmex) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	return nil, nil, nil

@@ -8,7 +8,7 @@ import (
 	. "github.com/conbanwa/exws"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	. "github.com/conbanwa/exws/web"
 	"math"
 	"strconv"
@@ -18,7 +18,7 @@ import (
 	"github.com/conbanwa/logs"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.GATEIO).Logger()
+var log = zero.Writer.With().Str("ex", cons.GATEIO).Logger()
 
 const BaseUrl = "https://api.gateio.ws/api/v4"
 

@@ -2,10 +2,10 @@ package q
 
 import (
 	"github.com/conbanwa/exws/cons"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 )
 
-var log = zelo.Writer
+var log = zero.Writer
 
 type Trade struct {
 	Tid    int64             `json:"tid"`

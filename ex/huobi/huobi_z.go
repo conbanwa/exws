@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	. "github.com/conbanwa/exws/util"
 	. "github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
@@ -19,7 +19,7 @@ import (
 	"github.com/conbanwa/logs"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.HUOBI).Logger()
+var log = zero.Writer.With().Str("ex", cons.HUOBI).Logger()
 
 func tickerUrl(hbpro *HuoBiPro) string {
 	return hbpro.baseUrl + "/market/tickers"
@@ -31,7 +31,7 @@ func (hb *HuoBiPro) PairArray() (map[string]q.D, map[q.D]q.P, error) {
 	p := map[q.D]q.P{}
 	sm := map[string]q.D{}
 	Symbols, err := hb.GetCurrenciesPrecision()
-	zelo.PanicOnErr(err).Send()
+	zero.PanicOnErr(err).Send()
 	// logs.D("huobi has ", len(Symbols), " symbols")
 	for _, v := range Symbols {
 		if v.Trading == "enabled" {

@@ -1,7 +1,7 @@
 package q
 
 import (
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"github.com/conbanwa/logs"
 	"strings"
 	"sync"
@@ -74,7 +74,7 @@ func bothBbo(bbo *sync.Map, d D) (Bbo, Bbo) {
 func (d D) validSlug() bool {
 	isValid := validCurrency(d.Base, 49) && validCurrency(d.Quote, 39) && d.Base != d.Quote
 	if len(d.Quote) < 2 || len(d.Base) < 2 && d.Quote != "T" && d.Base == "T" {
-		zelo.Writer.Info().Str("one letter pair", d.String()).Send()
+		zero.Writer.Info().Str("one letter pair", d.String()).Send()
 	}
 	// if d.Quote == "tether" {
 	// 	return true
@@ -82,12 +82,12 @@ func (d D) validSlug() bool {
 	// if IsUpper(d.Quote) && IsUpper(d.Base) {
 	// 	logs.W(d, strings.Contains(d.Quote, "USD"))
 	// }
-	zelo.NotEqual(isValid, true).Msg("not validSlug")
+	zero.NotEqual(isValid, true).Msg("not validSlug")
 	return isValid
 }
 func (d D) Valid() bool {
 	isValid := validCurrency(d.Base, 19) && validCurrency(d.Quote, 19) && d.Base != d.Quote
-	zelo.NotEqual(isValid, true).Msg("not valid")
+	zero.NotEqual(isValid, true).Msg("not valid")
 	return isValid
 }
 func validCurrency(currency string, limit int) bool {
@@ -119,7 +119,7 @@ func (d D) GetRelatedVs(cl any, ok bool) (relatedVs map[T][3]bool, err error) {
 		err = logs.Err(cl, "cluster is not Tri")
 		return
 	}
-	zelo.PanicNotGreater(len(relatedVs), 0).Msg("not in cluster")
+	zero.PanicNotGreater(len(relatedVs), 0).Msg("not in cluster")
 	return
 }
 

@@ -3,13 +3,13 @@ package okex
 import (
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"math"
 	"strings"
 	"sync"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.OKEX).Logger()
+var log = zero.Writer.With().Str("ex", cons.OKEX).Logger()
 
 const PairUrl = baseUrl + "/api/spot/v3/instruments"
 const TickerUrl = PairUrl + "/ticker"

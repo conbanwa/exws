@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	. "github.com/conbanwa/exws/web"
 	"strings"
 	"sync"
 )
 
-var log = zelo.Writer.With().Str("ex", cons.OKEX).Logger()
+var log = zero.Writer.With().Str("ex", cons.OKEX).Logger()
 
 type TickerV5Response struct {
 	Code int        `json:"code,string"`

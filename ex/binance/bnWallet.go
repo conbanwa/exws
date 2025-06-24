@@ -6,7 +6,7 @@ import (
 	. "github.com/conbanwa/exws"
 	. "github.com/conbanwa/exws/cons"
 	. "github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	. "github.com/conbanwa/exws/web"
 	"github.com/conbanwa/num"
 	"net/url"
@@ -113,7 +113,7 @@ func (bn *Binance) WithdrawFee() (sf []NetworkWithdraw, err error) {
 		return nil, err
 	}
 	exFee, err := bn.ExWithdrawFee()
-	zelo.PanicOnErr(err).Send()
+	zero.PanicOnErr(err).Send()
 	for _, v := range fees {
 		fee := v.(map[string]any)
 		if fee["coin"] == nil {

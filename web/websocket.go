@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/conbanwa/exws/config"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"github.com/gorilla/websocket"
 )
 
@@ -342,7 +342,7 @@ func (ws *WsConn) CloseWs() {
 	close(ws.pingMessageBufferChan)
 	close(ws.pongMessageBufferChan)
 	err := ws.c.Close()
-	zelo.OnErr(err).Str("url", ws.WsUrl).Msg("[ws] close websocket error")
+	zero.OnErr(err).Str("url", ws.WsUrl).Msg("[ws] close websocket error")
 }
 func (ws *WsConn) clearChannel(c chan struct{}) {
 	for {

@@ -4,7 +4,7 @@ import (
 	"github.com/conbanwa/exws"
 	"github.com/conbanwa/exws/config"
 	"github.com/conbanwa/exws/cons"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -12,7 +12,7 @@ import (
 var futuresWs *FuturesWs
 
 func init() {
-	log = zelo.Writer
+	log = zero.Writer
 	config.SetProxy()
 	futuresWs = NewFuturesWs()
 	futuresWs.DepthCallback(func(depth *exws.Depth) {

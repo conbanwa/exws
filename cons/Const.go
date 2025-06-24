@@ -144,7 +144,7 @@ const (
 	COINEX          = "coinex.com"
 	BITHUMB         = "bithumb.com"
 	GATEIO          = "gate.io"
-	COINBASE            = "coinbase.com"
+	COINBASE        = "coinbase.com"
 	BIGONE          = "big.one"
 	FMEX            = "fmex.com"
 	HITBTC          = "hitbtc.com"

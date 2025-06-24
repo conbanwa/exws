@@ -1,4 +1,4 @@
-package zelo
+package zero
 
 import (
 	"cmp"

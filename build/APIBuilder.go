@@ -23,14 +23,14 @@ import (
 	"github.com/conbanwa/exws/ex/okx"
 	"github.com/conbanwa/exws/ex/okx/okex"
 	"github.com/conbanwa/exws/ex/poloniex"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
 )
 
-var log = zelo.Writer
+var log = zero.Writer
 
 type APIBuilder struct {
 	HttpClientConfig *config.HttpClientConfig

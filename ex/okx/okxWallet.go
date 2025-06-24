@@ -3,7 +3,7 @@ package okx
 import (
 	"fmt"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"net/http"
 	"sync"
 )
@@ -45,7 +45,7 @@ func (ok *OKX) WithdrawFee() (wf []q.NetworkWithdraw, err error) {
 	urlPath := "/api/v5/asset/currencies"
 	err = ok.DoAuthorRequest(http.MethodGet, urlPath, "", &response)
 	if err != nil {
-		zelo.OnErr(err).Send()
+		zero.OnErr(err).Send()
 		err = nil
 		return
 	}

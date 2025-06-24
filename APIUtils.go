@@ -4,12 +4,12 @@ import (
 	"errors"
 	"github.com/conbanwa/exws/cons"
 	"github.com/conbanwa/exws/q"
-	"github.com/conbanwa/exws/stat/zelo"
+	"github.com/conbanwa/exws/stat/zero"
 	"reflect"
 	"time"
 )
 
-var log = zelo.Writer
+var log = zero.Writer
 
 /*
   - 本函数只适合，返回两个参数的API重试调用，其中一个参数必须是error

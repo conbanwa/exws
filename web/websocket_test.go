@@ -1,8 +1,8 @@
 package web
 
 import (
-	"github.com/stretchr/testify/assert"
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
