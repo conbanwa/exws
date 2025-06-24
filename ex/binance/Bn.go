@@ -38,8 +38,8 @@ const (
 	FutureUsdWsBaseUrl         = "wss://fstream.binance.com/ws"
 	FutureCoinWsBaseUrl        = "wss://dstream.binance.com/ws"
 	TestnetSpotApiBaseUrl      = GlobalApiBaseUrl
-	TestnetSpotWsBaseUrl       = "wss://testnet.binance.vision/ws"
-	TestnetSpotStreamBaseUrl   = "wss://testnet.binance.vision/stream"
+	TestnetSpotWsBaseUrl       = "wss://stream.testnet.binance.vision/ws"
+	TestnetSpotStreamBaseUrl   = "wss://stream.testnet.binance.vision/stream"
 	TestnetFutureUsdBaseUrl    = "https://testnet.binancefuture.com"
 	TestnetFutureUsdWsBaseUrl  = "wss://fstream.binance.com/ws"
 	TestnetFutureCoinWsBaseUrl = "wss://dstream.binance.com/ws"
