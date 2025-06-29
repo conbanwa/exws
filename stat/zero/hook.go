@@ -73,7 +73,7 @@ func lv(discard bool, level Level, logger Logger) *Event {
 func OnErr(err error) (e *Event) {
 	return OnErrWithLevel(err, ErrorLevel)
 }
-func PanicOnErr(err error) (e *Event) {
+func PanicOnErr(err error) {
 	if err != nil {
 		panic(err)
 	}
