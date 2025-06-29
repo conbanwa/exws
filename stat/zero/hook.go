@@ -61,7 +61,7 @@ func LessWithLevel(a, b float64, level Level) (e *Event) {
 }
 
 func lv(discard bool, level Level, logger Logger) *Event {
-	if !discard && level >= FatalLevel {
+	if !discard && level >= PanicLevel {
 		//if level == FatalLevel {
 		//	return logger.Fatal()
 		//}
@@ -73,10 +73,8 @@ func lv(discard bool, level Level, logger Logger) *Event {
 func OnErr(err error) (e *Event) {
 	return OnErrWithLevel(err, ErrorLevel)
 }
-func PanicOnErr(err error) {
-	if err != nil {
-		panic(err)
-	}
+func PanicOnErr(err error) (e *Event) {
+	return OnErrWithLevel(err, PanicLevel)
 }
 
 func NotEqual[T comparable](a, b T) (e *Event) {
