@@ -74,7 +74,9 @@ func OnErr(err error) (e *Event) {
 	return OnErrWithLevel(err, ErrorLevel)
 }
 func PanicOnErr(err error) (e *Event) {
-	return OnErrWithLevel(err, PanicLevel)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func NotEqual[T comparable](a, b T) (e *Event) {
