@@ -62,9 +62,7 @@ func LessWithLevel(a, b float64, level Level) (e *Event) {
 
 func lv(discard bool, level Level, logger Logger) *Event {
 	if !discard && level >= PanicLevel {
-		//if level == FatalLevel {
-		//	return logger.Fatal()
-		//}
+		//if level == FatalLevel { return logger.Fatal() }
 		return logger.Panic()
 	}
 	return logger.WithLevel(level)
