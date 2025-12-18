@@ -28,7 +28,6 @@ func TestNewWsConn(t *testing.T) {
 		ping3, _ := json.Marshal(ping2)
 		return ping3
 	}
-	//logs.D(ping)
 	ws := NewWsBuilder().Dump().WsUrl("wss://ws.okx.com:8443/ws/v5/public").
 		AutoReconnect().
 		Heartbeat(heartbeatFunc, 5*time.Second).ProtoHandleFunc(ProtoHandle).Build()
