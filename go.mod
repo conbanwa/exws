@@ -1,6 +1,8 @@
 module github.com/conbanwa/exws
 
-go 1.21
+go 1.21.4
+
+toolchain go1.21.13
 
 require (
 	github.com/Kucoin/kucoin-go-sdk v1.2.14
