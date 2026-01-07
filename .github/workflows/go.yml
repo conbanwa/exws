@@ -28,14 +28,6 @@ jobs:
     - name: Download modules
       run: go mod download
 
-    - name: Install swag
-      run: |
-        go install github.com/swaggo/swag/cmd/swag@latest
-        echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
-
-    - name: Generate Swagger docs
-      run: swag init -g main.go -o docs || true
-
     - name: Build
       run: go build -v ./...
 
