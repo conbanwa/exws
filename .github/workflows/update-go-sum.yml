@@ -1,0 +1,46 @@
+name: Update go.sum
+
+on:
+  pull_request:
+    paths:  # Only trigger if these files change in the PR
+      - '**go**' # All Go source files
+      - '**.yml'
+  push:
+    paths:
+      - '**go**'
+      - '**.yml'
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}  # PAT for push to default branch; use ${{ github.token }} for PRs
+          ref: ${{ github.head_ref }}  # For PR branches
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'  # Or from go.mod
+          cache: true
+
+      - run: go mod tidy  # Updates go.mod/go.sum
+
+      - name: Commit changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add go.mod go.sum
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore(deps): tidy go.mod and go.sum"
+            git push
+          fi
