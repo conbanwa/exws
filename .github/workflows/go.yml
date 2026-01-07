@@ -3,11 +3,12 @@
 name: Go
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+  workflow_run:
+    workflows: ['Update go.sum']
+    types: [completed]
+    branches: [main]
 jobs:
 
   build:
