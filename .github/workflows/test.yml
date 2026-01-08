@@ -1,0 +1,30 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+name: Test
+
+on:
+  pull_request:
+  workflow_run:
+    workflows: ['Build']
+    types: [completed]
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.21', '1.22', '1.23', '1.24', '1.25', '1.x' ]
+    name: Go ${{ matrix.go }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go }}
+
+    - name: Download modules
+      run: go mod download
+
+    - name: Test
+      run: go test -v -race -coverprofile=coverage.out -covermode=atomic `go list ./... | grep -v binance`
